@@ -1624,6 +1624,15 @@ async function startRoutine() {
 }
 
 function backToBuilder() {
+  if (isFullscreenActive()) {
+    try {
+      if (document.exitFullscreen) document.exitFullscreen();
+      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+    } catch (e) {}
+  }
+  const playerSec = document.getElementById('player-section');
+  if (playerSec) playerSec.classList.remove('is-fullscreen');
+
   stopWritingTimer();
   stopActivityTimer();
   if (ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo();
@@ -2162,14 +2171,99 @@ function toggleMute() {
   }
 }
 
-function toggleFullscreen() {
+function isFullscreenActive() {
+  return !!(
+    document.fullscreenElement ||
+    document.webkitFullscreenElement ||
+    document.mozFullScreenElement ||
+    document.msFullscreenElement
+  );
+}
+
+function updateFullscreenBtnState() {
+  const btn = document.getElementById('fullscreen-btn');
   const playerSec = document.getElementById('player-section');
-  if (!document.fullscreenElement) {
-    playerSec.requestFullscreen().catch(() => alert("Pantalla completa no disponible"));
-  } else {
-    document.exitFullscreen();
+  const isFs = isFullscreenActive();
+  if (btn) {
+    btn.innerHTML = isFs ? '🗗' : '⛶';
+    btn.title = isFs ? 'Salir de pantalla completa' : 'Pantalla completa';
+  }
+  if (playerSec) {
+    playerSec.classList.toggle('is-fullscreen', isFs);
   }
 }
+
+['fullscreenchange', 'webkitfullscreenchange', 'mozfullscreenchange', 'MSFullscreenChange'].forEach((evt) => {
+  document.addEventListener(evt, updateFullscreenBtnState);
+});
+
+function toggleFullscreen() {
+  const playerSec = document.getElementById('player-section');
+  if (!playerSec) return;
+
+  unlockScreenOrientation();
+
+  if (!isFullscreenActive() && !playerSec.classList.contains('is-fullscreen')) {
+    const req = playerSec.requestFullscreen ||
+      playerSec.webkitRequestFullscreen ||
+      playerSec.mozRequestFullScreen ||
+      playerSec.msRequestFullscreen;
+
+    if (req) {
+      req.call(playerSec).catch((err) => {
+        console.warn('Pantalla completa estándar bloqueada, activando modo inmersivo:', err);
+        playerSec.classList.add('is-fullscreen');
+        const btn = document.getElementById('fullscreen-btn');
+        if (btn) {
+          btn.innerHTML = '🗗';
+          btn.title = 'Salir de pantalla completa';
+        }
+      });
+    } else {
+      const iframe = document.querySelector('#youtube-iframe-container iframe');
+      if (iframe && iframe.webkitEnterFullscreen) {
+        iframe.webkitEnterFullscreen();
+      } else {
+        playerSec.classList.add('is-fullscreen');
+        const btn = document.getElementById('fullscreen-btn');
+        if (btn) {
+          btn.innerHTML = '🗗';
+          btn.title = 'Salir de pantalla completa';
+        }
+      }
+    }
+  } else {
+    playerSec.classList.remove('is-fullscreen');
+    const exit = document.exitFullscreen ||
+      document.webkitExitFullscreen ||
+      document.mozCancelFullScreen ||
+      document.msExitFullscreen;
+    if (exit && isFullscreenActive()) {
+      exit.call(document).catch((err) => console.warn(err));
+    }
+    const btn = document.getElementById('fullscreen-btn');
+    if (btn) {
+      btn.innerHTML = '⛶';
+      btn.title = 'Pantalla completa';
+    }
+  }
+}
+
+// Desbloquear orientación de pantalla para permitir auto-rotate libre en móviles
+function unlockScreenOrientation() {
+  try {
+    if (screen.orientation && typeof screen.orientation.unlock === 'function') {
+      screen.orientation.unlock();
+    }
+  } catch (e) {
+    // Algunos navegadores requieren interacción del usuario o no soportan unlock()
+  }
+}
+
+window.addEventListener('load', unlockScreenOrientation);
+window.addEventListener('orientationchange', () => {
+  window.dispatchEvent(new Event('resize'));
+});
 
 function formatTime(sec) {
   const m = Math.floor(sec / 60).toString().padStart(2, '0');

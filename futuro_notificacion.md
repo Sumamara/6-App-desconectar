@@ -31,7 +31,7 @@ Define la identidad de la aplicación al instalarse:
   "display": "standalone",
   "background_color": "#0b1120",
   "theme_color": "#0b1120",
-  "orientation": "portrait",
+  "orientation": "any",
   "icons": [
     {
       "src": "icons/icon-192.png",
