@@ -2210,15 +2210,24 @@ function toggleFullscreen() {
       playerSec.msRequestFullscreen;
 
     if (req) {
-      req.call(playerSec).catch((err) => {
-        console.warn('Pantalla completa estándar bloqueada, activando modo inmersivo:', err);
-        playerSec.classList.add('is-fullscreen');
-        const btn = document.getElementById('fullscreen-btn');
-        if (btn) {
-          btn.innerHTML = '🗗';
-          btn.title = 'Salir de pantalla completa';
-        }
-      });
+      const p = req.call(playerSec);
+      if (p && typeof p.then === 'function') {
+        p.then(() => {
+          try {
+            if (screen.orientation && typeof screen.orientation.lock === 'function') {
+              screen.orientation.lock('landscape').catch(() => {});
+            }
+          } catch (e) {}
+        }).catch((err) => {
+          console.warn('Pantalla completa estándar bloqueada, activando modo inmersivo:', err);
+          playerSec.classList.add('is-fullscreen');
+          const btn = document.getElementById('fullscreen-btn');
+          if (btn) {
+            btn.innerHTML = '🗗';
+            btn.title = 'Salir de pantalla completa';
+          }
+        });
+      }
     } else {
       const iframe = document.querySelector('#youtube-iframe-container iframe');
       if (iframe && iframe.webkitEnterFullscreen) {
@@ -2234,6 +2243,12 @@ function toggleFullscreen() {
     }
   } else {
     playerSec.classList.remove('is-fullscreen');
+    try {
+      if (screen.orientation && typeof screen.orientation.unlock === 'function') {
+        screen.orientation.unlock();
+      }
+    } catch (e) {}
+
     const exit = document.exitFullscreen ||
       document.webkitExitFullscreen ||
       document.mozCancelFullScreen ||
@@ -2260,9 +2275,46 @@ function unlockScreenOrientation() {
   }
 }
 
-window.addEventListener('load', unlockScreenOrientation);
-window.addEventListener('orientationchange', () => {
-  window.dispatchEvent(new Event('resize'));
+// Observador dinámico de orientación (asegura adaptación visual inmediata en cualquier móvil)
+function updateDeviceOrientationState() {
+  const width = window.innerWidth || document.documentElement.clientWidth;
+  const height = window.innerHeight || document.documentElement.clientHeight;
+  const isLandscape = width > height;
+
+  if (isLandscape) {
+    document.body.classList.add('is-landscape');
+    document.body.classList.remove('is-portrait');
+    if (height <= 600 || width <= 960) {
+      document.body.classList.add('is-landscape-mobile');
+      document.body.classList.remove('is-desktop-widescreen');
+    } else {
+      document.body.classList.add('is-desktop-widescreen');
+      document.body.classList.remove('is-landscape-mobile');
+    }
+  } else {
+    document.body.classList.add('is-portrait');
+    document.body.classList.remove('is-landscape', 'is-landscape-mobile', 'is-desktop-widescreen');
+  }
+}
+
+['resize', 'orientationchange'].forEach((evt) => {
+  window.addEventListener(evt, () => {
+    updateDeviceOrientationState();
+    unlockScreenOrientation();
+  });
+});
+
+if (screen.orientation) {
+  screen.orientation.addEventListener('change', () => {
+    updateDeviceOrientationState();
+    unlockScreenOrientation();
+  });
+}
+
+window.addEventListener('DOMContentLoaded', updateDeviceOrientationState);
+window.addEventListener('load', () => {
+  updateDeviceOrientationState();
+  unlockScreenOrientation();
 });
 
 function formatTime(sec) {

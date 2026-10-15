@@ -2233,7 +2233,7 @@ input:checked + .slider:before {
 /* ==========================================================================
    MODO HORIZONTAL: WEB DE ESCRITORIO Y TABLETS (LANDSCAPE & WIDESCREEN)
    ========================================================================== */
-@media (min-width: 768px) and (min-height: 481px) {
+@media (min-width: 961px) and (min-height: 581px) {
   body {
     padding: 24px 20px 110px;
   }
@@ -2450,7 +2450,8 @@ input:checked + .slider:before {
 /* ==========================================================================
    MODO HORIZONTAL: CELULARES EN HORIZONTAL (LANDSCAPE CON ALTURA REDUCIDA)
    ========================================================================== */
-@media (orientation: landscape) and (max-height: 480px) {
+@media (orientation: landscape) and (max-height: 580px),
+       (orientation: landscape) and (max-width: 960px) {
   body {
     padding: 10px 14px 68px;
   }
@@ -2601,10 +2602,12 @@ input:checked + .slider:before {
   }
 
   .video-wrapper {
-    max-height: calc(100vh - 135px);
-    width: auto;
-    aspect-ratio: 16 / 9;
-    margin: 0 auto;
+    width: 100% !important;
+    max-width: min(100%, calc((100vh - 120px) * 16 / 9)) !important;
+    height: auto !important;
+    max-height: calc(100vh - 120px) !important;
+    aspect-ratio: 16 / 9 !important;
+    margin: 0 auto !important;
   }
 
   #zen-notepad-wrapper {
@@ -2651,15 +2654,103 @@ input:checked + .slider:before {
     padding: 8px 12px;
   }
 
-  .player-controls-bar {
-    padding: 6px 10px;
-    margin-top: 6px;
+  .controls {
+    margin-top: 8px;
+    gap: 4px;
   }
 
-  .player-controls-bar .btn {
+  .controls .btn {
     padding: 6px 12px;
     font-size: 12px;
   }
+
+  .controls .btn-icon {
+    padding: 6px 9px;
+    font-size: 12px;
+  }
+
+  .progress-container {
+    margin-top: 8px;
+    height: 6px;
+  }
+}
+
+/* Soporte directo por clase JS body.is-landscape-mobile (garantiza rotación en cualquier motor móvil) */
+body.is-landscape-mobile {
+  padding: 10px 14px 68px !important;
+}
+
+body.is-landscape-mobile .app-container {
+  max-width: 100% !important;
+}
+
+body.is-landscape-mobile .header {
+  margin-bottom: 10px !important;
+  padding-top: 0 !important;
+}
+
+body.is-landscape-mobile .header h1 {
+  font-size: 1.3rem !important;
+  margin-bottom: 2px !important;
+}
+
+body.is-landscape-mobile .header p {
+  font-size: 11.5px !important;
+  margin: 2px 0 !important;
+}
+
+body.is-landscape-mobile .presets-box {
+  padding: 8px 10px !important;
+  margin-bottom: 10px !important;
+}
+
+body.is-landscape-mobile .presets-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: 6px !important;
+}
+
+body.is-landscape-mobile .preset-col-3,
+body.is-landscape-mobile .preset-col-2 {
+  grid-column: span 1 !important;
+  min-height: 62px !important;
+  padding: 6px 5px !important;
+}
+
+body.is-landscape-mobile .preset-desc {
+  display: none !important;
+}
+
+body.is-landscape-mobile .stage-header {
+  padding: 10px 12px !important;
+}
+
+body.is-landscape-mobile .video-wrapper {
+  width: 100% !important;
+  max-width: min(100%, calc((100vh - 120px) * 16 / 9)) !important;
+  height: auto !important;
+  max-height: calc(100vh - 120px) !important;
+  aspect-ratio: 16 / 9 !important;
+  margin: 0 auto !important;
+}
+
+body.is-landscape-mobile .controls {
+  margin-top: 8px !important;
+  gap: 4px !important;
+}
+
+body.is-landscape-mobile .controls .btn {
+  padding: 6px 12px !important;
+  font-size: 12px !important;
+}
+
+body.is-landscape-mobile .controls .btn-icon {
+  padding: 6px 9px !important;
+  font-size: 12px !important;
+}
+
+body.is-landscape-mobile .progress-container {
+  margin-top: 8px !important;
+  height: 6px !important;
 }
 
 /* ==========================================================================
