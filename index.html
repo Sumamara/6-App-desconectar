@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <!-- Política de Referrer para evitar el Error 153 de YouTube -->
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Desconectar • Rutina en 4 Etapas</title>
+  
+  <!-- Fuentes Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Estilos Mobile First -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="app-container">
+
+    <!-- AVISO DE PROTOCOLO LOCAL (PREVIENE ERROR 153) -->
+    <div id="protocol-banner" class="banner-warning">
+      <strong>💡 Tip para YouTube sin Error 153:</strong>
+      <div style="margin-top: 3px;">
+        Para reproducir videos sin bloqueos, inicia la app desde <code>iniciar_app.bat</code> (servidor en <code>http://localhost:3000</code>).
+      </div>
+    </div>
+
+    <!-- PASO 1: CONSTRUCTOR EN 4 ETAPAS (MOBILE FIRST) -->
+    <div id="builder-section">
+      <div class="header">
+        <div class="header-badge">🧘 Sesión Diaria</div>
+        <h1>Desconectar</h1>
+        <p>Marca las etapas que deseas realizar hoy:</p>
+      </div>
+
+      <!-- SECCIÓN DE RECOMENDACIONES (PRESETS RÁPIDOS) -->
+      <div class="presets-box">
+        <div class="presets-header">
+          <span class="presets-title">⚡ Rutinas recomendadas</span>
+          <button class="btn-presets-gear" onclick="openManageRoutinesModal()" title="Gestionar y borrar rutinas guardadas" aria-label="Gestionar rutinas">
+            ⚙️
+          </button>
+        </div>
+        <div class="presets-grid" id="presets-grid">
+          <div class="preset-card active" onclick="applyPreset('micro')" id="preset-micro">
+            <div class="preset-card-top">
+              <span class="preset-icon">⚡</span>
+              <span class="preset-time-pill">2 min</span>
+            </div>
+            <div class="preset-card-body">
+              <div class="preset-name">Micro-Pausa</div>
+              <div class="preset-desc">Levantarse + 4-7-8</div>
+            </div>
+          </div>
+
+          <div class="preset-card" onclick="applyPreset('quick')" id="preset-quick">
+            <div class="preset-card-top">
+              <span class="preset-icon">⏱️</span>
+              <span class="preset-time-pill">15 min</span>
+            </div>
+            <div class="preset-card-body">
+              <div class="preset-name">Pausa Cuello</div>
+              <div class="preset-desc">Estirar + Respirar</div>
+            </div>
+          </div>
+
+          <div class="preset-card" onclick="applyPreset('walk')" id="preset-walk">
+            <div class="preset-card-top">
+              <span class="preset-icon">🚶</span>
+              <span class="preset-time-pill">10 min</span>
+            </div>
+            <div class="preset-card-body">
+              <div class="preset-name">Pausa Activa</div>
+              <div class="preset-desc">Caminata + Meditar</div>
+            </div>
+          </div>
+
+          <div class="preset-card" onclick="applyPreset('complete')" id="preset-complete">
+            <div class="preset-card-top">
+              <span class="preset-icon">🌟</span>
+              <span class="preset-time-pill">23 min</span>
+            </div>
+            <div class="preset-card-body">
+              <div class="preset-name">Desconexión Total</div>
+              <div class="preset-desc">Las 4 etapas</div>
+            </div>
+          </div>
+
+          <!-- CONTENEDOR DINÁMICO DE RUTINAS PERSONALIZADAS -->
+          <div id="custom-presets-container" style="display: contents;"></div>
+        </div>
+
+        <!-- BOTÓN AL FINAL: GUARDAR RUTINA -->
+        <button class="btn-save-new-routine" onclick="promptSaveCurrentRoutine()">
+          ➕ Guardar rutina
+        </button>
+      </div>
+
+      <!-- Las 4 Etapas en orden estricto -->
+      <div class="stages-list">
+
+        <!-- ETAPA 1: ESTIRAR -->
+        <div class="stage-card" id="card-stage-estirar">
+          <div class="stage-header" onclick="toggleStage('estirar')">
+            <input type="checkbox" class="stage-checkbox" id="check-stage-estirar" onclick="event.stopPropagation(); onStageCheckboxClick('estirar')">
+            <div class="stage-info">
+              <div class="stage-title-row">
+                <span class="stage-title">🤸 1. Estirar</span>
+                <span class="stage-summary-badge" id="badge-estirar">0 min</span>
+              </div>
+              <div class="stage-desc">Alivio cervical, movilidad de espalda y postura</div>
+            </div>
+            <span class="chevron-icon">▼</span>
+          </div>
+          <div class="stage-body">
+            <div class="options-list" id="options-estirar"></div>
+            <button class="add-custom-btn" onclick="openAddOptionModal('estirar')">➕ Añadir otro video de estiramiento</button>
+          </div>
+        </div>
+
+        <!-- ETAPA 2: RESPIRAR -->
+        <div class="stage-card" id="card-stage-respirar">
+          <div class="stage-header" onclick="toggleStage('respirar')">
+            <input type="checkbox" class="stage-checkbox" id="check-stage-respirar" onclick="event.stopPropagation(); onStageCheckboxClick('respirar')">
+            <div class="stage-info">
+              <div class="stage-title-row">
+                <span class="stage-title">🫁 2. Respirar</span>
+                <span class="stage-summary-badge" id="badge-respirar">0 min</span>
+              </div>
+              <div class="stage-desc">Calma el sistema nervioso y reduce la ansiedad</div>
+            </div>
+            <span class="chevron-icon">▼</span>
+          </div>
+          <div class="stage-body">
+            <div class="options-list" id="options-respirar"></div>
+            <button class="add-custom-btn" onclick="openAddOptionModal('respirar')">➕ Añadir otra técnica de respiración</button>
+          </div>
+        </div>
+
+        <!-- ETAPA 3: ESCRIBIR (HÍBRIDO: BLOC ZEN O VIDEO) -->
+        <div class="stage-card" id="card-stage-escribir">
+          <div class="stage-header" onclick="toggleStage('escribir')">
+            <input type="checkbox" class="stage-checkbox" id="check-stage-escribir" onclick="event.stopPropagation(); onStageCheckboxClick('escribir')">
+            <div class="stage-info">
+              <div class="stage-title-row">
+                <span class="stage-title">✍️ 3. Escribir</span>
+                <span class="stage-summary-badge" id="badge-escribir">0 min</span>
+              </div>
+              <div class="stage-desc">Desahogo mental, gratitud o journaling guiado</div>
+            </div>
+            <span class="chevron-icon">▼</span>
+          </div>
+          <div class="stage-body">
+            <div class="options-list" id="options-escribir"></div>
+            <button class="add-custom-btn" onclick="openAddOptionModal('escribir')">➕ Añadir consigna o video de escritura</button>
+          </div>
+        </div>
+
+        <!-- ETAPA 4: MEDITAR -->
+        <div class="stage-card" id="card-stage-meditar">
+          <div class="stage-header" onclick="toggleStage('meditar')">
+            <input type="checkbox" class="stage-checkbox" id="check-stage-meditar" onclick="event.stopPropagation(); onStageCheckboxClick('meditar')">
+            <div class="stage-info">
+              <div class="stage-title-row">
+                <span class="stage-title">🧘 4. Meditar</span>
+                <span class="stage-summary-badge" id="badge-meditar">0 min</span>
+              </div>
+              <div class="stage-desc">Mindfulness, sonidos de calma y escaneo corporal</div>
+            </div>
+            <span class="chevron-icon">▼</span>
+          </div>
+          <div class="stage-body">
+            <div class="options-list" id="options-meditar"></div>
+            <button class="add-custom-btn" onclick="openAddOptionModal('meditar')">➕ Añadir otra meditación o sonido</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PASO 2: REPRODUCTOR Y ZONA ZEN -->
+    <div id="player-section">
+      <div class="player-header">
+        <div>
+          <span id="step-counter" class="badge-step">Etapa 1 de 4</span>
+          <h3 id="current-title" style="margin:4px 0 0; font-size:1.15rem; color:#fff;">Cargando...</h3>
+        </div>
+        <button class="btn btn-secondary" onclick="backToBuilder()" style="padding:6px 10px; font-size:12px;">✕ Salir</button>
+      </div>
+
+      <!-- CASO A: REPRODUCTOR DE VIDEO (Estirar, Respirar, Meditar, Video Journaling) -->
+      <div class="video-wrapper" id="video-wrapper-box">
+        <!-- Overlay de Pausa -->
+        <div id="pause-overlay" onclick="togglePlay()">
+          <div class="breathing-circle"></div>
+          <h3 style="margin:0 0 6px; font-size:1.25rem;">Práctica en pausa</h3>
+          <p style="color:var(--text-muted); margin:0 0 16px; font-size:13px; max-width:280px;">
+            Inhala calma, exhala tensión. Tómate tu tiempo.
+          </p>
+          <button class="btn" style="padding:10px 18px; font-size:13px;">▶ Continuar práctica</button>
+        </div>
+
+        <!-- Overlay de Transición -->
+        <div id="transition-overlay">
+          <span style="font-size:11px; background:#3730a3; padding:2px 8px; border-radius:10px; margin-bottom:8px;">✨ Completado</span>
+          <h2 id="next-up-text" style="font-size:1.2rem; margin:0 0 14px;">Siguiente etapa...</h2>
+          <div style="display:flex; gap:8px;">
+            <button class="btn" id="transition-next-btn" onclick="nextStep()" style="padding:9px 16px; font-size:13px;">Empezar ahora ⏭</button>
+            <button class="btn btn-secondary" onclick="addBreakTime()" style="padding:9px 12px; font-size:13px;">+30s ⏸</button>
+          </div>
+        </div>
+
+        <!-- Overlay de Error YouTube -->
+        <div id="error-overlay">
+          <h4 style="color:#f87171; margin-bottom:6px;">⚠️ Video no disponible</h4>
+          <p id="error-desc" style="color:#cbd5e1; font-size:12px; margin-bottom:12px;">
+            Este video no permite reproducción embebida o requiere servidor local.
+          </p>
+          <div style="display:flex; gap:8px;">
+            <button class="btn" onclick="skipErrorVideo()" style="padding:8px 14px; font-size:12px;">Saltar ⏭</button>
+            <a id="error-youtube-link" class="btn btn-secondary" href="#" target="_blank" style="padding:8px 14px; font-size:12px;">Abrir en YouTube ↗</a>
+          </div>
+        </div>
+
+        <div id="youtube-iframe-container"></div>
+      </div>
+
+      <!-- CASO B: BLOC DE NOTAS ZEN (Para opciones de Escritura en pantalla) -->
+      <div id="zen-notepad-wrapper">
+        <div class="notepad-header">
+          <div class="notepad-prompt-title" id="notepad-title">✍️ Descarga Mental</div>
+          <div class="notepad-prompt-desc" id="notepad-desc">Escribe todo lo que ronda en tu cabeza para vaciar tensiones y soltar el día.</div>
+        </div>
+
+        <div class="notepad-timer-bar">
+          <span id="notepad-time-left">⏱ Tiempo restante: 05:00</span>
+          <span id="notepad-words-count">0 palabras</span>
+        </div>
+
+        <textarea id="zen-text-input" class="zen-textarea" placeholder="Escribe aquí con total libertad... Nadie más puede leer esto."></textarea>
+
+        <div class="notepad-actions">
+          <div class="notepad-tools">
+            <button class="btn-icon" onclick="copyNotepadText()" title="Copiar texto">📋 Copiar</button>
+            <button class="btn-icon" onclick="downloadNotepadText()" title="Guardar como archivo">💾 Guardar</button>
+            <button class="btn-icon" onclick="clearNotepadText()" title="Soltar y vaciar" style="color:#f87171;">🕊️ Soltar</button>
+          </div>
+          <button class="btn" onclick="nextStep()" style="padding:8px 14px; font-size:13px;">Listo, siguiente ⏭</button>
+        </div>
+      </div>
+
+      <!-- CASO C: ZONA DE TEMPORIZADOR ZEN (Caminata, Levantarse, Meditación caminando, etc.) -->
+      <div id="zen-timer-wrapper">
+        <div class="timer-zen-circle" id="timer-zen-circle">
+          <span class="timer-zen-icon" id="timer-icon">🚶</span>
+          <div class="timer-zen-digits" id="timer-digits">05:00</div>
+          <span class="timer-zen-state" id="timer-state-label">En curso</span>
+        </div>
+        <div class="timer-instructions-card">
+          <h4 id="timer-activity-title" style="margin:0 0 6px; color:#fff; font-size:1.1rem;">Caminata Consciente</h4>
+          <p id="timer-activity-desc" style="margin:0; font-size:13px; color:#cbd5e1; line-height:1.45;">
+            Ponte de pie. Camina despacio a paso consciente por la habitación o la oficina, balancea tus brazos y suelta las piernas.
+          </p>
+        </div>
+      </div>
+
+      <!-- Barra de tiempo (video, temporizador o escritura) -->
+      <div class="progress-container" onclick="seekVideo(event)">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+
+      <!-- Controles inferiores -->
+      <div class="controls">
+        <div class="ctrl-group">
+          <button class="btn-icon" onclick="prevStep()" title="Anterior">⏮</button>
+          <button class="btn-icon" id="seek-back-btn" onclick="seekRelative(-10)" title="Retroceder 10s">↺ 10s</button>
+          <button class="btn" id="play-pause-btn" onclick="togglePlay()" style="padding:8px 16px;">⏸ Pausar</button>
+          <button class="btn-icon" id="seek-fwd-btn" onclick="seekRelative(10)" title="Adelantar 10s">10s ↻</button>
+          <button class="btn-icon" onclick="nextStep()" title="Siguiente">⏭</button>
+        </div>
+
+        <div class="ctrl-group">
+          <span id="time-display" style="font-size:13px; color:var(--text-muted); font-variant-numeric:tabular-nums;">00:00 / 00:00</span>
+        </div>
+
+        <div class="ctrl-group" id="video-extra-controls">
+          <button class="btn-icon" id="mute-btn" onclick="toggleMute()" title="Silenciar">🔊</button>
+          <button class="btn-icon" onclick="toggleFullscreen()" title="Pantalla completa">⛶</button>
+        </div>
+      </div>
+    </div>
+
+  </div> <!-- Fin app-container -->
+ 
+  <!-- MODAL: GESTIÓN DE RUTINAS PERSONALIZADAS -->
+  <div id="manage-routines-modal" class="modal-overlay" onclick="closeManageRoutinesModal(event)">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:18px;">⚙️</span>
+          <h3 style="margin:0; font-size:1.1rem; color:#fff;">Gestionar Rutinas</h3>
+        </div>
+        <button class="modal-close-icon" onclick="closeManageRoutinesModal()">✕</button>
+      </div>
+      <div class="modal-body" id="manage-routines-body">
+        <!-- Contenido dinámico -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeManageRoutinesModal()" style="width:100%; padding:9px 12px; font-size:13px;">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BARRA STICKY INFERIOR (MOBILE FIRST) -->
+  <div class="bottom-sticky-bar" id="bottom-sticky-bar">
+    <div class="bottom-bar-inner">
+      <div class="bottom-summary-text">
+        <div>Total: <strong id="bottom-total-time">0</strong> min</div>
+        <div style="font-size:11px; color:#818cf8;"><span id="bottom-total-count">0</span> seleccionadas</div>
+      </div>
+      <button class="btn" id="start-btn" onclick="startRoutine()" disabled>
+        ▶ Comenzar Sesión
+      </button>
+    </div>
+  </div>
+
+  <!-- SCRIPT OFICIAL YOUTUBE -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+
+  <!-- LÓGICA DE LA APLICACIÓN -->
+  <script src="app.js"></script>
+</body>
+</html>
