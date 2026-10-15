@@ -2803,3 +2803,69 @@ input:checked + .slider:before {
   max-width: 900px !important;
   margin: 0 auto !important;
 }
+
+/* ==========================================================================
+   MARCA DE AGUA (INNER BASE • v0.8)
+   ========================================================================== */
+.app-watermark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 36px auto 20px;
+  padding: 8px 14px;
+  color: #64748b;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  user-select: none;
+  opacity: 0.65;
+  transition: opacity 0.25s ease, color 0.25s ease;
+  width: fit-content;
+}
+
+.app-watermark:hover {
+  opacity: 1;
+}
+
+.watermark-brand {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.watermark-dot {
+  color: #475569;
+  font-size: 9px;
+  line-height: 1;
+}
+
+.watermark-version {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(99, 102, 241, 0.12);
+  color: #818cf8;
+  border: 1px solid rgba(99, 102, 241, 0.28);
+  border-radius: 999px;
+  padding: 1.5px 7.5px;
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.watermark-player {
+  margin-top: 22px;
+  margin-bottom: 2px;
+}
+
+#player-section:fullscreen .watermark-player,
+#player-section.is-fullscreen .watermark-player,
+#player-section:-webkit-full-screen .watermark-player {
+  margin-top: 14px !important;
+  margin-bottom: 0 !important;
+  opacity: 0.4 !important;
+}
+
