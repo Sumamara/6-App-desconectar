@@ -408,9 +408,9 @@ h1, h2, h3, h4 {
   border-style: dashed;
 }
 
-/* Si hay solo 1 rutina personalizada: se muestra horizontal a lo ancho (span 6) */
+/* Si hay solo 1 rutina personalizada o la última impar: se muestra a lo ancho (1 / -1) */
 .preset-custom-card.custom-single {
-  grid-column: span 6;
+  grid-column: 1 / -1;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -2228,4 +2228,434 @@ input:checked + .slider:before {
 
 .btn-pwa-install:active {
   transform: scale(0.96);
+}
+
+/* ==========================================================================
+   MODO HORIZONTAL: WEB DE ESCRITORIO Y TABLETS (LANDSCAPE & WIDESCREEN)
+   ========================================================================== */
+@media (min-width: 768px) and (min-height: 481px) {
+  body {
+    padding: 24px 20px 110px;
+  }
+
+  .app-container {
+    max-width: 880px;
+  }
+
+  /* 1. Encabezado */
+  .header {
+    margin-bottom: 24px;
+    padding-top: 10px;
+  }
+
+  .header h1 {
+    font-size: 2.2rem;
+  }
+
+  .header p {
+    font-size: 15px;
+  }
+
+  /* 2. Rutinas Recomendadas: Las 5 juntas en una sola fila continua */
+  .presets-box {
+    padding: 16px 18px;
+    margin-bottom: 20px;
+  }
+
+  .presets-header {
+    margin-bottom: 12px;
+  }
+
+  .presets-title {
+    font-size: 13.5px;
+  }
+
+  .presets-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  /* Todas las 5 tarjetas de recomendaciones ocupan exactamente 1 columna */
+  .preset-col-3,
+  .preset-col-2 {
+    grid-column: span 1;
+    min-height: 88px;
+    padding: 11px 10px;
+  }
+
+  .preset-col-3 .preset-card-top,
+  .preset-col-2 .preset-card-top {
+    margin-bottom: 6px;
+  }
+
+  .preset-col-3 .preset-icon,
+  .preset-col-2 .preset-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
+  }
+
+  .preset-col-3 .preset-time-pill,
+  .preset-col-2 .preset-time-pill {
+    font-size: 11px;
+    padding: 2px 7px;
+  }
+
+  .preset-col-3 .preset-name,
+  .preset-col-2 .preset-name {
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .preset-col-3 .preset-desc,
+  .preset-col-2 .preset-desc {
+    font-size: 10.5px;
+  }
+
+  /* Rutinas personalizadas en rejilla horizontal */
+  .preset-custom-card.custom-single {
+    grid-column: 1 / -1;
+    padding: 12px 18px;
+  }
+
+  .preset-custom-card.custom-grid {
+    grid-column: span 1;
+    min-height: 88px;
+  }
+
+  /* 3. Separador de selección personalizada */
+  .stages-section-header {
+    margin: 26px 0 12px 0;
+    padding: 0 4px;
+  }
+
+  .stages-section-title {
+    font-size: 14px;
+  }
+
+  .stages-section-badge {
+    font-size: 11.5px;
+    padding: 3px 10px;
+  }
+
+  /* 4. Etapas en secuencia vertical expandidas */
+  .stages-list {
+    gap: 16px;
+  }
+
+  .stage-card {
+    border-radius: var(--radius-lg);
+  }
+
+  .stage-header {
+    padding: 16px 18px;
+  }
+
+  .stage-title {
+    font-size: 16px;
+  }
+
+  .stage-desc {
+    font-size: 13px;
+  }
+
+  .options-list {
+    padding: 10px 18px 16px;
+  }
+
+  .option-item {
+    padding: 12px 16px;
+  }
+
+  .option-title {
+    font-size: 14.5px;
+  }
+
+  /* 5. Barra Inferior Sticky */
+  .bottom-sticky-bar {
+    padding: 14px 20px;
+  }
+
+  .bottom-bar-inner {
+    max-width: 880px;
+  }
+
+  .bottom-summary-text {
+    font-size: 14px;
+  }
+
+  .bottom-summary-text strong {
+    font-size: 17px;
+  }
+
+  /* 6. Reproductor en Pantalla Ancha */
+  #player-section {
+    padding: 22px;
+    border-radius: var(--radius-lg);
+  }
+
+  .player-header {
+    margin-bottom: 16px;
+  }
+
+  .player-header h3 {
+    font-size: 1.35rem;
+  }
+
+  .video-wrapper {
+    max-width: 880px;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
+  }
+
+  #zen-notepad-wrapper {
+    padding: 22px;
+    border-radius: var(--radius-lg);
+  }
+
+  .zen-textarea {
+    min-height: 240px;
+    font-size: 16px;
+    padding: 18px;
+  }
+
+  #zen-timer-wrapper {
+    padding: 32px 20px;
+    border-radius: var(--radius-lg);
+  }
+
+  .timer-zen-circle {
+    width: 190px;
+    height: 190px;
+    margin-bottom: 20px;
+  }
+
+  .timer-zen-icon {
+    font-size: 44px;
+  }
+
+  .timer-zen-number {
+    font-size: 38px;
+  }
+
+  .player-controls-bar {
+    padding: 14px 18px;
+    margin-top: 16px;
+  }
+}
+
+/* ==========================================================================
+   MODO HORIZONTAL: CELULARES EN HORIZONTAL (LANDSCAPE CON ALTURA REDUCIDA)
+   ========================================================================== */
+@media (orientation: landscape) and (max-height: 480px) {
+  body {
+    padding: 10px 14px 68px;
+  }
+
+  .app-container {
+    max-width: 100%;
+  }
+
+  /* Encabezado compacto */
+  .header {
+    margin-bottom: 10px;
+    padding-top: 0;
+  }
+
+  .header-badge {
+    font-size: 9.5px;
+    padding: 2px 8px;
+  }
+
+  .header h1 {
+    font-size: 1.3rem;
+    margin-bottom: 2px;
+  }
+
+  .header p {
+    font-size: 11.5px;
+    margin: 2px 0;
+  }
+
+  /* Presets: 5 columnas compactas en 1 fila */
+  .presets-box {
+    padding: 8px 10px;
+    margin-bottom: 10px;
+  }
+
+  .presets-header {
+    margin-bottom: 6px;
+  }
+
+  .presets-title {
+    font-size: 11px;
+  }
+
+  .presets-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .preset-col-3,
+  .preset-col-2 {
+    grid-column: span 1;
+    min-height: 62px;
+    padding: 6px 5px;
+  }
+
+  .preset-icon {
+    width: 22px;
+    height: 22px;
+    font-size: 12px;
+  }
+
+  .preset-time-pill {
+    font-size: 9px;
+    padding: 1px 4px;
+  }
+
+  .preset-name {
+    font-size: 11px;
+    line-height: 1.15;
+  }
+
+  .preset-desc {
+    display: none; /* Se oculta para no desperdiciar la valiosa altura en celular */
+  }
+
+  .preset-custom-card.custom-single {
+    grid-column: 1 / -1;
+    min-height: 48px;
+    padding: 6px 10px;
+  }
+
+  .preset-custom-card.custom-grid {
+    grid-column: span 1;
+    min-height: 62px;
+    padding: 6px 5px;
+  }
+
+  /* Separador de etapas */
+  .stages-section-header {
+    margin: 14px 0 8px 0;
+  }
+
+  .stages-section-title {
+    font-size: 11.5px;
+  }
+
+  /* Etapas compactas */
+  .stage-header {
+    padding: 10px 12px;
+  }
+
+  .stage-title {
+    font-size: 13.5px;
+  }
+
+  .stage-desc {
+    font-size: 11px;
+  }
+
+  .option-item {
+    padding: 8px 10px;
+  }
+
+  /* Barra inferior sticky compacta */
+  .bottom-sticky-bar {
+    padding: 6px 12px;
+  }
+
+  .bottom-bar-inner {
+    max-width: 100%;
+  }
+
+  .bottom-summary-text {
+    font-size: 11.5px;
+  }
+
+  .bottom-summary-text strong {
+    font-size: 13px;
+  }
+
+  .bottom-sticky-bar .btn {
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+
+  /* REPRODUCTOR EN CELULAR HORIZONTAL (SIN SCROLL VERTICAL) */
+  #player-section {
+    padding: 10px;
+  }
+
+  .player-header {
+    margin-bottom: 6px;
+  }
+
+  .player-header h3 {
+    font-size: 1rem;
+    margin: 0;
+  }
+
+  .video-wrapper {
+    max-height: calc(100vh - 135px);
+    width: auto;
+    aspect-ratio: 16 / 9;
+    margin: 0 auto;
+  }
+
+  #zen-notepad-wrapper {
+    padding: 10px 12px;
+  }
+
+  .notepad-header {
+    margin-bottom: 6px;
+  }
+
+  .notepad-prompt-title {
+    font-size: 13px;
+  }
+
+  .notepad-prompt-desc {
+    font-size: 11px;
+  }
+
+  .zen-textarea {
+    min-height: 80px;
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  #zen-timer-wrapper {
+    padding: 12px 10px;
+  }
+
+  .timer-zen-circle {
+    width: 110px;
+    height: 110px;
+    margin-bottom: 8px;
+  }
+
+  .timer-zen-icon {
+    font-size: 24px;
+  }
+
+  .timer-zen-number {
+    font-size: 26px;
+  }
+
+  .timer-instructions-card {
+    padding: 8px 12px;
+  }
+
+  .player-controls-bar {
+    padding: 6px 10px;
+    margin-top: 6px;
+  }
+
+  .player-controls-bar .btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
 }
