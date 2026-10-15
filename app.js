@@ -472,10 +472,13 @@ function renderCustomPresets() {
     return;
   }
 
-  const isSingle = routines.length === 1;
+  const total = routines.length;
 
-  container.innerHTML = routines.map(r => {
-    if (isSingle) {
+  container.innerHTML = routines.map((r, idx) => {
+    // Si es la única o si es la última en una lista impar (para que no quede a la mitad vacía)
+    const isFullWidth = (total === 1) || (total % 2 !== 0 && idx === total - 1);
+
+    if (isFullWidth) {
       return `
         <div class="preset-card preset-custom-card custom-single" onclick="applyCustomRoutine('${r.id}')" id="preset-${r.id}">
           <div class="preset-custom-main">
