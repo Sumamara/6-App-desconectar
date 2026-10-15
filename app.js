@@ -199,6 +199,14 @@ const defaultCatalog = [
     instructions: "Camina a paso muy pausado y consciente. Siente el contacto de la planta del pie con el suelo. Inhala en 3 pasos, exhala en 3 pasos. Ancla tu atención al momento presente sin prisa." 
   },
   { 
+    id: 'med-tension', 
+    stage: 'meditar', 
+    type: 'video', 
+    title: "🧘 Meditación para Quitar Tensiones", 
+    duration: 7, 
+    ytId: "KxRpK9ZGq4Y" 
+  },
+  { 
     id: 'med-nidra', 
     stage: 'meditar', 
     type: 'video', 
@@ -266,8 +274,8 @@ const DEFAULT_PRESETS = {
     options: ['est-quick', 'esc-1']
   },
   neck: {
-    stages: ['estirar', 'respirar'],
-    options: ['est-1', 'resp-1']
+    stages: ['estirar', 'meditar'],
+    options: ['est-1', 'med-tension']
   },
   complete: {
     stages: ['estirar', 'respirar', 'escribir', 'meditar'],
@@ -631,7 +639,6 @@ function isMeasureImprovementEnabled() {
 
 function toggleMeasureImprovement(enabled) {
   localStorage.setItem('zen_measure_improvement', enabled ? 'true' : 'false');
-  showZenToast(enabled ? '📊 Medición de mejora activada' : 'Medición de mejora desactivada', 'info');
 }
 
 function onMoodSliderChange(val) {
@@ -1054,7 +1061,6 @@ function moveStageItem(itemId, direction) {
   newStageItems[targetIndex] = temp;
 
   saveStageItemsOrder(newStageItems.map(i => i.id));
-  showZenToast('Posición actualizada ✨', 'info', 1800);
 }
 
 function moveStageItemToExtreme(itemId, position) {
@@ -1072,7 +1078,6 @@ function moveStageItemToExtreme(itemId, position) {
   }
 
   saveStageItemsOrder(stageItems.map(i => i.id));
-  showZenToast('Posición actualizada ✨', 'info', 1800);
 }
 
 function saveStageItemsOrder(reorderedStageItemIds) {
@@ -1181,7 +1186,6 @@ function reorderStageItem(sourceId, targetId, placeBefore) {
   }
 
   saveStageItemsOrder(stageItems.map(i => i.id));
-  showZenToast('Posición actualizada ✨', 'success', 1800);
 }
 
 function setupLibraryDragAndDrop(container) {
@@ -1292,13 +1296,11 @@ function setupLibraryDragAndDrop(container) {
 function toggleItemVisibility(itemId) {
   if (hiddenItemIds.has(itemId)) {
     hiddenItemIds.delete(itemId);
-    showZenToast('Práctica visible en pantalla principal', 'success');
   } else {
     hiddenItemIds.add(itemId);
     if (selectedOptionIds.has(itemId)) {
       selectedOptionIds.delete(itemId);
     }
-    showZenToast('Práctica oculta de la pantalla principal', 'info');
   }
 
   localStorage.setItem('zen_hidden_item_ids', JSON.stringify(Array.from(hiddenItemIds)));
@@ -1827,6 +1829,20 @@ window.onYouTubeIframeAPIReady = function() {
   ytReady = true;
 };
 
+function disableCaptions(player) {
+  if (!player) return;
+  try {
+    if (typeof player.unloadModule === 'function') {
+      player.unloadModule('captions');
+      player.unloadModule('cc');
+    }
+    if (typeof player.setOption === 'function') {
+      player.setOption('captions', 'track', {});
+      player.setOption('cc', 'track', {});
+    }
+  } catch (err) {}
+}
+
 function initOrLoadYouTube(videoId) {
   if (!ytPlayer) {
     const originParam = (window.location.protocol === 'http:' || window.location.protocol === 'https:')
@@ -1845,10 +1861,13 @@ function initOrLoadYouTube(videoId) {
         'playsinline': 1,
         'enablejsapi': 1,
         'iv_load_policy': 3,
+        'cc_load_policy': 0,
+        'hl': 'es',
         ...(originParam ? { 'origin': originParam } : {})
       },
       events: {
         'onReady': (e) => {
+          disableCaptions(e.target);
           syncRealVideoDuration(e.target);
           e.target.playVideo();
           startProgressLoop();
@@ -1859,6 +1878,7 @@ function initOrLoadYouTube(videoId) {
     });
   } else {
     ytPlayer.loadVideoById(videoId);
+    disableCaptions(ytPlayer);
   }
 }
 
@@ -1887,6 +1907,7 @@ function onPlayerStateChange(event) {
   const playBtn = document.getElementById('play-pause-btn');
 
   if (event.data === YT.PlayerState.PLAYING) {
+    disableCaptions(event.target);
     syncRealVideoDuration(event.target);
     if (pauseOverlay) pauseOverlay.style.display = 'none';
     if (playBtn) playBtn.innerText = "⏸ Pausar";

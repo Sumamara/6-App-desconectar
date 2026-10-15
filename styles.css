@@ -196,7 +196,7 @@ h1, h2, h3, h4 {
 
 .presets-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 8px;
 }
 
@@ -230,6 +230,72 @@ h1, h2, h3, h4 {
   border-color: var(--primary);
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.22), rgba(79, 70, 229, 0.15));
   box-shadow: 0 0 14px var(--primary-glow);
+}
+
+/* Fila 1: 3 Tarjetas (Micro-Pausa, Pausa Activa, Cuello) -> span 2 cada una (2 x 3 = 6 cols) */
+.preset-col-3 {
+  grid-column: span 2;
+  padding: 9px 8px;
+  min-height: 84px;
+}
+
+.preset-col-3 .preset-card-top {
+  margin-bottom: 4px;
+}
+
+.preset-col-3 .preset-icon {
+  width: 25px;
+  height: 25px;
+  font-size: 14px;
+}
+
+.preset-col-3 .preset-time-pill {
+  font-size: 10px;
+  padding: 1px 6px;
+}
+
+.preset-col-3 .preset-name {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.preset-col-3 .preset-desc {
+  font-size: 10px;
+  line-height: 1.25;
+}
+
+/* Fila 2: 2 Tarjetas (Desconexión 1, Desconexión 2) -> span 3 cada una (3 x 2 = 6 cols) */
+.preset-col-2 {
+  grid-column: span 3;
+  padding: 10px 12px;
+  min-height: 84px;
+}
+
+.preset-col-2 .preset-card-top {
+  margin-bottom: 6px;
+}
+
+.preset-col-2 .preset-icon {
+  width: 28px;
+  height: 28px;
+  font-size: 16px;
+}
+
+.preset-col-2 .preset-time-pill {
+  font-size: 11px;
+  padding: 2px 8px;
+}
+
+.preset-col-2 .preset-name {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.preset-col-2 .preset-desc {
+  font-size: 10.5px;
+  line-height: 1.25;
 }
 
 /* Card Destacada de Ancho Completo (Para Desconexión Total: 5to preset armonioso) */
@@ -342,20 +408,20 @@ h1, h2, h3, h4 {
   border-style: dashed;
 }
 
-/* Si hay solo 1 rutina personalizada: se muestra horizontal a lo ancho (span 2) */
+/* Si hay solo 1 rutina personalizada: se muestra horizontal a lo ancho (span 6) */
 .preset-custom-card.custom-single {
-  grid-column: span 2;
+  grid-column: span 6;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   min-height: auto;
-  padding: 10px 12px;
-  gap: 10px;
+  padding: 10px 14px;
+  gap: 12px;
 }
 
-/* Si hay 2 o más: se ajustan en la cuadrícula de 2 columnas como las demás */
+/* Si hay 2 o más: se ajustan en 2 columnas (span 3 en la rejilla de 6) */
 .preset-custom-card.custom-grid {
-  grid-column: span 1;
+  grid-column: span 3;
   flex-direction: column;
   justify-content: space-between;
   min-height: 84px;
@@ -568,27 +634,75 @@ h1, h2, h3, h4 {
   line-height: 1.5;
 }
 
-/* Adaptación suave en pantallas menores a 360px */
-@media (max-width: 360px) {
+/* Adaptación suave en pantallas menores a 380px */
+@media (max-width: 380px) {
   .presets-header {
     gap: 6px;
   }
   .presets-title {
     font-size: 11.5px;
   }
-  .preset-card {
-    padding: 8px 9px;
+  .preset-col-3 {
+    padding: 7px 5px;
   }
-  .preset-name {
+  .preset-col-3 .preset-name {
+    font-size: 11px;
+  }
+  .preset-col-3 .preset-desc {
+    font-size: 9.5px;
+  }
+  .preset-col-3 .preset-time-pill {
+    font-size: 9.5px;
+    padding: 1px 4px;
+  }
+  .preset-col-2 {
+    padding: 8px 10px;
+  }
+  .preset-col-2 .preset-name {
     font-size: 12px;
   }
-  .preset-desc {
+  .preset-col-2 .preset-desc {
     font-size: 10px;
   }
-  .preset-time-pill {
-    font-size: 10px;
-    padding: 2px 5px;
+  .stages-section-title {
+    font-size: 11.5px;
   }
+}
+
+/* ==========================================================================
+   SEPARADOR Y TÍTULO DE SECCIÓN DE ETAPAS
+   ========================================================================== */
+.stages-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 22px 0 10px 0;
+  padding: 0 4px;
+}
+
+.stages-section-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stages-section-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.stages-section-badge {
+  font-size: 11px;
+  color: var(--primary-light);
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.22);
+  padding: 2px 9px;
+  border-radius: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
 /* ==========================================================================

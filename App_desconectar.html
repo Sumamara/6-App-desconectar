@@ -62,19 +62,19 @@
         </div>
         <div class="presets-grid" id="presets-grid">
           <!-- 1. Micro-Pausa (1 min) -->
-          <div class="preset-card active" onclick="applyPreset('micro')" id="preset-micro">
+          <div class="preset-card preset-col-3 active" onclick="applyPreset('micro')" id="preset-micro">
             <div class="preset-card-top">
               <span class="preset-icon">⚡</span>
               <span class="preset-time-pill">1 min</span>
             </div>
             <div class="preset-card-body">
               <div class="preset-name">Micro-Pausa</div>
-              <div class="preset-desc">Manos arriba + Doble inhalación (30s)</div>
+              <div class="preset-desc">Manos arriba + Doble inhalación</div>
             </div>
           </div>
 
           <!-- 2. Pausa Activa (5 min) -->
-          <div class="preset-card" onclick="applyPreset('walk')" id="preset-walk">
+          <div class="preset-card preset-col-3" onclick="applyPreset('walk')" id="preset-walk">
             <div class="preset-card-top">
               <span class="preset-icon">🚶</span>
               <span class="preset-time-pill">5 min</span>
@@ -85,47 +85,53 @@
             </div>
           </div>
 
-          <!-- 3. Desconexión Rápida (12 min) -->
-          <div class="preset-card" onclick="applyPreset('quick_disconnect')" id="preset-quick_disconnect">
+          <!-- 3. Cuello (17 min) -->
+          <div class="preset-card preset-col-3" onclick="applyPreset('neck')" id="preset-neck">
+            <div class="preset-card-top">
+              <span class="preset-icon">💆</span>
+              <span class="preset-time-pill">17 min</span>
+            </div>
+            <div class="preset-card-body">
+              <div class="preset-name">Cuello</div>
+              <div class="preset-desc">Cuello + Quitar tensiones</div>
+            </div>
+          </div>
+
+          <!-- 4. Desconexión 1 (12 min) -->
+          <div class="preset-card preset-col-2" onclick="applyPreset('quick_disconnect')" id="preset-quick_disconnect">
             <div class="preset-card-top">
               <span class="preset-icon">✍️</span>
               <span class="preset-time-pill">12 min</span>
             </div>
             <div class="preset-card-body">
-              <div class="preset-name">Desconexión Rápida</div>
-              <div class="preset-desc">Estirar (7m) + Escribir (5m)</div>
+              <div class="preset-name">Desconexión 1</div>
+              <div class="preset-desc">Rápida • Estirar y escribir</div>
             </div>
           </div>
 
-          <!-- 4. Tensión en el Cuello (15 min) -->
-          <div class="preset-card" onclick="applyPreset('neck')" id="preset-neck">
+          <!-- 5. Desconexión 2 (24 min) -->
+          <div class="preset-card preset-col-2" onclick="applyPreset('complete')" id="preset-complete">
             <div class="preset-card-top">
-              <span class="preset-icon">💆</span>
-              <span class="preset-time-pill">15 min</span>
+              <span class="preset-icon">🌟</span>
+              <span class="preset-time-pill">24 min</span>
             </div>
             <div class="preset-card-body">
-              <div class="preset-name">Tensión en Cuello</div>
-              <div class="preset-desc">Cuello + Respirar 4-7-8</div>
-            </div>
-          </div>
-
-          <!-- 5. Desconexión Total (24 min) - DESTACADA ANCHO COMPLETO -->
-          <div class="preset-card preset-card-featured" onclick="applyPreset('complete')" id="preset-complete">
-            <div class="preset-featured-left">
-              <span class="preset-icon">🌟</span>
-              <div class="preset-card-body">
-                <div class="preset-name">Desconexión Total</div>
-                <div class="preset-desc">Las 4 etapas completas: Estirar + Respirar + Escribir + Meditar</div>
-              </div>
-            </div>
-            <div class="preset-featured-right">
-              <span class="preset-time-pill">24 min</span>
+              <div class="preset-name">Desconexión 2</div>
+              <div class="preset-desc">Total • Las 4 etapas completas</div>
             </div>
           </div>
 
           <!-- CONTENEDOR DINÁMICO DE RUTINAS PERSONALIZADAS -->
           <div id="custom-presets-container" style="display: contents;"></div>
         </div>
+      </div>
+
+      <!-- SECCIÓN: CONFIGURACIÓN PASO A PASO -->
+      <div class="stages-section-header">
+        <div class="stages-section-title-wrap">
+          <span class="stages-section-title">🧩 O personaliza tus etapas</span>
+        </div>
+        <span class="stages-section-badge">4 Etapas</span>
       </div>
 
       <!-- Las 4 Etapas en orden estricto -->
