@@ -7,6 +7,20 @@
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>Desconectar • Rutina en 4 Etapas</title>
   
+  <!-- Progressive Web App (PWA) Manifest & Metas -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#6366f1">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Desconectar">
+  
+  <!-- Soporte iOS Safari PWA -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Desconectar">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+  <link rel="alternate icon" type="image/png" href="icons/icon-192.png">
+  
   <!-- Fuentes Google -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,7 +45,10 @@
     <div id="builder-section">
       <div class="header">
         <div class="header-badge">🧘 Sesión Diaria</div>
-        <h1>Desconectar</h1>
+        <div class="header-title-row">
+          <h1>Desconectar</h1>
+          <button class="btn-info-circle" onclick="openScientificInfoModal()" title="¿Por qué desconectar así? Conoce la ciencia" aria-label="Información científica">ℹ️</button>
+        </div>
         <p>Marca las etapas que deseas realizar hoy:</p>
       </div>
 
@@ -44,58 +61,71 @@
           </button>
         </div>
         <div class="presets-grid" id="presets-grid">
+          <!-- 1. Micro-Pausa (1 min) -->
           <div class="preset-card active" onclick="applyPreset('micro')" id="preset-micro">
             <div class="preset-card-top">
               <span class="preset-icon">⚡</span>
-              <span class="preset-time-pill">2 min</span>
+              <span class="preset-time-pill">1 min</span>
             </div>
             <div class="preset-card-body">
               <div class="preset-name">Micro-Pausa</div>
-              <div class="preset-desc">Levantarse + 4-7-8</div>
+              <div class="preset-desc">Manos arriba + Doble inhalación (30s)</div>
             </div>
           </div>
 
-          <div class="preset-card" onclick="applyPreset('quick')" id="preset-quick">
-            <div class="preset-card-top">
-              <span class="preset-icon">⏱️</span>
-              <span class="preset-time-pill">15 min</span>
-            </div>
-            <div class="preset-card-body">
-              <div class="preset-name">Pausa Cuello</div>
-              <div class="preset-desc">Estirar + Respirar</div>
-            </div>
-          </div>
-
+          <!-- 2. Pausa Activa (5 min) -->
           <div class="preset-card" onclick="applyPreset('walk')" id="preset-walk">
             <div class="preset-card-top">
               <span class="preset-icon">🚶</span>
-              <span class="preset-time-pill">10 min</span>
+              <span class="preset-time-pill">5 min</span>
             </div>
             <div class="preset-card-body">
               <div class="preset-name">Pausa Activa</div>
-              <div class="preset-desc">Caminata + Meditar</div>
+              <div class="preset-desc">Solo estiramiento (5 min)</div>
             </div>
           </div>
 
-          <div class="preset-card" onclick="applyPreset('complete')" id="preset-complete">
+          <!-- 3. Desconexión Rápida (12 min) -->
+          <div class="preset-card" onclick="applyPreset('quick_disconnect')" id="preset-quick_disconnect">
             <div class="preset-card-top">
-              <span class="preset-icon">🌟</span>
-              <span class="preset-time-pill">23 min</span>
+              <span class="preset-icon">✍️</span>
+              <span class="preset-time-pill">12 min</span>
             </div>
             <div class="preset-card-body">
-              <div class="preset-name">Desconexión Total</div>
-              <div class="preset-desc">Las 4 etapas</div>
+              <div class="preset-name">Desconexión Rápida</div>
+              <div class="preset-desc">Estirar (7m) + Escribir (5m)</div>
+            </div>
+          </div>
+
+          <!-- 4. Tensión en el Cuello (15 min) -->
+          <div class="preset-card" onclick="applyPreset('neck')" id="preset-neck">
+            <div class="preset-card-top">
+              <span class="preset-icon">💆</span>
+              <span class="preset-time-pill">15 min</span>
+            </div>
+            <div class="preset-card-body">
+              <div class="preset-name">Tensión en Cuello</div>
+              <div class="preset-desc">Cuello + Respirar 4-7-8</div>
+            </div>
+          </div>
+
+          <!-- 5. Desconexión Total (24 min) - DESTACADA ANCHO COMPLETO -->
+          <div class="preset-card preset-card-featured" onclick="applyPreset('complete')" id="preset-complete">
+            <div class="preset-featured-left">
+              <span class="preset-icon">🌟</span>
+              <div class="preset-card-body">
+                <div class="preset-name">Desconexión Total</div>
+                <div class="preset-desc">Las 4 etapas completas: Estirar + Respirar + Escribir + Meditar</div>
+              </div>
+            </div>
+            <div class="preset-featured-right">
+              <span class="preset-time-pill">24 min</span>
             </div>
           </div>
 
           <!-- CONTENEDOR DINÁMICO DE RUTINAS PERSONALIZADAS -->
           <div id="custom-presets-container" style="display: contents;"></div>
         </div>
-
-        <!-- BOTÓN AL FINAL: GUARDAR RUTINA -->
-        <button class="btn-save-new-routine" onclick="promptSaveCurrentRoutine()">
-          ➕ Guardar rutina
-        </button>
       </div>
 
       <!-- Las 4 Etapas en orden estricto -->
@@ -108,7 +138,10 @@
             <div class="stage-info">
               <div class="stage-title-row">
                 <span class="stage-title">🤸 1. Estirar</span>
-                <span class="stage-summary-badge" id="badge-estirar">0 min</span>
+                <div class="stage-header-actions">
+                  <span class="stage-summary-badge" id="badge-estirar">0 min</span>
+                  <button class="stage-gear-btn" onclick="event.stopPropagation(); openStageLibraryModal('estirar')" title="Biblioteca y opciones de Estirar" aria-label="Biblioteca de Estirar">⚙️</button>
+                </div>
               </div>
               <div class="stage-desc">Alivio cervical, movilidad de espalda y postura</div>
             </div>
@@ -116,7 +149,6 @@
           </div>
           <div class="stage-body">
             <div class="options-list" id="options-estirar"></div>
-            <button class="add-custom-btn" onclick="openAddOptionModal('estirar')">➕ Añadir otro video de estiramiento</button>
           </div>
         </div>
 
@@ -127,7 +159,10 @@
             <div class="stage-info">
               <div class="stage-title-row">
                 <span class="stage-title">🫁 2. Respirar</span>
-                <span class="stage-summary-badge" id="badge-respirar">0 min</span>
+                <div class="stage-header-actions">
+                  <span class="stage-summary-badge" id="badge-respirar">0 min</span>
+                  <button class="stage-gear-btn" onclick="event.stopPropagation(); openStageLibraryModal('respirar')" title="Biblioteca y opciones de Respirar" aria-label="Biblioteca de Respirar">⚙️</button>
+                </div>
               </div>
               <div class="stage-desc">Calma el sistema nervioso y reduce la ansiedad</div>
             </div>
@@ -135,7 +170,6 @@
           </div>
           <div class="stage-body">
             <div class="options-list" id="options-respirar"></div>
-            <button class="add-custom-btn" onclick="openAddOptionModal('respirar')">➕ Añadir otra técnica de respiración</button>
           </div>
         </div>
 
@@ -146,7 +180,10 @@
             <div class="stage-info">
               <div class="stage-title-row">
                 <span class="stage-title">✍️ 3. Escribir</span>
-                <span class="stage-summary-badge" id="badge-escribir">0 min</span>
+                <div class="stage-header-actions">
+                  <span class="stage-summary-badge" id="badge-escribir">0 min</span>
+                  <button class="stage-gear-btn" onclick="event.stopPropagation(); openStageLibraryModal('escribir')" title="Biblioteca y opciones de Escribir" aria-label="Biblioteca de Escribir">⚙️</button>
+                </div>
               </div>
               <div class="stage-desc">Desahogo mental, gratitud o journaling guiado</div>
             </div>
@@ -154,7 +191,6 @@
           </div>
           <div class="stage-body">
             <div class="options-list" id="options-escribir"></div>
-            <button class="add-custom-btn" onclick="openAddOptionModal('escribir')">➕ Añadir consigna o video de escritura</button>
           </div>
         </div>
 
@@ -165,7 +201,10 @@
             <div class="stage-info">
               <div class="stage-title-row">
                 <span class="stage-title">🧘 4. Meditar</span>
-                <span class="stage-summary-badge" id="badge-meditar">0 min</span>
+                <div class="stage-header-actions">
+                  <span class="stage-summary-badge" id="badge-meditar">0 min</span>
+                  <button class="stage-gear-btn" onclick="event.stopPropagation(); openStageLibraryModal('meditar')" title="Biblioteca y opciones de Meditar" aria-label="Biblioteca de Meditar">⚙️</button>
+                </div>
               </div>
               <div class="stage-desc">Mindfulness, sonidos de calma y escaneo corporal</div>
             </div>
@@ -173,7 +212,6 @@
           </div>
           <div class="stage-body">
             <div class="options-list" id="options-meditar"></div>
-            <button class="add-custom-btn" onclick="openAddOptionModal('meditar')">➕ Añadir otra meditación o sonido</button>
           </div>
         </div>
 
@@ -304,7 +342,32 @@
         </div>
         <button class="modal-close-icon" onclick="closeManageRoutinesModal()">✕</button>
       </div>
-      <div class="modal-body" id="manage-routines-body">
+      
+      <!-- Ajustes generales de rutina: Medición de mejora e Instalación PWA -->
+      <div class="modal-body" style="padding-bottom:4px; display:flex; flex-direction:column; gap:8px;">
+        <div class="setting-toggle-box" style="margin-bottom:0;">
+          <div class="setting-toggle-info">
+            <div class="setting-toggle-title">📊 Medición de mejora</div>
+            <div class="setting-toggle-desc">Pregunta del 1 al 10 antes y después para ver el impacto de tu rutina.</div>
+          </div>
+          <label class="switch" for="check-measure-improvement" title="Activar medición antes/después">
+            <input type="checkbox" id="check-measure-improvement" onchange="toggleMeasureImprovement(this.checked)">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-toggle-box" id="pwa-install-modal-box" style="margin-bottom:0;">
+          <div class="setting-toggle-info">
+            <div class="setting-toggle-title">📲 Instalar Aplicación</div>
+            <div class="setting-toggle-desc">Añade Desconectar a tu pantalla de inicio o escritorio para acceder en 1 toque.</div>
+          </div>
+          <button id="btn-pwa-install" class="btn btn-secondary" onclick="promptInstallApp()" style="padding:6px 12px; font-size:12px; white-space:nowrap; flex-shrink:0;">
+            📲 Instalar
+          </button>
+        </div>
+      </div>
+
+      <div class="modal-body" id="manage-routines-body" style="padding-top:6px;">
         <!-- Contenido dinámico -->
       </div>
       <div class="modal-footer">
@@ -317,11 +380,259 @@
   <div class="bottom-sticky-bar" id="bottom-sticky-bar">
     <div class="bottom-bar-inner">
       <div class="bottom-summary-text">
-        <div>Total: <strong id="bottom-total-time">0</strong> min</div>
+        <div>Total: <strong id="bottom-total-time">0 min</strong></div>
         <div style="font-size:11px; color:#818cf8;"><span id="bottom-total-count">0</span> seleccionadas</div>
       </div>
-      <button class="btn" id="start-btn" onclick="startRoutine()" disabled>
-        ▶ Comenzar Sesión
+      <div class="bottom-bar-actions">
+        <button class="btn-diskette-save" id="btn-save-sticky" onclick="onSaveStickyClick()" title="Guardar como rutina" aria-label="Guardar rutina">
+          💾
+        </button>
+        <button class="btn" id="start-btn" onclick="startRoutine()" disabled>
+          ▶ Comenzar Sesión
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: BIBLIOTECA DE ETAPA -->
+  <div class="modal-overlay" id="stage-library-modal" onclick="closeStageLibraryModal(event)">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:18px;">⚙️</span>
+          <h3 id="library-modal-title" style="margin:0; font-size:1.05rem; color:#fff;">Biblioteca de Etapa</h3>
+        </div>
+        <button class="modal-close-icon" onclick="closeStageLibraryModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="library-subtitle">Activa/desactiva qué prácticas se muestran, o ajusta su posición con los 6 puntos (⋮⋮):</p>
+        <div class="library-items-list" id="library-items-list">
+          <!-- Items dinámicos con checkboxes -->
+        </div>
+        <button class="library-btn-add" id="library-btn-add" onclick="openAddPracticeModal()">
+          ➕ Añadir otro video de YouTube o práctica
+        </button>
+      </div>
+      <div class="modal-footer" style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+        <button type="button" class="btn-library-reset" onclick="resetStageDefaults()" title="Restablecer orden y visibilidad originales de esta etapa">
+          🔄 Valores por defecto
+        </button>
+        <button class="btn btn-secondary" onclick="closeStageLibraryModal()" style="padding:8px 18px; font-size:13px;">Listo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: INFORMACIÓN CIENTÍFICA (¿POR QUÉ DESCONECTAR ASÍ?) -->
+  <div class="modal-overlay" id="scientific-info-modal" onclick="closeScientificInfoModal(event)">
+    <div class="modal-box science-modal-box" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:20px;">ℹ️</span>
+          <h3 style="margin:0; font-size:1.1rem; color:#fff;">¿Por qué desconectar así?</h3>
+        </div>
+        <button class="modal-close-icon" onclick="closeScientificInfoModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="science-intro">
+          <strong>La ciencia de la desaceleración escalonada:</strong> Pasar del modo de alta exigencia mental (cortisol, pantallas y alerta) al descanso profundo requiere una transición neurobiológica por fases. Cada etapa prepara al cuerpo y a la mente para la siguiente:
+        </div>
+        <div class="science-cards-list">
+          <div class="science-card">
+            <div class="science-card-header">
+              <span style="font-size:18px;">🤸</span>
+              <span class="science-card-title">1. Estirar</span>
+              <span class="science-card-badge">Descarga Somática</span>
+            </div>
+            <div class="science-card-body">
+              <strong>Libera el tono muscular defensivo.</strong> Horas frente a pantallas generan microtensiones reflejas en cuello, hombros y mandíbula. El estiramiento envía señales propioceptivas al sistema nervioso central comunicando seguridad física, reduciendo la adrenalina.
+            </div>
+          </div>
+
+          <div class="science-card">
+            <div class="science-card-header">
+              <span style="font-size:18px;">🫁</span>
+              <span class="science-card-title">2. Respirar</span>
+              <span class="science-card-badge">Regulación Vagal</span>
+            </div>
+            <div class="science-card-body">
+              <strong>Activa el freno parasimpático.</strong> La exhalación prolongada (como 4-7-8) y la respiración resonante (~6 respiraciones por minuto) estimulan directamente el nervio vago. Esto eleva la Variabilidad de la Frecuencia Cardíaca (HRV) y desacelera el ritmo cardíaco.
+            </div>
+          </div>
+
+          <div class="science-card">
+            <div class="science-card-header">
+              <span style="font-size:18px;">✍️</span>
+              <span class="science-card-title">3. Escribir</span>
+              <span class="science-card-badge">Cierre Cognitivo</span>
+            </div>
+            <div class="science-card-body">
+              <strong>Frena el Efecto Zeigarnik y la rumiación.</strong> El cerebro humano retiene en bucle tareas incompletas y preocupaciones. Al volcarlas en papel o agradecer, la corteza prefrontal "da por cerrada la sesión", disminuyendo la fatiga decisional.
+            </div>
+          </div>
+
+          <div class="science-card">
+            <div class="science-card-header">
+              <span style="font-size:18px;">🧘</span>
+              <span class="science-card-title">4. Meditar / NSDR</span>
+              <span class="science-card-badge">Ondas Alfa & Theta</span>
+            </div>
+            <div class="science-card-body">
+              <strong>Restauración cerebral profunda.</strong> Prácticas como Yoga Nidra o NSDR silencian la Red Neuronal por Defecto (DMN) y reponen dopamina. El cerebro entra en frecuencias lentas que restauran la lucidez o facilitan el sueño.
+            </div>
+          </div>
+        </div>
+        <div class="science-footer-tip">
+          💡 <strong>Personalizable:</strong> Haz la secuencia completa de 4 etapas o elige solo las que necesites hoy. Incluso una micro-pausa de 2 minutos produce un cambio neurológico medible.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeScientificInfoModal()" style="width:100%; padding:9px 12px; font-size:13px;">Entendido</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ZEN PROMPT (SIN PROMPT NATIVO) -->
+  <div class="modal-overlay" id="zen-prompt-modal" onclick="cancelZenPrompt(event)">
+    <div class="modal-box" style="max-width:380px;" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 id="zen-prompt-title" style="margin:0; font-size:1.05rem; color:#fff;">Título</h3>
+        <button class="modal-close-icon" onclick="cancelZenPrompt()">✕</button>
+      </div>
+      <div class="modal-body">
+        <p id="zen-prompt-subtitle" style="font-size:12.5px; color:var(--text-muted); margin:0 0 12px;"></p>
+        <div class="zen-dialog-input-group">
+          <input type="text" id="zen-prompt-input" class="zen-dialog-input" autocomplete="off">
+        </div>
+        <div class="zen-dialog-buttons">
+          <button class="zen-dialog-btn zen-dialog-btn-cancel" onclick="cancelZenPrompt()">Cancelar</button>
+          <button class="zen-dialog-btn zen-dialog-btn-confirm" id="zen-prompt-confirm-btn" onclick="confirmZenPrompt()">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ZEN CONFIRM (SIN CONFIRM NATIVO) -->
+  <div class="modal-overlay" id="zen-confirm-modal" onclick="resolveZenConfirm(false, event)">
+    <div class="modal-box" style="max-width:380px;" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 id="zen-confirm-title" style="margin:0; font-size:1.05rem; color:#fff;">Confirmación</h3>
+        <button class="modal-close-icon" onclick="resolveZenConfirm(false)">✕</button>
+      </div>
+      <div class="modal-body">
+        <p id="zen-confirm-message" style="font-size:13px; color:#cbd5e1; margin:0 0 16px; line-height:1.45;"></p>
+        <div class="zen-dialog-buttons">
+          <button class="zen-dialog-btn zen-dialog-btn-cancel" onclick="resolveZenConfirm(false)">Cancelar</button>
+          <button class="zen-dialog-btn zen-dialog-btn-danger" id="zen-confirm-btn" onclick="resolveZenConfirm(true)">Aceptar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: AÑADIR PRÁCTICA / VIDEO A LA ETAPA -->
+  <div class="modal-overlay" id="add-practice-modal" onclick="closeAddPracticeModal(event)">
+    <div class="modal-box" style="max-width:420px;" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 id="add-practice-title" style="margin:0; font-size:1.05rem; color:#fff;">Añadir Práctica</h3>
+        <button class="modal-close-icon" onclick="closeAddPracticeModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="zen-dialog-input-group">
+          <label class="zen-dialog-label" for="add-input-title">Nombre de la práctica:</label>
+          <input type="text" id="add-input-title" class="zen-dialog-input" placeholder="Ej. Estiramiento de espalda baja">
+        </div>
+        <div class="zen-dialog-input-group">
+          <label class="zen-dialog-label" for="add-input-type">Tipo de práctica:</label>
+          <select id="add-input-type" class="zen-dialog-select" onchange="onAddTypeChange()">
+            <option value="youtube">📹 Video de YouTube</option>
+            <option value="timer">⏱️ Temporizador de Actividad</option>
+            <option value="writing">📝 Bloc Zen de Escritura</option>
+          </select>
+        </div>
+        <div class="zen-dialog-input-group" id="group-add-url">
+          <label class="zen-dialog-label" for="add-input-url">Enlace o ID de YouTube:</label>
+          <input type="text" id="add-input-url" class="zen-dialog-input" placeholder="https://www.youtube.com/watch?v=...">
+        </div>
+        <div class="zen-dialog-input-group" id="group-add-instructions" style="display:none;">
+          <label class="zen-dialog-label" for="add-input-instructions">Instrucciones / Consigna:</label>
+          <input type="text" id="add-input-instructions" class="zen-dialog-input" placeholder="Ej. Camina despacio y respira...">
+        </div>
+        <div class="zen-dialog-input-group">
+          <label class="zen-dialog-label" for="add-input-duration">Duración estimada (minutos):</label>
+          <input type="number" id="add-input-duration" class="zen-dialog-input" value="5" min="1" max="120">
+        </div>
+        <div class="zen-dialog-buttons">
+          <button class="zen-dialog-btn zen-dialog-btn-cancel" onclick="closeAddPracticeModal()">Cancelar</button>
+          <button class="zen-dialog-btn zen-dialog-btn-confirm" onclick="saveNewPracticeFromModal()">Guardar en Etapa</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENEDOR FLOTANTE DE NOTIFICACIONES TOAST -->
+  <div id="zen-toast-container" class="zen-toast-container"></div>
+
+  <!-- MODAL: MEDICIÓN DE MEJORA (SLIDER INTERACTIVO 1 AL 10) -->
+  <div class="modal-overlay" id="mood-measure-modal" onclick="closeMoodModal(event)">
+    <div class="modal-box" style="max-width:390px; text-align:center;" onclick="event.stopPropagation()">
+      <div class="modal-header" style="justify-content:center;">
+        <h3 id="mood-modal-title" style="margin:0; font-size:1.15rem; color:#fff;">¿Cómo te sientes?</h3>
+      </div>
+      <div class="modal-body">
+        <p id="mood-modal-subtitle" style="font-size:13px; color:var(--text-muted); margin:0 0 14px;">
+          Desliza para registrar tu nivel de calma o tensión actual:
+        </p>
+
+        <!-- Indicador central de número y estado emocional -->
+        <div class="mood-slider-display">
+          <div class="mood-slider-number" id="mood-slider-number">5</div>
+          <div class="mood-slider-label" id="mood-slider-label">🟡 Estado neutral / equilibrado</div>
+        </div>
+
+        <!-- Slider de rango Zen -->
+        <div class="mood-slider-container">
+          <input type="range" id="mood-slider-input" min="1" max="10" value="5" step="1" 
+                 oninput="onMoodSliderChange(this.value)" class="zen-range-slider" aria-label="Nivel de calma del 1 al 10">
+          
+          <!-- Números del 1 al 10 para pulsar directamente -->
+          <div class="mood-slider-ticks" id="mood-slider-ticks">
+            <span onclick="setMoodSliderVal(1)">1</span>
+            <span onclick="setMoodSliderVal(2)">2</span>
+            <span onclick="setMoodSliderVal(3)">3</span>
+            <span onclick="setMoodSliderVal(4)">4</span>
+            <span onclick="setMoodSliderVal(5)" class="active">5</span>
+            <span onclick="setMoodSliderVal(6)">6</span>
+            <span onclick="setMoodSliderVal(7)">7</span>
+            <span onclick="setMoodSliderVal(8)">8</span>
+            <span onclick="setMoodSliderVal(9)">9</span>
+            <span onclick="setMoodSliderVal(10)">10</span>
+          </div>
+          <div class="mood-scale-labels" style="margin-top:8px;">
+            <span>1 = Muy tenso / Agobiado</span>
+            <span>10 = Plena calma / Paz</span>
+          </div>
+        </div>
+
+        <div style="margin-top:18px;">
+          <button class="btn" id="mood-slider-confirm-btn" onclick="confirmMoodSlider()" style="width:100%; padding:11px 18px; font-size:14px;">
+            Continuar ➔
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CELEBRACIÓN DE RUTINA COMPLETADA -->
+  <div class="modal-overlay" id="routine-completed-modal">
+    <div class="modal-box completed-celebration-box" style="max-width:440px;" onclick="event.stopPropagation()">
+      <div class="completed-icon-large">✨</div>
+      <h2 class="completed-title">¡Muy bien, rutina realizada!</h2>
+      <p class="completed-quote">“Cada paso te ayuda a tener una vida en calma.”</p>
+      
+      <!-- Contenedor dinámico de mejora si la medición estuvo activa -->
+      <div id="completed-improvement-container" style="display:none; width:100%; margin-bottom:16px;"></div>
+
+      <button class="btn" onclick="finishRoutineAndExit()" style="width:100%; padding:11px 18px; font-size:14px; margin-top:8px;">
+        ✨ ¡Rutina completada!
       </button>
     </div>
   </div>

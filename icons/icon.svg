@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Fondo con gradiente cósmico profundo -->
+    <radialGradient id="bgGrad" cx="50%" cy="40%" r="65%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="60%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#090d16"/>
+    </radialGradient>
+
+    <!-- Resplandor del loto y halo -->
+    <linearGradient id="primaryGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#c7d2fe"/>
+      <stop offset="50%" stop-color="#818cf8"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+
+    <linearGradient id="goldGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="50%" stop-color="#fef08a"/>
+      <stop offset="100%" stop-color="#ffffff"/>
+    </linearGradient>
+
+    <filter id="zenGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="10" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+
+    <radialGradient id="auraGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.45"/>
+      <stop offset="70%" stop-color="#4f46e5" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Fondo redondeado suave estilo App Icon -->
+  <rect width="512" height="512" rx="115" fill="url(#bgGrad)"/>
+  <rect width="512" height="512" rx="115" fill="none" stroke="#6366f1" stroke-width="4" stroke-opacity="0.35"/>
+
+  <!-- Halo de calma central -->
+  <circle cx="256" cy="265" r="170" fill="url(#auraGlow)"/>
+
+  <!-- Ondas concéntricas de respiración suave -->
+  <circle cx="256" cy="265" r="140" fill="none" stroke="#818cf8" stroke-width="2.5" stroke-opacity="0.3" stroke-dasharray="6 6"/>
+  <circle cx="256" cy="265" r="105" fill="none" stroke="#a5b4fc" stroke-width="2" stroke-opacity="0.45"/>
+
+  <!-- Estrella guía de calma (arriba centro) -->
+  <circle cx="256" cy="140" r="7" fill="url(#goldGrad)" filter="url(#zenGlow)"/>
+  <path d="M256 120 L258 135 L273 137 L258 139 L256 154 L254 139 L239 137 L254 135 Z" fill="#ffffff" opacity="0.9"/>
+
+  <g transform="translate(0, 15)" filter="url(#zenGlow)">
+    <!-- Pétalos exteriores del loto zen -->
+    <path d="M256 215 C210 245 160 300 195 340 C230 350 256 310 256 310 C256 310 282 350 317 340 C352 300 302 245 256 215 Z" 
+          fill="url(#primaryGrad)" opacity="0.75"/>
+
+    <!-- Pétalos medios -->
+    <path d="M256 200 C225 240 185 285 215 320 C240 325 256 295 256 295 C256 295 272 325 297 320 C327 285 287 240 256 200 Z" 
+          fill="url(#primaryGrad)" opacity="0.9"/>
+
+    <!-- Pétalo central erguido (elevación / consciencia) -->
+    <path d="M256 165 C240 215 235 270 256 300 C277 270 272 215 256 165 Z" 
+          fill="#ffffff" opacity="0.95"/>
+
+    <!-- Base del estanque / media luna de sostén -->
+    <path d="M180 345 C220 375 292 375 332 345 C305 358 207 358 180 345 Z" 
+          fill="url(#goldGrad)" opacity="0.85"/>
+  </g>
+</svg>
