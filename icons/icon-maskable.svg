@@ -1,49 +1,79 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
-    <radialGradient id="bgMaskGrad" cx="50%" cy="45%" r="65%">
+    <!-- Fondo sin bordes redondeados para permitir recorte adaptable en Android -->
+    <radialGradient id="bgGradMask" cx="50%" cy="45%" r="70%">
       <stop offset="0%" stop-color="#1e1b4b"/>
-      <stop offset="60%" stop-color="#0f172a"/>
+      <stop offset="55%" stop-color="#0f172a"/>
       <stop offset="100%" stop-color="#090d16"/>
     </radialGradient>
 
-    <linearGradient id="pGradMask" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#c7d2fe"/>
-      <stop offset="50%" stop-color="#818cf8"/>
-      <stop offset="100%" stop-color="#6366f1"/>
+    <!-- Gradiente de la onda: de la tensión (coral/ámbar) a la calma (cian/lavanda) -->
+    <linearGradient id="waveGradMask" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f87171"/>
+      <stop offset="20%" stop-color="#fb923c"/>
+      <stop offset="42%" stop-color="#fbbf24"/>
+      <stop offset="60%" stop-color="#38bdf8"/>
+      <stop offset="82%" stop-color="#818cf8"/>
+      <stop offset="100%" stop-color="#c084fc"/>
     </linearGradient>
 
-    <linearGradient id="gGradMask" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#fbbf24"/>
-      <stop offset="50%" stop-color="#fef08a"/>
-      <stop offset="100%" stop-color="#ffffff"/>
-    </linearGradient>
-
-    <filter id="zenGlowMask" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="8" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    <!-- Filtro de resplandor suave -->
+    <filter id="softGlowMask" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="9" result="blur1" />
+      <feGaussianBlur stdDeviation="18" result="blur2" />
+      <feMerge>
+        <feMergeNode in="blur2" />
+        <feMergeNode in="blur1" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
     </filter>
+
+    <!-- Resplandor ambiental de fondo -->
+    <radialGradient id="ambientLeftMask" cx="30%" cy="50%" r="35%">
+      <stop offset="0%" stop-color="#fb923c" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="ambientRightMask" cx="72%" cy="50%" r="35%">
+      <stop offset="0%" stop-color="#818cf8" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
   </defs>
 
-  <!-- Fondo completo cuadrado para zona segura maskable -->
-  <rect width="512" height="512" fill="url(#bgMaskGrad)"/>
+  <!-- Fondo completo sangrado al 100% (safe zone para Android PWA) -->
+  <rect width="512" height="512" fill="url(#bgGradMask)"/>
 
-  <!-- Contenido escalado dentro del 80% safe zone (Android maskable requirement) -->
-  <g transform="translate(51.2, 51.2) scale(0.8)">
-    <circle cx="256" cy="265" r="140" fill="none" stroke="#818cf8" stroke-width="2.5" stroke-opacity="0.3" stroke-dasharray="6 6"/>
-    <circle cx="256" cy="265" r="105" fill="none" stroke="#a5b4fc" stroke-width="2" stroke-opacity="0.45"/>
+  <!-- Contenido escalado dentro del 80% central (zona segura) -->
+  <g transform="translate(256, 256) scale(0.78) translate(-256, -256)">
+    <!-- Iluminación ambiental difusa -->
+    <circle cx="160" cy="256" r="140" fill="url(#ambientLeftMask)"/>
+    <circle cx="370" cy="256" r="140" fill="url(#ambientRightMask)"/>
 
-    <circle cx="256" cy="140" r="7" fill="url(#gGradMask)" filter="url(#zenGlowMask)"/>
-    <path d="M256 120 L258 135 L273 137 L258 139 L256 154 L254 139 L239 137 L254 135 Z" fill="#ffffff" opacity="0.9"/>
+    <!-- Capa de brillo inferior (Glow de fondo) -->
+    <path d="M 55,256 L 75,256 L 90,225 L 105,285 L 122,185 L 140,325 L 158,140 L 176,360 L 194,175 L 212,325 L 228,220 L 244,285 C 255,275 262,256 272,256 C 298,256 315,175 345,175 C 375,175 388,325 418,325 C 438,325 448,256 460,256"
+          fill="none"
+          stroke="url(#waveGradMask)"
+          stroke-width="26"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          opacity="0.32"
+          filter="url(#softGlowMask)"/>
 
-    <g transform="translate(0, 15)" filter="url(#zenGlowMask)">
-      <path d="M256 215 C210 245 160 300 195 340 C230 350 256 310 256 310 C256 310 282 350 317 340 C352 300 302 245 256 215 Z" 
-            fill="url(#pGradMask)" opacity="0.75"/>
-      <path d="M256 200 C225 240 185 285 215 320 C240 325 256 295 256 295 C256 295 272 325 297 320 C327 285 287 240 256 200 Z" 
-            fill="url(#pGradMask)" opacity="0.9"/>
-      <path d="M256 165 C240 215 235 270 256 300 C277 270 272 215 256 165 Z" 
-            fill="#ffffff" opacity="0.95"/>
-      <path d="M180 345 C220 375 292 375 332 345 C305 358 207 358 180 345 Z" 
-            fill="url(#gGradMask)" opacity="0.85"/>
-    </g>
+    <!-- Onda principal -->
+    <path d="M 55,256 L 75,256 L 90,225 L 105,285 L 122,185 L 140,325 L 158,140 L 176,360 L 194,175 L 212,325 L 228,220 L 244,285 C 255,275 262,256 272,256 C 298,256 315,175 345,175 C 375,175 388,325 418,325 C 438,325 448,256 460,256"
+          fill="none"
+          stroke="url(#waveGradMask)"
+          stroke-width="15"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          filter="url(#softGlowMask)"/>
+
+    <!-- Núcleo de luz central -->
+    <path d="M 55,256 L 75,256 L 90,225 L 105,285 L 122,185 L 140,325 L 158,140 L 176,360 L 194,175 L 212,325 L 228,220 L 244,285 C 255,275 262,256 272,256 C 298,256 315,175 345,175 C 375,175 388,325 418,325 C 438,325 448,256 460,256"
+          fill="none"
+          stroke="#ffffff"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          opacity="0.75"/>
   </g>
 </svg>

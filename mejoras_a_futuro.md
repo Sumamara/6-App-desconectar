@@ -85,4 +85,6 @@ El costo de almacenamiento adicional es de solo **$0.015 USD por GB al mes**:
 4. **PWA (Progressive Web App):**
    - Agregar un archivo `manifest.json` y un Service Worker para poder instalar la web en el teléfono móvil o escritorio como una aplicación nativa desde el navegador ("Agregar a pantalla de inicio").
 5. **Historial y Racha de Práctica:**
-   - Guardar en `localStorage` un calendario con los días consecutivos que el usuario ha completado sus rutinas de desconexión.
+   - Guardar en `localStorage` un calendario con los días consecutivos que el usuario ha completado sus rutinas de desconexión (ver [futuro_calendario.md](futuro_calendario.md)).
+6. **Etapa 5: Entrenamiento de Mindfulness (7 Pasos):**
+   - Incorporar una 5ª etapa opcional con interruptor en el engrane de ajustes para un programa guiado de 7 niveles de atención plena (ver [futuro_entrenamiento_mindfulness.md](futuro_entrenamiento_mindfulness.md)).
