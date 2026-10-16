@@ -314,6 +314,46 @@ let currentLibraryStage = null;
 // RENDERIZADO Y CONTROL DE LAS ETAPAS
 // ==========================================================================
 
+// Toast informativo flotante para el botón (i) de cada categoría
+function showStageInfoToast(text, title) {
+  let toast = document.getElementById('stage-info-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'stage-info-toast';
+    toast.className = 'stage-info-toast';
+    document.body.appendChild(toast);
+    toast.addEventListener('click', () => {
+      toast.classList.remove('visible');
+    });
+  }
+
+  toast.innerHTML = `
+    <div class="stage-info-toast-header">
+      <span class="stage-info-toast-icon">ℹ️</span>
+      <span class="stage-info-toast-title">${title}</span>
+      <button type="button" class="stage-info-toast-close" aria-label="Cerrar">&times;</button>
+    </div>
+    <div class="stage-info-toast-body">${text}</div>
+  `;
+
+  const closeBtn = toast.querySelector('.stage-info-toast-close');
+  if (closeBtn) {
+    closeBtn.onclick = (e) => {
+      e.stopPropagation();
+      toast.classList.remove('visible');
+    };
+  }
+
+  toast.classList.remove('visible');
+  void toast.offsetWidth;
+  toast.classList.add('visible');
+
+  clearTimeout(window._stageInfoToastTimer);
+  window._stageInfoToastTimer = setTimeout(() => {
+    toast.classList.remove('visible');
+  }, 6000);
+}
+
 let expandedStageAccordions = new Set();
 
 function toggleStageMoreOptions(stageKey, event) {
@@ -408,11 +448,7 @@ function renderAllStages() {
 
     if (badgeEl) {
       const timeStr = (stageMin > 0 && stageMin < 1) ? `${Math.round(stageMin * 60)} seg` : `${Math.round(stageMin * 10) / 10} min`;
-      if (isActive && unselectedInStage.length > 0) {
-        badgeEl.innerText = `${selectedInStage.length} sel (${timeStr}) • +${unselectedInStage.length} más`;
-      } else {
-        badgeEl.innerText = `${selectedInStage.length} seleccionada${selectedInStage.length === 1 ? '' : 's'} (${timeStr})`;
-      }
+      badgeEl.innerText = timeStr;
     }
 
     if (stageItems.length === 0) {
@@ -432,8 +468,8 @@ function renderAllStages() {
         <div class="stage-accordion-content ${isExpanded ? 'open' : ''}" id="accordion-${stageKey}">
           <div class="stage-accordion-header-hint">Otras opciones disponibles:</div>
           ${unselectedInStage.map(item => renderOptionItemHtml(item, false, stageKey)).join('')}
-          <button type="button" class="stage-accordion-close-btn" onclick="toggleStageMoreOptions('${stageKey}', event)" title="Contraer opciones">
-            <span>▲ Contraer opciones</span>
+          <button type="button" class="stage-accordion-close-btn" onclick="toggleStageMoreOptions('${stageKey}', event)" title="Contraer opciones" aria-label="Contraer opciones">
+            <span class="stage-accordion-close-arrow">▲</span>
           </button>
         </div>
       `;
@@ -458,8 +494,12 @@ function toggleStage(stageKey, event) {
     const hasAnySelected = stageItems.some(i => selectedOptionIds.has(i.id));
     if (!hasAnySelected && stageItems.length > 0) {
       selectedOptionIds.add(stageItems[0].id);
+      expandedStageAccordions.add(stageKey); // Mostrar todas las opciones si no tenía nada seleccionado
+    } else if (!hasAnySelected) {
+      expandedStageAccordions.add(stageKey);
+    } else {
+      expandedStageAccordions.delete(stageKey);
     }
-    expandedStageAccordions.delete(stageKey);
     renderAllStages();
   } else {
     toggleStageMoreOptions(stageKey, event);
@@ -475,8 +515,12 @@ function onStageCheckboxClick(stageKey) {
     const hasAnySelected = stageItems.some(i => selectedOptionIds.has(i.id));
     if (!hasAnySelected && stageItems.length > 0) {
       selectedOptionIds.add(stageItems[0].id);
+      expandedStageAccordions.add(stageKey); // Mostrar todas las opciones si no tenía nada seleccionado
+    } else if (!hasAnySelected) {
+      expandedStageAccordions.add(stageKey);
+    } else {
+      expandedStageAccordions.delete(stageKey);
     }
-    expandedStageAccordions.delete(stageKey);
   } else {
     activeStages.delete(stageKey);
     expandedStageAccordions.delete(stageKey);

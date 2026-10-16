@@ -30,7 +30,7 @@
     rel="stylesheet">
 
   <!-- Estilos Mobile First -->
-  <link rel="stylesheet" href="styles.css?v=14">
+  <link rel="stylesheet" href="styles.css?v=18">
 </head>
 
 <body>
@@ -151,18 +151,24 @@
               onclick="event.stopPropagation(); onStageCheckboxClick('estirar')">
             <div class="stage-info">
               <div class="stage-title-row">
-                <span class="stage-title">🤸 1. Estirar</span>
+                <span class="stage-title">🤸 1. Estirar <button type="button" class="stage-info-btn"
+                    onclick="event.stopPropagation(); showStageInfoToast('Alivio cervical, movilidad de espalda y postura', '🤸 1. Estirar')"
+                    title="Alivio cervical, movilidad de espalda y postura" aria-label="Información de Estirar"><svg
+                      width="8" height="8" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.9"
+                      stroke-linecap="round">
+                      <line x1="6" y1="5.5" x2="6" y2="9.5"></line>
+                      <circle cx="6" cy="2.7" r="0.9" fill="currentColor" stroke="none"></circle>
+                    </svg></button></span>
                 <div class="stage-header-actions">
                   <span class="stage-summary-badge" id="badge-estirar">0 min</span>
                   <button class="stage-gear-btn" onclick="event.stopPropagation(); openStageLibraryModal('estirar')"
                     title="Biblioteca y opciones de Estirar" aria-label="Biblioteca de Estirar">⚙️</button>
                 </div>
               </div>
-              <div class="stage-desc">Alivio cervical, movilidad de espalda y postura</div>
             </div>
             <button type="button" class="stage-chevron-btn" id="chevron-btn-estirar"
-              onclick="event.stopPropagation(); toggleStageChevronClick('estirar', event)"
-              title="Ver más opciones" aria-label="Ver más opciones de Estirar">
+              onclick="event.stopPropagation(); toggleStageChevronClick('estirar', event)" title="Ver más opciones"
+              aria-label="Ver más opciones de Estirar">
               <span class="chevron-icon" id="chevron-icon-estirar">▼</span>
             </button>
           </div>
@@ -178,18 +184,24 @@
               onclick="event.stopPropagation(); onStageCheckboxClick('respirar')">
             <div class="stage-info">
               <div class="stage-title-row">
-                <span class="stage-title">🫁 2. Respirar</span>
+                <span class="stage-title">🫁 2. Respirar <button type="button" class="stage-info-btn"
+                    onclick="event.stopPropagation(); showStageInfoToast('Calma el sistema nervioso y reduce la ansiedad', '🫁 2. Respirar')"
+                    title="Calma el sistema nervioso y reduce la ansiedad" aria-label="Información de Respirar"><svg
+                      width="8" height="8" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.9"
+                      stroke-linecap="round">
+                      <line x1="6" y1="5.5" x2="6" y2="9.5"></line>
+                      <circle cx="6" cy="2.7" r="0.9" fill="currentColor" stroke="none"></circle>
+                    </svg></button></span>
                 <div class="stage-header-actions">
                   <span class="stage-summary-badge" id="badge-respirar">0 min</span>
                   <button class="stage-gear-btn" onclick="event.stopPropagation(); openStageLibraryModal('respirar')"
                     title="Biblioteca y opciones de Respirar" aria-label="Biblioteca de Respirar">⚙️</button>
                 </div>
               </div>
-              <div class="stage-desc">Calma el sistema nervioso y reduce la ansiedad</div>
             </div>
             <button type="button" class="stage-chevron-btn" id="chevron-btn-respirar"
-              onclick="event.stopPropagation(); toggleStageChevronClick('respirar', event)"
-              title="Ver más opciones" aria-label="Ver más opciones de Respirar">
+              onclick="event.stopPropagation(); toggleStageChevronClick('respirar', event)" title="Ver más opciones"
+              aria-label="Ver más opciones de Respirar">
               <span class="chevron-icon" id="chevron-icon-respirar">▼</span>
             </button>
           </div>
@@ -205,18 +217,24 @@
               onclick="event.stopPropagation(); onStageCheckboxClick('escribir')">
             <div class="stage-info">
               <div class="stage-title-row">
-                <span class="stage-title">✍️ 3. Escribir</span>
+                <span class="stage-title">✍️ 3. Escribir <button type="button" class="stage-info-btn"
+                    onclick="event.stopPropagation(); showStageInfoToast('Desahogo mental, gratitud o journaling guiado', '✍️ 3. Escribir')"
+                    title="Desahogo mental, gratitud o journaling guiado" aria-label="Información de Escribir"><svg
+                      width="8" height="8" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.9"
+                      stroke-linecap="round">
+                      <line x1="6" y1="5.5" x2="6" y2="9.5"></line>
+                      <circle cx="6" cy="2.7" r="0.9" fill="currentColor" stroke="none"></circle>
+                    </svg></button></span>
                 <div class="stage-header-actions">
                   <span class="stage-summary-badge" id="badge-escribir">0 min</span>
                   <button class="stage-gear-btn" onclick="event.stopPropagation(); openStageLibraryModal('escribir')"
                     title="Biblioteca y opciones de Escribir" aria-label="Biblioteca de Escribir">⚙️</button>
                 </div>
               </div>
-              <div class="stage-desc">Desahogo mental, gratitud o journaling guiado</div>
             </div>
             <button type="button" class="stage-chevron-btn" id="chevron-btn-escribir"
-              onclick="event.stopPropagation(); toggleStageChevronClick('escribir', event)"
-              title="Ver más opciones" aria-label="Ver más opciones de Escribir">
+              onclick="event.stopPropagation(); toggleStageChevronClick('escribir', event)" title="Ver más opciones"
+              aria-label="Ver más opciones de Escribir">
               <span class="chevron-icon" id="chevron-icon-escribir">▼</span>
             </button>
           </div>
@@ -232,18 +250,24 @@
               onclick="event.stopPropagation(); onStageCheckboxClick('meditar')">
             <div class="stage-info">
               <div class="stage-title-row">
-                <span class="stage-title">🧘 4. Meditar</span>
+                <span class="stage-title">🧘 4. Meditar <button type="button" class="stage-info-btn"
+                    onclick="event.stopPropagation(); showStageInfoToast('Mindfulness, sonidos de calma y escaneo corporal', '🧘 4. Meditar')"
+                    title="Mindfulness, sonidos de calma y escaneo corporal" aria-label="Información de Meditar"><svg
+                      width="8" height="8" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.9"
+                      stroke-linecap="round">
+                      <line x1="6" y1="5.5" x2="6" y2="9.5"></line>
+                      <circle cx="6" cy="2.7" r="0.9" fill="currentColor" stroke="none"></circle>
+                    </svg></button></span>
                 <div class="stage-header-actions">
                   <span class="stage-summary-badge" id="badge-meditar">0 min</span>
                   <button class="stage-gear-btn" onclick="event.stopPropagation(); openStageLibraryModal('meditar')"
                     title="Biblioteca y opciones de Meditar" aria-label="Biblioteca de Meditar">⚙️</button>
                 </div>
               </div>
-              <div class="stage-desc">Mindfulness, sonidos de calma y escaneo corporal</div>
             </div>
             <button type="button" class="stage-chevron-btn" id="chevron-btn-meditar"
-              onclick="event.stopPropagation(); toggleStageChevronClick('meditar', event)"
-              title="Ver más opciones" aria-label="Ver más opciones de Meditar">
+              onclick="event.stopPropagation(); toggleStageChevronClick('meditar', event)" title="Ver más opciones"
+              aria-label="Ver más opciones de Meditar">
               <span class="chevron-icon" id="chevron-icon-meditar">▼</span>
             </button>
           </div>
@@ -258,7 +282,7 @@
       <footer class="app-watermark">
         <span class="watermark-brand">Inner Base</span>
         <span class="watermark-dot">•</span>
-        <span class="watermark-version">v0.83</span>
+        <span class="watermark-version">v0.84</span>
       </footer>
     </div>
 
@@ -730,7 +754,7 @@
   <script src="https://www.youtube.com/iframe_api"></script>
 
   <!-- LÓGICA DE LA APLICACIÓN -->
-  <script src="app.js?v=14"></script>
+  <script src="app.js?v=18"></script>
 </body>
 
 </html>

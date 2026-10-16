@@ -10,7 +10,7 @@ if %ERRORLEVEL% equ 0 (
     echo [OK] Python detectado. Iniciando servidor en http://localhost:3000 ...
     echo.
     echo Abriendo la app en tu navegador...
-    start http://localhost:3000/App_desconectar.html
+    start http://localhost:3000/
     echo.
     echo ----------------------------------------------------------------------
     echo Servidor activo. Presiona Ctrl + C en esta ventana para cerrarlo.
@@ -24,7 +24,7 @@ if %ERRORLEVEL% equ 0 (
     echo [OK] Node detectado. Iniciando servidor en http://localhost:3000 ...
     echo.
     echo Abriendo la app en tu navegador...
-    start http://localhost:3000/App_desconectar.html
+    start http://localhost:3000/
     echo.
     echo ----------------------------------------------------------------------
     echo Servidor activo. Presiona Ctrl + C en esta ventana para cerrarlo.
@@ -35,7 +35,7 @@ if %ERRORLEVEL% equ 0 (
 
 echo [!] No se encontro Python ni Node en tu sistema.
 echo Para evitar el Error 153 de YouTube, abre esta carpeta en VS Code y haz clic
-echo derecho en App_desconectar.html -^> 'Open with Live Server'.
+echo derecho en index.html -^> 'Open with Live Server'.
 pause
 
 :end

@@ -711,8 +711,8 @@ h1, h2, h3, h4 {
 .stages-list {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  margin-bottom: 24px;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 .stage-card {
@@ -728,29 +728,30 @@ h1, h2, h3, h4 {
   box-shadow: 0 4px 20px var(--primary-glow);
 }
 
-/* Encabezado de la etapa (con Checkbox táctil) */
+/* Encabezado compacto de la etapa (con Checkbox táctil) */
 .stage-header {
   display: flex;
   align-items: center;
-  padding: 14px 16px;
+  padding: 8px 12px;
   cursor: pointer;
   user-select: none;
-  gap: 12px;
+  gap: 10px;
   background: transparent;
   transition: background 0.2s;
+  min-height: 44px;
 }
 
 .stage-header:active {
   background: rgba(255, 255, 255, 0.03);
 }
 
-/* Checkbox grande táctil */
+/* Checkbox táctil optimizado */
 .stage-checkbox {
   appearance: none;
   -webkit-appearance: none;
-  width: 24px;
-  height: 24px;
-  border: 2px solid #475569;
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid #475569;
   border-radius: 6px;
   background: #0b1120;
   cursor: pointer;
@@ -770,55 +771,97 @@ h1, h2, h3, h4 {
 .stage-checkbox:checked::before {
   content: "✓";
   color: #fff;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 800;
   line-height: 1;
 }
 
 .stage-info {
   flex: 1;
+  min-width: 0;
 }
 
 .stage-title-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
 }
 
 .stage-title {
-  font-size: 16px;
+  font-size: 14.5px;
   font-weight: 600;
   color: var(--text-main);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Botón círculo "i" con información de la categoría */
+.stage-info-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+  margin-left: 4px;
+  flex-shrink: 0;
+  vertical-align: middle;
+  line-height: 0;
+}
+
+.stage-info-btn:hover {
+  background: rgba(99, 102, 241, 0.25);
+  border-color: var(--primary-light);
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.stage-info-btn:active {
+  transform: scale(0.92);
+}
+
+.stage-info-btn svg {
+  display: block;
+  width: 8px;
+  height: 8px;
+  pointer-events: none;
 }
 
 .stage-summary-badge {
-  font-size: 11px;
+  font-size: 10.5px;
   color: var(--primary-light);
   font-weight: 600;
   background: rgba(99, 102, 241, 0.15);
-  padding: 2px 8px;
-  border-radius: 12px;
+  padding: 2px 7px;
+  border-radius: 10px;
   display: none;
+  white-space: nowrap;
 }
 .stage-card.active .stage-summary-badge {
   display: inline-block;
 }
 
 .stage-desc {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-top: 2px;
+  display: none;
 }
 
 .stage-chevron-btn {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
-  width: 32px;
-  height: 32px;
+  border-radius: 6px;
+  width: 26px;
+  height: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -827,7 +870,7 @@ h1, h2, h3, h4 {
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   flex-shrink: 0;
   padding: 0;
-  margin-left: 4px;
+  margin-left: 2px;
 }
 
 .stage-chevron-btn:hover {
@@ -842,7 +885,7 @@ h1, h2, h3, h4 {
 }
 
 .chevron-icon {
-  font-size: 11px;
+  font-size: 10px;
   display: inline-block;
   line-height: 1;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease;
@@ -861,10 +904,104 @@ h1, h2, h3, h4 {
   color: var(--primary-light);
 }
 
+/* Botón de configuración rápida en encabezado de etapa */
+.stage-gear-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-sub);
+  font-size: 12px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+  padding: 0;
+  line-height: 1;
+}
+
+.stage-gear-btn:hover {
+  background: rgba(99, 102, 241, 0.18);
+  border-color: rgba(99, 102, 241, 0.5);
+  color: #fff;
+  transform: scale(1.06);
+}
+
+.stage-gear-btn:active {
+  transform: scale(0.94);
+}
+
+/* Toast flotante informativo para la "i" de las categorías */
+.stage-info-toast {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(99, 102, 241, 0.4);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(99, 102, 241, 0.25);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  z-index: 10000;
+  max-width: 90vw;
+  width: 360px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stage-info-toast.visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.stage-info-toast-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.stage-info-toast-title {
+  font-weight: 700;
+  font-size: 13.5px;
+  color: #fff;
+  flex: 1;
+}
+
+.stage-info-toast-close {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 20px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stage-info-toast-close:hover {
+  color: #fff;
+}
+
+.stage-info-toast-body {
+  font-size: 12.5px;
+  color: var(--text-sub);
+  line-height: 1.4;
+}
+
 /* Contenido desplegable con las opciones */
 .stage-body {
   display: none;
-  padding: 0 14px 14px;
+  padding: 0 10px 10px;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   background: rgba(0, 0, 0, 0.15);
 }
@@ -876,19 +1013,19 @@ h1, h2, h3, h4 {
 .options-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-top: 12px;
+  gap: 6px;
+  margin-top: 8px;
 }
 
-/* Opción individual seleccionable */
+/* Opción individual seleccionable compacta */
 .option-item {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   background: #0f172a;
   border: 1px solid var(--card-border);
-  padding: 10px 12px;
-  border-radius: var(--radius-md);
+  padding: 7px 10px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -906,8 +1043,8 @@ h1, h2, h3, h4 {
 .option-checkbox {
   appearance: none;
   -webkit-appearance: none;
-  width: 18px;
-  height: 18px;
+  width: 17px;
+  height: 17px;
   border: 1.5px solid #475569;
   border-radius: 4px;
   background: #080d1a;
@@ -1005,27 +1142,35 @@ h1, h2, h3, h4 {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
   width: 100%;
-  padding: 8px 12px;
-  margin-top: 6px;
-  background: rgba(15, 23, 42, 0.45);
+  height: 20px;
+  min-height: 20px;
+  padding: 0;
+  margin-top: 4px;
+  background: rgba(15, 23, 42, 0.4);
   border: 1px dashed rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-sm);
-  color: var(--text-muted);
-  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.3px;
   cursor: pointer;
   transition: all 0.2s ease;
   user-select: none;
 }
 
+.stage-accordion-close-arrow {
+  font-size: 9px;
+  line-height: 1;
+  display: inline-block;
+  color: var(--text-muted);
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
 .stage-accordion-close-btn:hover {
   background: rgba(99, 102, 241, 0.15);
   border-color: rgba(99, 102, 241, 0.4);
+}
+
+.stage-accordion-close-btn:hover .stage-accordion-close-arrow {
   color: var(--primary-light);
+  transform: translateY(-1px);
 }
 
 .stage-accordion-close-btn:active {
@@ -2441,9 +2586,9 @@ input:checked + .slider:before {
     padding: 3px 10px;
   }
 
-  /* 4. Etapas en secuencia vertical expandidas */
+  /* 4. Etapas en secuencia vertical compactas y estilizadas */
   .stages-list {
-    gap: 16px;
+    gap: 10px;
   }
 
   .stage-card {
@@ -2451,15 +2596,16 @@ input:checked + .slider:before {
   }
 
   .stage-header {
-    padding: 16px 18px;
+    padding: 9px 14px;
+    min-height: 44px;
   }
 
   .stage-title {
-    font-size: 16px;
+    font-size: 15px;
   }
 
   .stage-desc {
-    font-size: 13px;
+    display: none;
   }
 
   .options-list {
