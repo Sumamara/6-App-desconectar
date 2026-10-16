@@ -314,12 +314,66 @@ let currentLibraryStage = null;
 // RENDERIZADO Y CONTROL DE LAS ETAPAS
 // ==========================================================================
 
+let expandedStageAccordions = new Set();
+
+function toggleStageMoreOptions(stageKey, event) {
+  if (event) {
+    event.stopPropagation();
+  }
+  if (expandedStageAccordions.has(stageKey)) {
+    expandedStageAccordions.delete(stageKey);
+  } else {
+    expandedStageAccordions.add(stageKey);
+  }
+  renderAllStages();
+}
+
+function toggleStageChevronClick(stageKey, event) {
+  if (event) {
+    event.stopPropagation();
+  }
+  if (!activeStages.has(stageKey)) {
+    activeStages.add(stageKey);
+    const stageItems = fullCatalog.filter(i => i.stage === stageKey && !hiddenItemIds.has(i.id));
+    const hasAnySelected = stageItems.some(i => selectedOptionIds.has(i.id));
+    if (!hasAnySelected && stageItems.length > 0) {
+      selectedOptionIds.add(stageItems[0].id);
+    }
+    expandedStageAccordions.add(stageKey);
+  } else {
+    toggleStageMoreOptions(stageKey, event);
+  }
+  renderAllStages();
+}
+
+function renderOptionItemHtml(item, isSelected, stageKey) {
+  let iconTag = '📹 Video';
+  if (item.type === 'writing') iconTag = '📝 Bloc Zen';
+  if (item.type === 'timer') iconTag = '⏱️ Temporizador';
+
+  const durLabel = (item.duration > 0 && item.duration < 1) ? `${Math.round(item.duration * 60)} seg` : `${item.duration} min`;
+
+  return `
+    <div class="option-item ${isSelected ? 'selected' : ''}" onclick="toggleOption('${item.id}', '${stageKey}')">
+      <input type="checkbox" class="option-checkbox" ${isSelected ? 'checked' : ''} onclick="event.stopPropagation(); toggleOption('${item.id}', '${stageKey}')">
+      <div class="option-content">
+        <div class="option-title">${item.title}</div>
+        <div class="option-meta">
+          <span>⏱ ${durLabel}</span>
+          <span class="option-tag">${iconTag}</span>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 function renderAllStages() {
   STAGE_ORDER.forEach(stageKey => {
     const listEl = document.getElementById(`options-${stageKey}`);
     const cardEl = document.getElementById(`card-stage-${stageKey}`);
     const checkboxEl = document.getElementById(`check-stage-${stageKey}`);
     const badgeEl = document.getElementById(`badge-${stageKey}`);
+    const chevronBtn = document.getElementById(`chevron-btn-${stageKey}`);
 
     if (!listEl || !cardEl || !checkboxEl) return;
 
@@ -330,11 +384,35 @@ function renderAllStages() {
     // Solo mostrar las prácticas que NO estén ocultas en la biblioteca
     const stageItems = fullCatalog.filter(i => i.stage === stageKey && !hiddenItemIds.has(i.id));
     const selectedInStage = stageItems.filter(i => selectedOptionIds.has(i.id));
+    const unselectedInStage = stageItems.filter(i => !selectedOptionIds.has(i.id));
     const stageMin = selectedInStage.reduce((sum, i) => sum + i.duration, 0);
+
+    const isExpanded = expandedStageAccordions.has(stageKey);
+    cardEl.classList.toggle('accordion-open', isExpanded && isActive);
+
+    if (chevronBtn) {
+      if (!isActive) {
+        chevronBtn.style.visibility = 'visible';
+        chevronBtn.style.opacity = '0.35';
+        chevronBtn.title = 'Activar etapa';
+        chevronBtn.setAttribute('aria-expanded', 'false');
+      } else if (unselectedInStage.length > 0) {
+        chevronBtn.style.visibility = 'visible';
+        chevronBtn.style.opacity = '1';
+        chevronBtn.title = isExpanded ? 'Contraer opciones adicionales' : `Ver +${unselectedInStage.length} opciones disponibles`;
+        chevronBtn.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+      } else {
+        chevronBtn.style.visibility = 'hidden';
+      }
+    }
 
     if (badgeEl) {
       const timeStr = (stageMin > 0 && stageMin < 1) ? `${Math.round(stageMin * 60)} seg` : `${Math.round(stageMin * 10) / 10} min`;
-      badgeEl.innerText = `${selectedInStage.length} seleccionada${selectedInStage.length === 1 ? '' : 's'} (${timeStr})`;
+      if (isActive && unselectedInStage.length > 0) {
+        badgeEl.innerText = `${selectedInStage.length} sel (${timeStr}) • +${unselectedInStage.length} más`;
+      } else {
+        badgeEl.innerText = `${selectedInStage.length} seleccionada${selectedInStage.length === 1 ? '' : 's'} (${timeStr})`;
+      }
     }
 
     if (stageItems.length === 0) {
@@ -344,27 +422,26 @@ function renderAllStages() {
           Toca el engrane ⚙️ arriba para activar o añadir prácticas desde la biblioteca.
         </div>
       `;
+    } else if (selectedInStage.length > 0 && unselectedInStage.length > 0) {
+      // Las seleccionadas se muestran directamente y las no seleccionadas se repliegan en el acordeón
+      listEl.innerHTML = `
+        <div class="stage-selected-options" style="display:flex; flex-direction:column; gap:8px;">
+          ${selectedInStage.map(item => renderOptionItemHtml(item, true, stageKey)).join('')}
+        </div>
+
+        <div class="stage-accordion-content ${isExpanded ? 'open' : ''}" id="accordion-${stageKey}">
+          <div class="stage-accordion-header-hint">Otras opciones disponibles:</div>
+          ${unselectedInStage.map(item => renderOptionItemHtml(item, false, stageKey)).join('')}
+          <button type="button" class="stage-accordion-close-btn" onclick="toggleStageMoreOptions('${stageKey}', event)" title="Contraer opciones">
+            <span>▲ Contraer opciones</span>
+          </button>
+        </div>
+      `;
     } else {
+      // Si ninguna está seleccionada (o todas lo están), mostrar directamente
       listEl.innerHTML = stageItems.map(item => {
         const isSelected = selectedOptionIds.has(item.id);
-        let iconTag = '📹 Video';
-        if (item.type === 'writing') iconTag = '📝 Bloc Zen';
-        if (item.type === 'timer') iconTag = '⏱️ Temporizador';
-
-        const durLabel = (item.duration > 0 && item.duration < 1) ? `${Math.round(item.duration * 60)} seg` : `${item.duration} min`;
-
-        return `
-          <div class="option-item ${isSelected ? 'selected' : ''}" onclick="toggleOption('${item.id}', '${stageKey}')">
-            <input type="checkbox" class="option-checkbox" ${isSelected ? 'checked' : ''} onclick="event.stopPropagation(); toggleOption('${item.id}', '${stageKey}')">
-            <div class="option-content">
-              <div class="option-title">${item.title}</div>
-              <div class="option-meta">
-                <span>⏱ ${durLabel}</span>
-                <span class="option-tag">${iconTag}</span>
-              </div>
-            </div>
-          </div>
-        `;
+        return renderOptionItemHtml(item, isSelected, stageKey);
       }).join('');
     }
   });
@@ -373,19 +450,20 @@ function renderAllStages() {
   renderCustomPresets();
 }
 
-function toggleStage(stageKey) {
+function toggleStage(stageKey, event) {
   document.querySelectorAll('.preset-card').forEach(c => c.classList.remove('active'));
-  if (activeStages.has(stageKey)) {
-    activeStages.delete(stageKey);
-  } else {
+  if (!activeStages.has(stageKey)) {
     activeStages.add(stageKey);
     const stageItems = fullCatalog.filter(i => i.stage === stageKey && !hiddenItemIds.has(i.id));
     const hasAnySelected = stageItems.some(i => selectedOptionIds.has(i.id));
     if (!hasAnySelected && stageItems.length > 0) {
       selectedOptionIds.add(stageItems[0].id);
     }
+    expandedStageAccordions.delete(stageKey);
+    renderAllStages();
+  } else {
+    toggleStageMoreOptions(stageKey, event);
   }
-  renderAllStages();
 }
 
 function onStageCheckboxClick(stageKey) {
@@ -398,8 +476,10 @@ function onStageCheckboxClick(stageKey) {
     if (!hasAnySelected && stageItems.length > 0) {
       selectedOptionIds.add(stageItems[0].id);
     }
+    expandedStageAccordions.delete(stageKey);
   } else {
     activeStages.delete(stageKey);
+    expandedStageAccordions.delete(stageKey);
   }
   renderAllStages();
 }
@@ -424,6 +504,7 @@ function applyPreset(presetKey) {
   const targetCard = document.getElementById(`preset-${presetKey}`);
   if (targetCard) targetCard.classList.add('active');
 
+  expandedStageAccordions.clear();
   activeStages.clear();
   selectedOptionIds.clear();
 
@@ -528,6 +609,7 @@ function applyCustomRoutine(routineId) {
   const targetCard = document.getElementById(`preset-${routineId}`);
   if (targetCard) targetCard.classList.add('active');
 
+  expandedStageAccordions.clear();
   activeStages.clear();
   selectedOptionIds.clear();
 
@@ -720,7 +802,7 @@ function requestMoodRating(isAfter = false) {
     const confirmBtn = document.getElementById('mood-slider-confirm-btn');
     const slider = document.getElementById('mood-slider-input');
 
-    const defaultScore = !isAfter ? 5 : Math.min(10, Math.max(1, (moodScoreBefore || 5) + 2));
+    const defaultScore = 5;
 
     if (titleEl && subtitleEl && confirmBtn) {
       if (!isAfter) {

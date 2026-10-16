@@ -813,12 +813,50 @@ h1, h2, h3, h4 {
   margin-top: 2px;
 }
 
-.chevron-icon {
-  font-size: 14px;
+.stage-chevron-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
   color: var(--text-sub);
-  transition: transform 0.25s;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+  padding: 0;
+  margin-left: 4px;
 }
-.stage-card.active .chevron-icon {
+
+.stage-chevron-btn:hover {
+  background: rgba(99, 102, 241, 0.18);
+  border-color: rgba(99, 102, 241, 0.5);
+  color: #fff;
+  transform: scale(1.06);
+}
+
+.stage-chevron-btn:active {
+  transform: scale(0.94);
+}
+
+.chevron-icon {
+  font-size: 11px;
+  display: inline-block;
+  line-height: 1;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease;
+}
+
+/* Solo gira cuando el acordeón de opciones adicionales está desplegado */
+.stage-card.accordion-open .stage-chevron-btn {
+  background: rgba(99, 102, 241, 0.25);
+  border-color: var(--primary);
+  color: var(--primary-light);
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+}
+
+.stage-card.accordion-open .chevron-icon {
   transform: rotate(180deg);
   color: var(--primary-light);
 }
@@ -939,6 +977,71 @@ h1, h2, h3, h4 {
   border-color: var(--primary-light);
   color: var(--text-main);
   background: rgba(99, 102, 241, 0.08);
+}
+
+/* ==========================================================================
+   ACORDEÓN DE OTRAS PRÁCTICAS POR CATEGORÍA
+   ========================================================================== */
+.stage-accordion-header-hint {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 6px 4px 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stage-accordion-header-hint::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.stage-accordion-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 8px 12px;
+  margin-top: 6px;
+  background: rgba(15, 23, 42, 0.45);
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.stage-accordion-close-btn:hover {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: rgba(99, 102, 241, 0.4);
+  color: var(--primary-light);
+}
+
+.stage-accordion-close-btn:active {
+  transform: scale(0.98);
+}
+
+.stage-accordion-content {
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.stage-accordion-content.open {
+  display: flex;
+  animation: fadeIn 0.25s ease;
 }
 
 /* ==========================================================================
@@ -2896,7 +2999,7 @@ body.is-landscape-mobile .progress-container {
 }
 
 /* ==========================================================================
-   MARCA DE AGUA (INNER BASE • v0.8)
+   MARCA DE AGUA (INNER BASE • v0.83)
    ========================================================================== */
 .app-watermark {
   display: flex;

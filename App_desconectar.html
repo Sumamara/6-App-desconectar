@@ -27,7 +27,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Estilos Mobile First -->
-  <link rel="stylesheet" href="styles.css?v=12">
+  <link rel="stylesheet" href="styles.css?v=14">
 </head>
 <body>
 
@@ -139,7 +139,7 @@
 
         <!-- ETAPA 1: ESTIRAR -->
         <div class="stage-card" id="card-stage-estirar">
-          <div class="stage-header" onclick="toggleStage('estirar')">
+          <div class="stage-header" onclick="toggleStage('estirar', event)">
             <input type="checkbox" class="stage-checkbox" id="check-stage-estirar" onclick="event.stopPropagation(); onStageCheckboxClick('estirar')">
             <div class="stage-info">
               <div class="stage-title-row">
@@ -151,7 +151,11 @@
               </div>
               <div class="stage-desc">Alivio cervical, movilidad de espalda y postura</div>
             </div>
-            <span class="chevron-icon">▼</span>
+            <button type="button" class="stage-chevron-btn" id="chevron-btn-estirar"
+              onclick="event.stopPropagation(); toggleStageChevronClick('estirar', event)"
+              title="Ver más opciones" aria-label="Ver más opciones de Estirar">
+              <span class="chevron-icon" id="chevron-icon-estirar">▼</span>
+            </button>
           </div>
           <div class="stage-body">
             <div class="options-list" id="options-estirar"></div>
@@ -160,7 +164,7 @@
 
         <!-- ETAPA 2: RESPIRAR -->
         <div class="stage-card" id="card-stage-respirar">
-          <div class="stage-header" onclick="toggleStage('respirar')">
+          <div class="stage-header" onclick="toggleStage('respirar', event)">
             <input type="checkbox" class="stage-checkbox" id="check-stage-respirar" onclick="event.stopPropagation(); onStageCheckboxClick('respirar')">
             <div class="stage-info">
               <div class="stage-title-row">
@@ -172,7 +176,11 @@
               </div>
               <div class="stage-desc">Calma el sistema nervioso y reduce la ansiedad</div>
             </div>
-            <span class="chevron-icon">▼</span>
+            <button type="button" class="stage-chevron-btn" id="chevron-btn-respirar"
+              onclick="event.stopPropagation(); toggleStageChevronClick('respirar', event)"
+              title="Ver más opciones" aria-label="Ver más opciones de Respirar">
+              <span class="chevron-icon" id="chevron-icon-respirar">▼</span>
+            </button>
           </div>
           <div class="stage-body">
             <div class="options-list" id="options-respirar"></div>
@@ -181,7 +189,7 @@
 
         <!-- ETAPA 3: ESCRIBIR (HÍBRIDO: BLOC ZEN O VIDEO) -->
         <div class="stage-card" id="card-stage-escribir">
-          <div class="stage-header" onclick="toggleStage('escribir')">
+          <div class="stage-header" onclick="toggleStage('escribir', event)">
             <input type="checkbox" class="stage-checkbox" id="check-stage-escribir" onclick="event.stopPropagation(); onStageCheckboxClick('escribir')">
             <div class="stage-info">
               <div class="stage-title-row">
@@ -193,7 +201,11 @@
               </div>
               <div class="stage-desc">Desahogo mental, gratitud o journaling guiado</div>
             </div>
-            <span class="chevron-icon">▼</span>
+            <button type="button" class="stage-chevron-btn" id="chevron-btn-escribir"
+              onclick="event.stopPropagation(); toggleStageChevronClick('escribir', event)"
+              title="Ver más opciones" aria-label="Ver más opciones de Escribir">
+              <span class="chevron-icon" id="chevron-icon-escribir">▼</span>
+            </button>
           </div>
           <div class="stage-body">
             <div class="options-list" id="options-escribir"></div>
@@ -202,7 +214,7 @@
 
         <!-- ETAPA 4: MEDITAR -->
         <div class="stage-card" id="card-stage-meditar">
-          <div class="stage-header" onclick="toggleStage('meditar')">
+          <div class="stage-header" onclick="toggleStage('meditar', event)">
             <input type="checkbox" class="stage-checkbox" id="check-stage-meditar" onclick="event.stopPropagation(); onStageCheckboxClick('meditar')">
             <div class="stage-info">
               <div class="stage-title-row">
@@ -214,7 +226,11 @@
               </div>
               <div class="stage-desc">Mindfulness, sonidos de calma y escaneo corporal</div>
             </div>
-            <span class="chevron-icon">▼</span>
+            <button type="button" class="stage-chevron-btn" id="chevron-btn-meditar"
+              onclick="event.stopPropagation(); toggleStageChevronClick('meditar', event)"
+              title="Ver más opciones" aria-label="Ver más opciones de Meditar">
+              <span class="chevron-icon" id="chevron-icon-meditar">▼</span>
+            </button>
           </div>
           <div class="stage-body">
             <div class="options-list" id="options-meditar"></div>
@@ -227,7 +243,7 @@
       <footer class="app-watermark">
         <span class="watermark-brand">Inner Base</span>
         <span class="watermark-dot">•</span>
-        <span class="watermark-version">v0.8</span>
+        <span class="watermark-version">v0.83</span>
       </footer>
     </div>
 
@@ -346,7 +362,7 @@
       <footer class="app-watermark watermark-player">
         <span class="watermark-brand">Inner Base</span>
         <span class="watermark-dot">•</span>
-        <span class="watermark-version">v0.8</span>
+        <span class="watermark-version">v0.83</span>
       </footer>
     </div>
 
@@ -661,6 +677,6 @@
   <script src="https://www.youtube.com/iframe_api"></script>
 
   <!-- LÓGICA DE LA APLICACIÓN -->
-  <script src="app.js?v=12"></script>
+  <script src="app.js?v=14"></script>
 </body>
 </html>
