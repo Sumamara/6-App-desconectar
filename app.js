@@ -13,6 +13,15 @@ if (window.location.protocol === 'file:') {
 const defaultCatalog = [
   // ETAPA 1: ESTIRAR
   { 
+    id: 'est-guided', 
+    stage: 'estirar', 
+    type: 'stretch-routine', 
+    icon: '🤸',
+    title: "🤸 Estiramiento Guiado en Etapas (15s • 5 min)", 
+    duration: 5, 
+    instructions: "Rutina guiada con locución por voz, campana sonora y temporizador de 15 segundos por movimiento (5 min en 2 rondas de 10 posturas): hombros atrás y adelante, cuello media luna, diciendo no y sí, brazos, tocarse los pies, arquearse atrás y subir pantorrillas." 
+  },
+  { 
     id: 'est-micro', 
     stage: 'estirar', 
     type: 'timer', 
@@ -250,6 +259,15 @@ let hiddenItemIds = new Set(JSON.parse(localStorage.getItem('zen_hidden_item_ids
 // Cargar orden personalizado de las prácticas si fue modificado con los 6 puntos
 const savedItemsOrder = JSON.parse(localStorage.getItem('zen_items_order') || 'null');
 if (savedItemsOrder && Array.isArray(savedItemsOrder)) {
+  if (!savedItemsOrder.includes('est-guided')) {
+    const microIdx = savedItemsOrder.indexOf('est-micro');
+    if (microIdx !== -1) {
+      savedItemsOrder.splice(microIdx, 0, 'est-guided');
+    } else {
+      savedItemsOrder.unshift('est-guided');
+    }
+    localStorage.setItem('zen_items_order', JSON.stringify(savedItemsOrder));
+  }
   const orderMap = new Map();
   savedItemsOrder.forEach((id, idx) => orderMap.set(id, idx));
   fullCatalog.sort((a, b) => {
@@ -267,11 +285,11 @@ const DEFAULT_PRESETS = {
   },
   walk: {
     stages: ['estirar'],
-    options: ['est-walk']
+    options: ['est-guided']
   },
   quick_disconnect: {
     stages: ['estirar', 'escribir'],
-    options: ['est-quick', 'esc-1']
+    options: ['est-guided', 'esc-1']
   },
   neck: {
     stages: ['estirar', 'meditar'],
@@ -279,7 +297,7 @@ const DEFAULT_PRESETS = {
   },
   complete: {
     stages: ['estirar', 'respirar', 'escribir', 'meditar'],
-    options: ['est-1', 'resp-1', 'esc-2', 'med-1']
+    options: ['est-guided', 'resp-1', 'esc-2', 'med-1']
   }
 };
 
@@ -306,6 +324,104 @@ let activityTimer = null;
 let activitySecondsLeft = 0;
 let activityTotalSeconds = 0;
 let isActivityPaused = false;
+
+// ==========================================================================
+// ESTADO DE LA RUTINA DE ESTIRAMIENTO EN ETAPAS (15s • TOTAL 5 MIN • VOZ GUIADA)
+// ==========================================================================
+const STRETCH_POSTURE_DURATION = 15; // 15 segundos por movimiento
+const STRETCH_TOTAL_ROUNDS = 2; // 2 rondas de 10 posturas = 20 etapas = 300 segundos = 5:00 min
+
+const STRETCH_POSTURES = [
+  {
+    id: 'hombros-atras',
+    title: 'Hombros hacia atrás',
+    voiceText: 'Hombros hacia atrás',
+    desc: 'Rueda los hombros en círculos lentos y amplios hacia atrás. Abre el pecho e inhala profundo.',
+    icon: '🔄',
+    tip: 'Inhala al subir los hombros y exhala al bajarlos para liberar el trapecio.'
+  },
+  {
+    id: 'hombros-adelante',
+    title: 'Hombros hacia adelante',
+    voiceText: 'Hombros hacia adelante',
+    desc: 'Gira suavemente los hombros en círculos hacia adelante, liberando la tensión de la espalda alta.',
+    icon: '🔄',
+    tip: 'Siente cómo se expande y relaja la zona entre tus omóplatos.'
+  },
+  {
+    id: 'cuello-medialuna',
+    title: 'Cuello: media luna atrás y adelante',
+    voiceText: 'Cuello, media luna atrás y adelante',
+    desc: 'Baja la barbilla y rueda suavemente de hombro a hombro en semicírculo adelante, y luego atrás.',
+    icon: '🌙',
+    tip: 'Movimiento fluido y suave. No fuerces la extensión cervical.'
+  },
+  {
+    id: 'diciendo-no',
+    title: 'Cuello: diciendo que no',
+    voiceText: 'Cuello, diciendo que no',
+    desc: 'Gira lentamente la cabeza de izquierda a derecha con suavidad, mirando sobre cada hombro.',
+    icon: '↔️',
+    tip: 'Mantén la espalda erguida y suelta la tensión de la mandíbula.'
+  },
+  {
+    id: 'diciendo-si',
+    title: 'Cuello: diciendo que sí',
+    voiceText: 'Cuello, diciendo que sí',
+    desc: 'Asiente suavemente con la cabeza arriba y abajo, mirando con calma al techo y al pecho.',
+    icon: '↕️',
+    tip: 'Alarga el cuello suavemente sin comprimir la nuca.'
+  },
+  {
+    id: 'brazo-un-lado',
+    title: 'Brazo hacia un lado',
+    voiceText: 'Brazo hacia un lado',
+    desc: 'Cruza un brazo sobre tu pecho y sostenlo suavemente con la otra mano a la altura del antebrazo.',
+    icon: '💪',
+    tip: 'Mantén el hombro abajo y lejos de la oreja mientras respiras.'
+  },
+  {
+    id: 'brazo-otro-lado',
+    title: 'Brazo hacia el otro lado',
+    voiceText: 'Brazo hacia el otro lado',
+    desc: 'Cambia de brazo: cruza el otro brazo sobre el pecho y estira con respiración profunda.',
+    icon: '💪',
+    tip: 'Equilibra ambos hombros y la musculatura escapular.'
+  },
+  {
+    id: 'tocarse-pies',
+    title: 'Tocarse los pies',
+    voiceText: 'Tocarse los pies',
+    desc: 'Inclina el tronco hacia abajo buscando tus pies o tobillos con rodillas ligeramente flexionadas.',
+    icon: '🦶',
+    tip: 'Descomprime la zona lumbar y estira los isquiotibiales sin tirones.'
+  },
+  {
+    id: 'hacerse-atras',
+    title: 'Hacerse hacia atrás',
+    voiceText: 'Hacerse hacia atrás',
+    desc: 'Apoya las manos en la cintura o espalda baja y arquea suavemente el torso hacia atrás.',
+    icon: '🏹',
+    tip: 'Abre el pecho hacia el cielo y contrarresta las horas en el escritorio.'
+  },
+  {
+    id: 'subir-pantorrillas',
+    title: 'Subir pantorrillas',
+    voiceText: 'Subir pantorrillas',
+    desc: 'Apóyate en las puntas de los pies, eleva los talones y baja de forma suave y controlada.',
+    icon: '🦵',
+    tip: 'Activa la bomba muscular de los gemelos y reactiva el retorno venoso.'
+  }
+];
+
+let stretchTimer = null;
+let currentStretchStageIdx = 0; // 0 a 19 (2 rondas de 10 posturas)
+let stretchSecondsLeftInPosture = STRETCH_POSTURE_DURATION; // 15s
+let stretchTotalSeconds = STRETCH_POSTURE_DURATION * STRETCH_POSTURES.length * STRETCH_TOTAL_ROUNDS; // 300s (5 min)
+let stretchTotalSecondsLeft = stretchTotalSeconds;
+let isStretchPaused = false;
+let isStretchVoiceEnabled = localStorage.getItem('zen_stretch_voice') !== 'false';
+let isStretchChimeEnabled = localStorage.getItem('zen_stretch_chime') !== 'false';
 
 // Estado de la biblioteca abierta
 let currentLibraryStage = null;
@@ -390,6 +506,7 @@ function renderOptionItemHtml(item, isSelected, stageKey) {
   let iconTag = '📹 Video';
   if (item.type === 'writing') iconTag = '📝 Bloc Zen';
   if (item.type === 'timer') iconTag = '⏱️ Temporizador';
+  if (item.type === 'stretch-routine') iconTag = '🤸 Guiado (15s)';
 
   const durLabel = (item.duration > 0 && item.duration < 1) ? `${Math.round(item.duration * 60)} seg` : `${item.duration} min`;
 
@@ -1061,6 +1178,7 @@ function renderStageLibraryList() {
     let iconTag = '📹 Video';
     if (item.type === 'writing') iconTag = '📝 Bloc Zen';
     if (item.type === 'timer') iconTag = '⏱️ Temporizador';
+    if (item.type === 'stretch-routine') iconTag = '🤸 Guiado (15s)';
 
     return `
       <div class="library-item-row" id="lib-row-${item.id}" data-id="${item.id}" draggable="true">
@@ -1761,6 +1879,7 @@ function backToBuilder() {
 
   stopWritingTimer();
   stopActivityTimer();
+  stopStretchRoutine();
   if (ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo();
   clearInterval(progressTimer);
   clearTimeout(transitionTimeout);
@@ -1779,6 +1898,7 @@ function loadStep(index) {
   clearInterval(progressTimer);
   stopWritingTimer();
   stopActivityTimer();
+  stopStretchRoutine();
   hideOverlays();
 
   currentStepIdx = index;
@@ -1800,13 +1920,25 @@ function loadStep(index) {
   const videoBox = document.getElementById('video-wrapper-box');
   const notepadBox = document.getElementById('zen-notepad-wrapper');
   const timerBox = document.getElementById('zen-timer-wrapper');
+  const stretchBox = document.getElementById('zen-stretch-wrapper');
   const videoExtraControls = document.getElementById('video-extra-controls');
 
-  if (item.type === 'writing') {
+  if (item.type === 'stretch-routine') {
+    // MODO ESTIRAMIENTO EN ETAPAS (15s POR POSTURA • TOTAL 5 MIN • VOZ GUIADA)
+    if (ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo();
+    videoBox.style.display = 'none';
+    notepadBox.style.display = 'none';
+    timerBox.style.display = 'none';
+    if (stretchBox) stretchBox.style.display = 'block';
+    if (videoExtraControls) videoExtraControls.style.display = 'none';
+
+    setupStretchRoutine(item);
+  } else if (item.type === 'writing') {
     // MODO ESCRITURA ZEN
     if (ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo();
     videoBox.style.display = 'none';
     timerBox.style.display = 'none';
+    if (stretchBox) stretchBox.style.display = 'none';
     notepadBox.style.display = 'block';
     if (videoExtraControls) videoExtraControls.style.display = 'none';
 
@@ -1816,6 +1948,7 @@ function loadStep(index) {
     if (ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo();
     videoBox.style.display = 'none';
     notepadBox.style.display = 'none';
+    if (stretchBox) stretchBox.style.display = 'none';
     timerBox.style.display = 'block';
     if (videoExtraControls) videoExtraControls.style.display = 'none';
 
@@ -1824,10 +1957,380 @@ function loadStep(index) {
     // MODO VIDEO (YouTube)
     notepadBox.style.display = 'none';
     timerBox.style.display = 'none';
+    if (stretchBox) stretchBox.style.display = 'none';
     videoBox.style.display = 'block';
     if (videoExtraControls) videoExtraControls.style.display = 'flex';
 
     initOrLoadYouTube(item.ytId);
+  }
+}
+
+// ==========================================================================
+// MODO ESTIRAMIENTO EN ETAPAS (15s POR POSTURA • TOTAL 5 MIN • VOZ GUIADA)
+// ==========================================================================
+
+function setupStretchRoutine(item) {
+  currentStretchStageIdx = 0;
+  stretchSecondsLeftInPosture = STRETCH_POSTURE_DURATION;
+  stretchTotalSeconds = STRETCH_POSTURE_DURATION * STRETCH_POSTURES.length * STRETCH_TOTAL_ROUNDS;
+  stretchTotalSecondsLeft = stretchTotalSeconds;
+  isStretchPaused = false;
+
+  const playBtn = document.getElementById('play-pause-btn');
+  if (playBtn) playBtn.innerText = "⏸ Pausar";
+  const stretchPlayBtn = document.getElementById('btn-stretch-play');
+  if (stretchPlayBtn) stretchPlayBtn.innerText = "⏸ Pausar";
+
+  updateStretchAudioToggleButtons();
+  renderStretchPosturesStrip();
+  displayCurrentStretchPosture(true);
+  startStretchTimer();
+}
+
+function updateStretchAudioToggleButtons() {
+  const voiceBtn = document.getElementById('btn-stretch-voice');
+  const chimeBtn = document.getElementById('btn-stretch-chime');
+  const voiceIcon = document.getElementById('stretch-voice-icon');
+  const chimeIcon = document.getElementById('stretch-chime-icon');
+
+  if (voiceBtn) voiceBtn.classList.toggle('is-muted', !isStretchVoiceEnabled);
+  if (voiceIcon) voiceIcon.innerText = isStretchVoiceEnabled ? '🗣️' : '🔇';
+
+  if (chimeBtn) chimeBtn.classList.toggle('is-muted', !isStretchChimeEnabled);
+  if (chimeIcon) chimeIcon.innerText = isStretchChimeEnabled ? '🔔' : '🔕';
+}
+
+function toggleStretchVoice() {
+  isStretchVoiceEnabled = !isStretchVoiceEnabled;
+  localStorage.setItem('zen_stretch_voice', isStretchVoiceEnabled ? 'true' : 'false');
+  updateStretchAudioToggleButtons();
+  if (isStretchVoiceEnabled) {
+    showZenToast('🗣️ Voz de locución activada', 'info', 2000);
+    const postureIdx = currentStretchStageIdx % STRETCH_POSTURES.length;
+    speakStretchPosture(STRETCH_POSTURES[postureIdx].voiceText);
+  } else {
+    showZenToast('🔇 Voz de locución silenciada', 'info', 2000);
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  }
+}
+
+function toggleStretchChime() {
+  isStretchChimeEnabled = !isStretchChimeEnabled;
+  localStorage.setItem('zen_stretch_chime', isStretchChimeEnabled ? 'true' : 'false');
+  updateStretchAudioToggleButtons();
+  if (isStretchChimeEnabled) {
+    showZenToast('🔔 Campana sonora activada', 'info', 2000);
+    playStretchChime(false);
+  } else {
+    showZenToast('🔕 Campana silenciada', 'info', 2000);
+  }
+}
+
+function renderStretchPosturesStrip() {
+  const strip = document.getElementById('stretch-postures-strip');
+  if (!strip) return;
+
+  const currentPostureIdx = currentStretchStageIdx % STRETCH_POSTURES.length;
+
+  strip.innerHTML = STRETCH_POSTURES.map((p, idx) => {
+    let statusClass = '';
+    if (idx === currentPostureIdx) {
+      statusClass = 'active';
+    } else if (idx < currentPostureIdx || currentStretchStageIdx >= STRETCH_POSTURES.length) {
+      statusClass = 'completed';
+    }
+
+    return `
+      <button type="button" class="stretch-chip ${statusClass}" onclick="jumpToStretchPosture(${idx})" title="${idx + 1}. ${escapeHtml(p.title)} (15s)">
+        <span class="stretch-chip-num">${statusClass === 'completed' && idx !== currentPostureIdx ? '✓' : (idx + 1)}</span>
+        <span>${p.icon}</span>
+        <span>${escapeHtml(p.title.split(':')[0])}</span>
+      </button>
+    `;
+  }).join('');
+}
+
+function displayCurrentStretchPosture(announce = true) {
+  const totalStages = STRETCH_POSTURES.length * STRETCH_TOTAL_ROUNDS;
+  const postureIdx = currentStretchStageIdx % STRETCH_POSTURES.length;
+  const roundNum = Math.floor(currentStretchStageIdx / STRETCH_POSTURES.length) + 1;
+  const posture = STRETCH_POSTURES[postureIdx];
+
+  // Actualizar textos informativos
+  const roundText = document.getElementById('stretch-round-text');
+  if (roundText) roundText.innerText = `Ronda ${roundNum} de ${STRETCH_TOTAL_ROUNDS}`;
+
+  const stepTag = document.getElementById('stretch-step-tag');
+  if (stepTag) stepTag.innerText = `Postura ${postureIdx + 1} de ${STRETCH_POSTURES.length} • Etapa ${currentStretchStageIdx + 1}/${totalStages}`;
+
+  const titleEl = document.getElementById('stretch-posture-title');
+  if (titleEl) titleEl.innerText = posture.title;
+
+  const descEl = document.getElementById('stretch-posture-desc');
+  if (descEl) descEl.innerText = posture.desc;
+
+  const tipEl = document.getElementById('stretch-posture-tip-text');
+  if (tipEl) tipEl.innerText = posture.tip;
+
+  const iconEl = document.getElementById('stretch-posture-icon');
+  if (iconEl) {
+    iconEl.innerText = posture.icon;
+    iconEl.style.transform = 'scale(1.25)';
+    setTimeout(() => { iconEl.style.transform = 'scale(1)'; }, 250);
+  }
+
+  // Próxima postura
+  const nextTitleEl = document.getElementById('stretch-next-title');
+  const nextBar = document.querySelector('.stretch-next-bar');
+  if (currentStretchStageIdx + 1 < totalStages) {
+    const nextIdx = (currentStretchStageIdx + 1) % STRETCH_POSTURES.length;
+    const nextRound = Math.floor((currentStretchStageIdx + 1) / STRETCH_POSTURES.length) + 1;
+    const nextPosture = STRETCH_POSTURES[nextIdx];
+    if (nextTitleEl) {
+      nextTitleEl.innerText = (nextRound !== roundNum && nextIdx === 0)
+        ? `Ronda 2: ${nextPosture.title}`
+        : nextPosture.title;
+    }
+    if (nextBar) nextBar.style.display = 'flex';
+  } else {
+    if (nextTitleEl) nextTitleEl.innerText = '¡Final de la sesión!';
+  }
+
+  renderStretchPosturesStrip();
+  updateStretchDisplay();
+
+  if (announce && !isStretchPaused) {
+    playStretchChime(false);
+    let speechMessage = posture.voiceText;
+    if (roundNum === 2 && postureIdx === 0) {
+      speechMessage = "Segunda ronda: " + posture.voiceText;
+    }
+    speakStretchPosture(speechMessage);
+
+    if (navigator.vibrate) {
+      try { navigator.vibrate([60, 40, 60]); } catch (e) {}
+    }
+  }
+}
+
+function startStretchTimer() {
+  stopStretchRoutine();
+  updateStretchDisplay();
+
+  stretchTimer = setInterval(() => {
+    if (isStretchPaused) return;
+
+    stretchSecondsLeftInPosture--;
+    stretchTotalSecondsLeft = Math.max(0, stretchTotalSecondsLeft - 1);
+    updateStretchDisplay();
+
+    if (stretchSecondsLeftInPosture <= 0) {
+      advanceStretchPostureInternal();
+    }
+  }, 1000);
+}
+
+function advanceStretchPostureInternal() {
+  const totalStages = STRETCH_POSTURES.length * STRETCH_TOTAL_ROUNDS;
+
+  if (currentStretchStageIdx + 1 < totalStages) {
+    currentStretchStageIdx++;
+    stretchSecondsLeftInPosture = STRETCH_POSTURE_DURATION;
+    displayCurrentStretchPosture(true);
+  } else {
+    // Rutina de 5 minutos completada
+    stopStretchRoutine();
+    playStretchChime(true);
+    speakStretchPosture("¡Excelente! Has completado tu rutina de estiramiento.");
+    handleStepEnded();
+  }
+}
+
+function updateStretchDisplay() {
+  // 1. Contador grande de 15 segundos
+  const secEl = document.getElementById('stretch-countdown-digits');
+  if (secEl) {
+    secEl.innerText = Math.max(0, stretchSecondsLeftInPosture);
+  }
+
+  // 2. Anillo SVG de 15 segundos
+  const ringFill = document.getElementById('stretch-ring-fill');
+  if (ringFill) {
+    const circumference = 326.726; // 2 * PI * 52
+    const fraction = Math.max(0, Math.min(1, stretchSecondsLeftInPosture / STRETCH_POSTURE_DURATION));
+    const offset = circumference * (1 - fraction);
+    ringFill.style.strokeDashoffset = offset;
+    ringFill.classList.toggle('warning', stretchSecondsLeftInPosture <= 3);
+  }
+
+  // 3. Pequeño contador de los 5 minutos
+  const totalEl = document.getElementById('stretch-total-digits');
+  if (totalEl) {
+    totalEl.innerText = formatTime(Math.max(0, stretchTotalSecondsLeft));
+  }
+
+  const fillEl = document.getElementById('stretch-total-progress-fill');
+  if (fillEl) {
+    const elapsed = Math.max(0, stretchTotalSeconds - stretchTotalSecondsLeft);
+    const pct = Math.min(100, (elapsed / stretchTotalSeconds) * 100);
+    fillEl.style.width = pct + '%';
+  }
+
+  // 4. Sincronizar barra inferior universal del reproductor
+  const overallElapsed = Math.max(0, stretchTotalSeconds - stretchTotalSecondsLeft);
+  const bottomProgress = document.getElementById('progress-bar');
+  if (bottomProgress) {
+    bottomProgress.style.width = Math.min(100, (overallElapsed / stretchTotalSeconds) * 100) + '%';
+  }
+  const bottomTime = document.getElementById('time-display');
+  if (bottomTime) {
+    bottomTime.innerText = `${formatTime(overallElapsed)} / ${formatTime(stretchTotalSeconds)}`;
+  }
+}
+
+function toggleStretchPlay() {
+  isStretchPaused = !isStretchPaused;
+
+  const playBtn = document.getElementById('play-pause-btn');
+  if (playBtn) playBtn.innerText = isStretchPaused ? "▶ Reanudar" : "⏸ Pausar";
+
+  const stretchPlayBtn = document.getElementById('btn-stretch-play');
+  if (stretchPlayBtn) stretchPlayBtn.innerText = isStretchPaused ? "▶ Reanudar" : "⏸ Pausar";
+
+  if (isStretchPaused) {
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  } else {
+    // Si se reanuda, recordar postura actual
+    const posture = STRETCH_POSTURES[currentStretchStageIdx % STRETCH_POSTURES.length];
+    speakStretchPosture(posture.voiceText);
+  }
+}
+
+function nextStretchPosture() {
+  const totalStages = STRETCH_POSTURES.length * STRETCH_TOTAL_ROUNDS;
+  if (currentStretchStageIdx + 1 < totalStages) {
+    currentStretchStageIdx++;
+    stretchSecondsLeftInPosture = STRETCH_POSTURE_DURATION;
+    stretchTotalSecondsLeft = (totalStages - currentStretchStageIdx) * STRETCH_POSTURE_DURATION;
+    displayCurrentStretchPosture(true);
+  } else {
+    stopStretchRoutine();
+    playStretchChime(true);
+    speakStretchPosture("¡Excelente! Has completado tu rutina de estiramiento.");
+    handleStepEnded();
+  }
+}
+
+function prevStretchPosture() {
+  const totalStages = STRETCH_POSTURES.length * STRETCH_TOTAL_ROUNDS;
+  // Si ya pasaron más de 3 segundos, reiniciar la postura actual
+  if (stretchSecondsLeftInPosture < STRETCH_POSTURE_DURATION - 3) {
+    stretchSecondsLeftInPosture = STRETCH_POSTURE_DURATION;
+    stretchTotalSecondsLeft = (totalStages - currentStretchStageIdx) * STRETCH_POSTURE_DURATION;
+    displayCurrentStretchPosture(true);
+    return;
+  }
+
+  if (currentStretchStageIdx > 0) {
+    currentStretchStageIdx--;
+    stretchSecondsLeftInPosture = STRETCH_POSTURE_DURATION;
+    stretchTotalSecondsLeft = (totalStages - currentStretchStageIdx) * STRETCH_POSTURE_DURATION;
+    displayCurrentStretchPosture(true);
+  } else {
+    stretchSecondsLeftInPosture = STRETCH_POSTURE_DURATION;
+    stretchTotalSecondsLeft = stretchTotalSeconds;
+    displayCurrentStretchPosture(true);
+  }
+}
+
+function jumpToStretchPosture(postureIdx) {
+  const roundNum = Math.floor(currentStretchStageIdx / STRETCH_POSTURES.length);
+  const targetStageIdx = (roundNum * STRETCH_POSTURES.length) + postureIdx;
+  jumpToStretchStage(targetStageIdx);
+}
+
+function jumpToStretchStage(targetStageIdx, secondsInStage = STRETCH_POSTURE_DURATION) {
+  const totalStages = STRETCH_POSTURES.length * STRETCH_TOTAL_ROUNDS;
+  currentStretchStageIdx = Math.max(0, Math.min(totalStages - 1, targetStageIdx));
+  stretchSecondsLeftInPosture = Math.max(1, Math.min(STRETCH_POSTURE_DURATION, secondsInStage));
+  stretchTotalSecondsLeft = ((totalStages - currentStretchStageIdx - 1) * STRETCH_POSTURE_DURATION) + stretchSecondsLeftInPosture;
+  displayCurrentStretchPosture(true);
+}
+
+function stopStretchRoutine() {
+  if (stretchTimer) {
+    clearInterval(stretchTimer);
+    stretchTimer = null;
+  }
+  if ('speechSynthesis' in window) {
+    try { window.speechSynthesis.cancel(); } catch (e) {}
+  }
+}
+
+function speakStretchPosture(text) {
+  if (!isStretchVoiceEnabled) return;
+  if (!('speechSynthesis' in window)) return;
+
+  try {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'es-ES';
+    utterance.rate = 0.95;
+    utterance.pitch = 1.0;
+
+    const voices = window.speechSynthesis.getVoices();
+    if (voices && voices.length > 0) {
+      const esVoice = voices.find(v => v.lang.startsWith('es-') || v.lang === 'es' || v.lang.includes('Spanish') || v.lang.includes('es_'));
+      if (esVoice) utterance.voice = esVoice;
+    }
+
+    window.speechSynthesis.speak(utterance);
+  } catch (err) {
+    console.warn('SpeechSynthesis error:', err);
+  }
+}
+
+function playStretchChime(isFinal = false) {
+  if (!isStretchChimeEnabled) return;
+
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+    const ctx = new AudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    const now = ctx.currentTime;
+
+    osc.type = 'sine';
+
+    if (!isFinal) {
+      // Tono suave de dos armónicos relajantes (F5 698.46Hz -> A5 880Hz)
+      osc.frequency.setValueAtTime(698.46, now);
+      osc.frequency.exponentialRampToValueAtTime(880.00, now + 0.12);
+
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.2);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 1.2);
+    } else {
+      // Campana de finalización suave (C5 -> E5 -> G5)
+      osc.frequency.setValueAtTime(523.25, now);
+      osc.frequency.setValueAtTime(659.25, now + 0.15);
+      osc.frequency.setValueAtTime(783.99, now + 0.3);
+
+      gain.gain.setValueAtTime(0.25, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 2.0);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 2.0);
+    }
+  } catch (e) {
+    // AudioContext puede estar restringido antes de interacción
   }
 }
 
@@ -2064,6 +2567,7 @@ function handleStepEnded() {
   clearInterval(progressTimer);
   stopWritingTimer();
   stopActivityTimer();
+  stopStretchRoutine();
 
   const transitionOverlay = document.getElementById('transition-overlay');
 
@@ -2091,6 +2595,7 @@ async function completeRoutineSession() {
   clearInterval(progressTimer);
   stopWritingTimer();
   stopActivityTimer();
+  stopStretchRoutine();
   if (ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo();
   hideOverlays();
 
@@ -2205,6 +2710,11 @@ function togglePlay() {
   const item = currentQueue[currentStepIdx];
   const playBtn = document.getElementById('play-pause-btn');
 
+  if (item && item.type === 'stretch-routine') {
+    toggleStretchPlay();
+    return;
+  }
+
   if (item && item.type === 'writing') {
     isWritingPaused = !isWritingPaused;
     playBtn.innerText = isWritingPaused ? "▶ Reanudar" : "⏸ Pausar";
@@ -2246,6 +2756,15 @@ function prevStep() {
 function seekRelative(offset) {
   const item = currentQueue[currentStepIdx];
 
+  if (item && item.type === 'stretch-routine') {
+    if (offset > 0) {
+      nextStretchPosture();
+    } else {
+      prevStretchPosture();
+    }
+    return;
+  }
+
   if (item && item.type === 'writing') {
     writingSecondsLeft = Math.max(0, Math.min(writingTotalSeconds, writingSecondsLeft - offset));
     updateWritingTimeDisplay();
@@ -2266,7 +2785,16 @@ function seekRelative(offset) {
 function seekVideo(e) {
   const item = currentQueue[currentStepIdx];
   const rect = e.currentTarget.getBoundingClientRect();
-  const pct = (e.clientX - rect.left) / rect.width;
+  const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+
+  if (item && item.type === 'stretch-routine') {
+    const totalSec = STRETCH_POSTURE_DURATION * STRETCH_POSTURES.length * STRETCH_TOTAL_ROUNDS;
+    const targetElapsed = Math.max(0, Math.min(totalSec - 1, Math.round(totalSec * pct)));
+    const targetStageIdx = Math.floor(targetElapsed / STRETCH_POSTURE_DURATION);
+    const secInStage = STRETCH_POSTURE_DURATION - (targetElapsed % STRETCH_POSTURE_DURATION);
+    jumpToStretchStage(targetStageIdx, secInStage);
+    return;
+  }
 
   if (item && item.type === 'writing') {
     writingSecondsLeft = Math.max(0, Math.round(writingTotalSeconds * (1 - pct)));

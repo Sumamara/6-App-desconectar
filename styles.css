@@ -1474,6 +1474,452 @@ h1, h2, h3, h4 {
   margin: 0 auto;
 }
 
+/* ==========================================================================
+   CASO D: ESTIRAMIENTO EN ETAPAS (15s POR POSTURA • TOTAL 5 MIN • VOZ GUIADA)
+   ========================================================================== */
+#zen-stretch-wrapper {
+  display: none;
+  width: 100%;
+  background: linear-gradient(150deg, #0e1526 0%, #090e1a 100%);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  padding: 16px 14px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+.stretch-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.stretch-round-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: rgba(99, 102, 241, 0.14);
+  border: 1px solid rgba(99, 102, 241, 0.32);
+  color: #c7d2fe;
+  padding: 4px 10px;
+  border-radius: 14px;
+  flex-shrink: 0;
+}
+
+.stretch-badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 8px #34d399;
+  display: inline-block;
+  animation: badgeDotPulse 2s infinite ease-in-out;
+}
+
+@keyframes badgeDotPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+/* CONTADOR PEQUEÑO DE LOS 5 MINUTOS */
+.stretch-mini-timer-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 4px 10px;
+  cursor: default;
+}
+
+.stretch-mini-timer-icon {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.stretch-mini-timer-info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.stretch-mini-timer-label {
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  line-height: 1;
+  margin-bottom: 1px;
+}
+
+.stretch-mini-timer-digits {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #818cf8;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.stretch-audio-toggles {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-stretch-toggle {
+  background: rgba(19, 29, 51, 0.85);
+  border: 1px solid var(--card-border);
+  color: #cbd5e1;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 0;
+}
+
+.btn-stretch-toggle:hover {
+  background: rgba(99, 102, 241, 0.25);
+  border-color: var(--primary-light);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.btn-stretch-toggle.is-muted {
+  opacity: 0.45;
+  filter: grayscale(1);
+  background: rgba(15, 23, 42, 0.6);
+}
+
+/* BARRA DE PROGRESO TOTAL DE 5 MIN */
+.stretch-total-progress-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  margin: 6px 0 14px;
+  overflow: hidden;
+  position: relative;
+}
+
+.stretch-total-progress-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #6366f1, #10b981);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+/* CÍRCULO PRINCIPAL: 15 SEGUNDOS */
+.stretch-hero-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.stretch-circle-wrap {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  margin: 0 auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stretch-svg-circle {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  overflow: visible;
+}
+
+.stretch-svg-bg {
+  fill: none;
+  stroke: rgba(99, 102, 241, 0.12);
+  stroke-width: 8;
+}
+
+.stretch-svg-fill {
+  fill: none;
+  stroke: var(--primary-light);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 326.7; /* 2 * PI * 52 */
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.85s linear, stroke 0.3s ease;
+  filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.45));
+}
+
+.stretch-svg-fill.warning {
+  stroke: #fbbf24;
+  filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.5));
+}
+
+.stretch-circle-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.stretch-icon-large {
+  font-size: 28px;
+  line-height: 1;
+  margin-bottom: 2px;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stretch-seconds-digits {
+  font-size: 36px;
+  font-weight: 800;
+  color: #ffffff;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+}
+
+.stretch-seconds-unit {
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* DETALLES DE LA POSTURA */
+.stretch-posture-details {
+  max-width: 380px;
+  margin: 0 auto;
+}
+
+.stretch-posture-step-tag {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #a5b4fc;
+  background: rgba(99, 102, 241, 0.14);
+  border: 1px solid rgba(99, 102, 241, 0.28);
+  border-radius: 12px;
+  padding: 3px 10px;
+  margin-bottom: 6px;
+}
+
+.stretch-posture-heading {
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 2px 0 6px;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.stretch-posture-description {
+  font-size: 13px;
+  color: #cbd5e1;
+  line-height: 1.45;
+  margin: 0 auto 8px;
+  max-width: 360px;
+}
+
+.stretch-posture-tip-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: 8px;
+  padding: 6px 11px;
+  font-size: 11.5px;
+  color: #6ee7b7;
+  max-width: 380px;
+  text-align: left;
+  line-height: 1.35;
+}
+
+.stretch-posture-tip-box .tip-icon {
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+/* BANNER DE PRÓXIMA POSTURA */
+.stretch-next-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 11.5px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.stretch-next-name {
+  color: #f1f5f9;
+  font-weight: 600;
+}
+
+.stretch-next-duration {
+  color: var(--primary-light);
+  font-size: 11px;
+}
+
+/* BOTONES DE CONTROL */
+.stretch-action-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.btn-stretch-action {
+  background: rgba(19, 29, 51, 0.9);
+  border: 1px solid var(--card-border);
+  color: #cbd5e1;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 7px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-stretch-action:hover {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: var(--primary-light);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.btn-stretch-action:active {
+  transform: scale(0.97);
+}
+
+.btn-stretch-main {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+  padding: 7px 18px;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+}
+
+.btn-stretch-main:hover {
+  background: #4f46e5;
+  border-color: #4f46e5;
+  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.5);
+}
+
+/* TIRA DE POSTURAS INTERACTIVA */
+.stretch-postures-strip {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 4px 2px 6px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(99, 102, 241, 0.3) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+.stretch-postures-strip::-webkit-scrollbar {
+  height: 4px;
+}
+
+.stretch-postures-strip::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.3);
+  border-radius: 4px;
+}
+
+.stretch-chip {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.stretch-chip:hover {
+  background: rgba(99, 102, 241, 0.18);
+  color: #f8fafc;
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+.stretch-chip.active {
+  background: rgba(99, 102, 241, 0.28);
+  border-color: var(--primary-light);
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.35);
+}
+
+.stretch-chip.completed {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.32);
+  color: #6ee7b7;
+}
+
+.stretch-chip-num {
+  font-size: 9.5px;
+  opacity: 0.75;
+}
+
+/* Adaptaciones en pantallas pequeñas / paisaje */
+@media (max-width: 420px) {
+  .stretch-top-bar {
+    flex-wrap: wrap;
+  }
+  .stretch-circle-wrap {
+    width: 125px;
+    height: 125px;
+    margin-bottom: 8px;
+  }
+  .stretch-seconds-digits {
+    font-size: 32px;
+  }
+  .stretch-posture-heading {
+    font-size: 1.05rem;
+  }
+  .stretch-action-buttons {
+    flex-wrap: wrap;
+  }
+}
+
 /* Overlays */
 #pause-overlay {
   display: none;
@@ -2901,6 +3347,44 @@ input:checked + .slider:before {
 
   .timer-instructions-card {
     padding: 8px 12px;
+  }
+
+  #zen-stretch-wrapper {
+    padding: 10px 12px;
+  }
+
+  #zen-stretch-wrapper .stretch-circle-wrap {
+    width: 90px;
+    height: 90px;
+    margin-bottom: 4px;
+  }
+
+  #zen-stretch-wrapper .stretch-icon-large {
+    font-size: 20px;
+  }
+
+  #zen-stretch-wrapper .stretch-seconds-digits {
+    font-size: 24px;
+  }
+
+  #zen-stretch-wrapper .stretch-posture-heading {
+    font-size: 1rem;
+    margin: 2px 0;
+  }
+
+  #zen-stretch-wrapper .stretch-posture-description {
+    font-size: 11.5px;
+    margin-bottom: 4px;
+  }
+
+  #zen-stretch-wrapper .stretch-posture-tip-box {
+    display: none;
+  }
+
+  #zen-stretch-wrapper .stretch-next-bar {
+    padding: 4px 8px;
+    margin-bottom: 6px;
+    font-size: 10.5px;
   }
 
   .controls {

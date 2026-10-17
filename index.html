@@ -30,7 +30,7 @@
     rel="stylesheet">
 
   <!-- Estilos Mobile First -->
-  <link rel="stylesheet" href="styles.css?v=18">
+  <link rel="stylesheet" href="styles.css?v=19">
 </head>
 
 <body>
@@ -83,12 +83,12 @@
           <!-- 2. Pausa Activa (5 min) -->
           <div class="preset-card preset-col-3" onclick="applyPreset('walk')" id="preset-walk">
             <div class="preset-card-top">
-              <span class="preset-icon">🚶</span>
+              <span class="preset-icon">🤸</span>
               <span class="preset-time-pill">5 min</span>
             </div>
             <div class="preset-card-body">
               <div class="preset-name">Pausa Activa</div>
-              <div class="preset-desc">Solo estiramiento</div>
+              <div class="preset-desc">Estiramiento en etapas</div>
             </div>
           </div>
 
@@ -381,6 +381,93 @@
         </div>
       </div>
 
+      <!-- CASO D: ZONA DE ESTIRAMIENTO EN ETAPAS (15s POR POSTURA • TOTAL 5 MIN • VOZ GUIADA) -->
+      <div id="zen-stretch-wrapper" class="zen-stretch-wrapper">
+        <!-- Barra superior: Contador pequeño de 5 min, Ronda y Toggles de audio -->
+        <div class="stretch-top-bar">
+          <div class="stretch-round-badge" id="stretch-round-badge">
+            <span class="stretch-badge-dot"></span>
+            <span id="stretch-round-text">Ronda 1 de 2</span>
+          </div>
+
+          <!-- CONTADOR PEQUEÑO DE LOS 5 MINUTOS -->
+          <div class="stretch-mini-timer-card" id="stretch-mini-timer-card" title="Tiempo total de la sesión (5 min)">
+            <span class="stretch-mini-timer-icon">⏱️</span>
+            <div class="stretch-mini-timer-info">
+              <span class="stretch-mini-timer-label">Total restante:</span>
+              <span class="stretch-mini-timer-digits" id="stretch-total-digits">05:00</span>
+            </div>
+          </div>
+
+          <!-- Toggles rápidos: Voz de locución y Campana -->
+          <div class="stretch-audio-toggles">
+            <button type="button" class="btn-stretch-toggle" id="btn-stretch-voice" onclick="toggleStretchVoice()"
+              title="Voz de locución guiada (Activar/Silenciar)">
+              <span id="stretch-voice-icon">🗣️</span>
+            </button>
+            <button type="button" class="btn-stretch-toggle" id="btn-stretch-chime" onclick="toggleStretchChime()"
+              title="Campana sonora en cada cambio (Activar/Silenciar)">
+              <span id="stretch-chime-icon">🔔</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Barra delgada de progreso total de los 5 min -->
+        <div class="stretch-total-progress-track">
+          <div class="stretch-total-progress-fill" id="stretch-total-progress-fill"></div>
+        </div>
+
+        <!-- CÍRCULO PRINCIPAL: CONTADOR DE 15 SEGUNDOS -->
+        <div class="stretch-hero-card">
+          <div class="stretch-circle-wrap">
+            <svg class="stretch-svg-circle" viewBox="0 0 120 120">
+              <circle class="stretch-svg-bg" cx="60" cy="60" r="52"></circle>
+              <circle class="stretch-svg-fill" id="stretch-ring-fill" cx="60" cy="60" r="52"></circle>
+            </svg>
+            <div class="stretch-circle-inner">
+              <span class="stretch-icon-large" id="stretch-posture-icon">🔄</span>
+              <div class="stretch-seconds-digits" id="stretch-countdown-digits">15</div>
+              <span class="stretch-seconds-unit">segundos</span>
+            </div>
+          </div>
+
+          <!-- Información y postura actual -->
+          <div class="stretch-posture-details">
+            <div class="stretch-posture-step-tag" id="stretch-step-tag">Postura 1 de 10</div>
+            <h3 class="stretch-posture-heading" id="stretch-posture-title">Hombros hacia atrás</h3>
+            <p class="stretch-posture-description" id="stretch-posture-desc">
+              Gira los hombros suavemente en círculos hacia atrás. Abre el pecho e inhala profundo.
+            </p>
+            <div class="stretch-posture-tip-box" id="stretch-posture-tip">
+              <span class="tip-icon">💡</span>
+              <span id="stretch-posture-tip-text">Libera la tensión acumulada de hombros y trapecios.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Próxima postura banner de anticipación -->
+        <div class="stretch-next-bar">
+          <span class="stretch-next-label">A continuación:</span>
+          <strong class="stretch-next-name" id="stretch-next-title">Hombros hacia adelante</strong>
+          <span class="stretch-next-duration">(15s)</span>
+        </div>
+
+        <!-- Controles rápidos del temporizador de estiramiento -->
+        <div class="stretch-action-buttons">
+          <button type="button" class="btn-stretch-action" onclick="prevStretchPosture()" title="Postura anterior">⏮
+            Anterior</button>
+          <button type="button" class="btn-stretch-action btn-stretch-main" id="btn-stretch-play"
+            onclick="toggleStretchPlay()">⏸ Pausar</button>
+          <button type="button" class="btn-stretch-action" onclick="nextStretchPosture()"
+            title="Siguiente postura">Siguiente ⏭</button>
+        </div>
+
+        <!-- Tira interactiva de las 10 posturas -->
+        <div class="stretch-postures-strip" id="stretch-postures-strip">
+          <!-- Renderizado dinámicamente con chips de cada postura -->
+        </div>
+      </div>
+
       <!-- Barra de tiempo (video, temporizador o escritura) -->
       <div class="progress-container" onclick="seekVideo(event)">
         <div class="progress-bar" id="progress-bar"></div>
@@ -411,7 +498,7 @@
       <footer class="app-watermark watermark-player">
         <span class="watermark-brand">Inner Base</span>
         <span class="watermark-dot">•</span>
-        <span class="watermark-version">v0.83</span>
+        <span class="watermark-version">v0.87</span>
       </footer>
     </div>
 
@@ -754,7 +841,7 @@
   <script src="https://www.youtube.com/iframe_api"></script>
 
   <!-- LÓGICA DE LA APLICACIÓN -->
-  <script src="app.js?v=18"></script>
+  <script src="app.js?v=19"></script>
 </body>
 
 </html>
