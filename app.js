@@ -12,168 +12,168 @@ if (window.location.protocol === 'file:') {
 // 2. CATÁLOGO BASE ORGANIZADO EN LAS 4 ETAPAS (CON DURACIONES REALES AUDITADAS)
 const defaultCatalog = [
   // ETAPA 1: ESTIRAR
-  { 
-    id: 'est-micro', 
-    stage: 'estirar', 
-    type: 'timer', 
+  {
+    id: 'est-micro',
+    stage: 'estirar',
+    type: 'timer',
     icon: 'ESTIRAR',
-    title: "Levantarse y estirar brazos arriba (30 seg)", 
-    duration: 0.5, 
-    instructions: "Ponte de pie, despega la mirada de la pantalla y estira los brazos arriba. Abre el pecho, inhala profundo y suelta suavemente manos y piernas." 
+    title: "Levantarse y estirar brazos arriba (30 seg)",
+    duration: 0.5,
+    instructions: "Ponte de pie, despega la mirada de la pantalla y estira los brazos arriba. Abre el pecho, inhala profundo y suelta suavemente manos y piernas."
   },
-  { 
-    id: 'est-walk', 
-    stage: 'estirar', 
-    type: 'timer', 
+  {
+    id: 'est-walk',
+    stage: 'estirar',
+    type: 'timer',
     icon: 'MOVILIDAD',
-    title: "Caminata suave de movilidad", 
-    duration: 5, 
-    instructions: "Ponte de pie y camina a paso relajado por la habitación o la oficina. Mueve los brazos libremente, gira los hombros en círculos y afloja el cuello." 
+    title: "Caminata suave de movilidad",
+    duration: 5,
+    instructions: "Ponte de pie y camina a paso relajado por la habitación o la oficina. Mueve los brazos libremente, gira los hombros en círculos y afloja el cuello."
   },
-  { 
-    id: 'est-5min', 
-    stage: 'estirar', 
-    type: 'video', 
-    title: "Estiramiento 5 min · Relaja tu cuerpo y alivia tensiones", 
-    duration: 5, 
-    ytId: "DwRR59ektIs" 
+  {
+    id: 'est-5min',
+    stage: 'estirar',
+    type: 'video',
+    title: "Estiramiento 5 min · Relaja tu cuerpo y alivia tensiones",
+    duration: 5,
+    ytId: "DwRR59ektIs"
   },
-  { 
-    id: 'est-1', 
-    stage: 'estirar', 
-    type: 'video', 
-    title: "Estiramiento de cuello y hombros", 
-    duration: 10, 
-    ytId: "s-7lyvblFNI" 
+  {
+    id: 'est-1',
+    stage: 'estirar',
+    type: 'video',
+    title: "Estiramiento de cuello y hombros",
+    duration: 10,
+    ytId: "s-7lyvblFNI"
   },
-  { 
-    id: 'est-neck-10', 
-    stage: 'estirar', 
-    type: 'video', 
-    title: "Estiramiento de cuello (13 min)", 
-    duration: 13, 
-    ytId: "JFYCz-OIyJI" 
+  {
+    id: 'est-neck-10',
+    stage: 'estirar',
+    type: 'video',
+    title: "Estiramiento de cuello (13 min)",
+    duration: 13,
+    ytId: "JFYCz-OIyJI"
   },
-  { 
-    id: 'est-guided', 
-    stage: 'estirar', 
-    type: 'stretch-routine', 
+  {
+    id: 'est-guided',
+    stage: 'estirar',
+    type: 'stretch-routine',
     icon: 'ESTIRAR',
-    title: "Estiramiento guiado en etapas (15s · 5 min)", 
-    duration: 5, 
-    instructions: "Rutina guiada con locución por voz, tono de cambio y temporizador de 15 segundos por movimiento (5 min en 2 rondas de 10 posturas)." 
+    title: "Estiramiento guiado en etapas (15s · 5 min)",
+    duration: 5,
+    instructions: "Rutina guiada con locución por voz, tono de cambio y temporizador de 15 segundos por movimiento (5 min en 2 rondas de 10 posturas)."
   },
-  { 
-    id: 'est-quick', 
-    stage: 'estirar', 
-    type: 'timer', 
+  {
+    id: 'est-quick',
+    stage: 'estirar',
+    type: 'timer',
     icon: 'MOVILIDAD',
-    title: "Movilidad y estiramiento suave (7 min)", 
-    duration: 7, 
-    instructions: "De pie o sentado con la espalda recta, realiza giros suaves de cuello, hombros y tronco. Abre el pecho e inhala profundo." 
+    title: "Movilidad y estiramiento suave (7 min)",
+    duration: 7,
+    instructions: "De pie o sentado con la espalda recta, realiza giros suaves de cuello, hombros y tronco. Abre el pecho e inhala profundo."
   },
-  { 
-    id: 'est-2', 
-    stage: 'estirar', 
-    type: 'video', 
-    title: "Movilidad suave de espalda y columna", 
-    duration: 11, 
-    ytId: "4pKly2JojMw" 
+  {
+    id: 'est-2',
+    stage: 'estirar',
+    type: 'video',
+    title: "Movilidad suave de espalda y columna",
+    duration: 11,
+    ytId: "4pKly2JojMw"
   },
-  { 
-    id: 'est-3', 
-    stage: 'estirar', 
-    type: 'video', 
-    title: "Pausa activa de postura en escritorio", 
-    duration: 10, 
-    ytId: "s-7lyvblFNI" 
+  {
+    id: 'est-3',
+    stage: 'estirar',
+    type: 'video',
+    title: "Pausa activa de postura en escritorio",
+    duration: 10,
+    ytId: "s-7lyvblFNI"
   },
 
   // ETAPA 2: RESPIRAR
-  { 
-    id: 'resp-resonante', 
-    stage: 'respirar', 
-    type: 'timer', 
+  {
+    id: 'resp-resonante',
+    stage: 'respirar',
+    type: 'timer',
     icon: 'COHERENCIA',
-    title: "Respiración diafragmática resonante", 
-    duration: 5, 
-    instructions: "Vas a respirar con el contador hasta 5 y luego, cuando se quite el contador, vas a seguir tú contando hasta 5 donde se sienta bien." 
+    title: "Respiración diafragmática resonante",
+    duration: 5,
+    instructions: "Vas a respirar con el contador hasta 5 y luego, cuando se quite el contador, vas a seguir tú contando hasta 5 donde se sienta bien."
   },
-  { 
-    id: 'resp-double', 
-    stage: 'respirar', 
-    type: 'timer', 
+  {
+    id: 'resp-double',
+    stage: 'respirar',
+    type: 'timer',
     icon: 'RESPIRAR',
-    title: "Opción doble inhalación", 
-    duration: 2, 
-    instructions: "Respirar profundo todo lo que puedas y con los pulmones llenos inhalar una vez más y exhalar por la boca." 
+    title: "Opción doble inhalación",
+    duration: 2,
+    instructions: "Respirar profundo todo lo que puedas y con los pulmones llenos inhalar una vez más y exhalar por la boca."
   },
-  { 
-    id: 'resp-ocean', 
-    stage: 'respirar', 
-    type: 'timer', 
+  {
+    id: 'resp-ocean',
+    stage: 'respirar',
+    type: 'timer',
     icon: 'RESPIRAR',
-    title: "Opción del mar", 
-    duration: 2, 
-    instructions: "Vas a respirar profundo todo lo que puedas y vas a exhalar haciendo un sonido con la garganta, hacerlo hasta que te sientas muy relajada al menos 2 minutos." 
+    title: "Opción del mar",
+    duration: 2,
+    instructions: "Vas a respirar profundo todo lo que puedas y vas a exhalar haciendo un sonido con la garganta, hacerlo hasta que te sientas muy relajada al menos 2 minutos."
   },
-  { 
-    id: 'resp-micro', 
-    stage: 'respirar', 
-    type: 'timer', 
+  {
+    id: 'resp-micro',
+    stage: 'respirar',
+    type: 'timer',
     icon: 'RESPIRAR',
-    title: "Doble inhalación exprés (30 seg)", 
-    duration: 0.5, 
-    instructions: "Haz dos inhalaciones seguidas por la nariz: una profunda y larga, y enseguida una segunda inhalación corta para expandir los pulmones. Suelta el aire por la boca en una exhalación lenta y completa." 
+    title: "Doble inhalación exprés (30 seg)",
+    duration: 0.5,
+    instructions: "Haz dos inhalaciones seguidas por la nariz: una profunda y larga, y enseguida una segunda inhalación corta para expandir los pulmones. Suelta el aire por la boca en una exhalación lenta y completa."
   },
-  { 
-    id: 'resp-478-timer', 
-    stage: 'respirar', 
-    type: 'timer', 
+  {
+    id: 'resp-478-timer',
+    stage: 'respirar',
+    type: 'timer',
     icon: 'RESPIRAR',
-    title: "Respiración 4-7-8 guiada (3 ciclos)", 
-    duration: 1, 
-    instructions: "Inhala suave por la nariz (4 segundos), sostén el aire (7 segundos) y exhala lento por la boca vaciando el pecho (8 segundos)." 
+    title: "Respiración 4-7-8 guiada (3 ciclos)",
+    duration: 1,
+    instructions: "Inhala suave por la nariz (4 segundos), sostén el aire (7 segundos) y exhala lento por la boca vaciando el pecho (8 segundos)."
   },
-  { 
-    id: 'resp-resonante-vid', 
-    stage: 'respirar', 
-    type: 'video', 
-    title: "Coherencia cardíaca guiada con campanas", 
-    duration: 5, 
-    ytId: "Zsp00w0R3As" 
+  {
+    id: 'resp-resonante-vid',
+    stage: 'respirar',
+    type: 'video',
+    title: "Coherencia cardíaca guiada con campanas",
+    duration: 5,
+    ytId: "Zsp00w0R3As"
   },
-  { 
-    id: 'resp-1', 
-    stage: 'respirar', 
-    type: 'video', 
-    title: "Respiración 4-7-8 para calmar el sistema nervioso", 
-    duration: 5, 
-    ytId: "inpok4MKVLM" 
+  {
+    id: 'resp-1',
+    stage: 'respirar',
+    type: 'video',
+    title: "Respiración 4-7-8 para calmar el sistema nervioso",
+    duration: 5,
+    ytId: "inpok4MKVLM"
   },
-  { 
-    id: 'resp-2', 
-    stage: 'respirar', 
-    type: 'video', 
-    title: "Respiración cuadrada (Box Breathing)", 
-    duration: 4, 
-    ytId: "inpok4MKVLM" 
+  {
+    id: 'resp-2',
+    stage: 'respirar',
+    type: 'video',
+    title: "Respiración cuadrada (Box Breathing)",
+    duration: 4,
+    ytId: "inpok4MKVLM"
   },
-  { 
-    id: 'resp-3', 
-    stage: 'respirar', 
-    type: 'video', 
-    title: "Respiración diafragmática relajante", 
-    duration: 6, 
-    ytId: "vB6OxxhSzCA" 
+  {
+    id: 'resp-3',
+    stage: 'respirar',
+    type: 'video',
+    title: "Respiración diafragmática relajante",
+    duration: 6,
+    ytId: "vB6OxxhSzCA"
   },
 
   // ETAPA 3: ESCRIBIR
-  { 
-    id: 'esc-4pasos', 
-    stage: 'escribir', 
-    type: 'writing', 
-    title: "Bloc de notas: Descarga mental (4 pasos)", 
+  {
+    id: 'esc-4pasos',
+    stage: 'escribir',
+    type: 'writing',
+    title: "Bloc de notas: Descarga mental (4 pasos)",
     duration: 5,
     promptTitle: "Descarga mental en 4 pasos",
     promptDesc: "Responde estas 4 preguntas con calma para soltar pendientes y salir del modo supervivencia.",
@@ -196,115 +196,115 @@ const defaultCatalog = [
       }
     ]
   },
-  { 
-    id: 'esc-2', 
-    stage: 'escribir', 
-    type: 'writing', 
-    title: "Bloc de notas: Registro de gratitud (3 cosas)", 
+  {
+    id: 'esc-2',
+    stage: 'escribir',
+    type: 'writing',
+    title: "Bloc de notas: Registro de gratitud (3 cosas)",
     duration: 3,
     promptTitle: "3 cosas que agradeces hoy",
     promptDesc: "Identifica y escribe 3 momentos, personas o detalles concretos por los que sientes gratitud hoy."
   },
-  { 
-    id: 'esc-1', 
-    stage: 'escribir', 
-    type: 'writing', 
-    title: "Bloc de notas: Descarga mental (Brain Dump)", 
+  {
+    id: 'esc-1',
+    stage: 'escribir',
+    type: 'writing',
+    title: "Bloc de notas: Descarga mental (Brain Dump)",
     duration: 5,
     promptTitle: "Descarga mental",
     promptDesc: "Escribe todo lo que ronda en tu cabeza sin filtros. Vacía pendientes y preocupaciones para cerrar la jornada."
   },
-  { 
-    id: 'esc-3', 
-    stage: 'escribir', 
-    type: 'writing', 
-    title: "Bloc de notas: Qué elijo soltar hoy", 
+  {
+    id: 'esc-3',
+    stage: 'escribir',
+    type: 'writing',
+    title: "Bloc de notas: Qué elijo soltar hoy",
     duration: 5,
     promptTitle: "Soltar lo que no está bajo mi control",
     promptDesc: "¿Qué situación o expectativa queda fuera de tu control hoy? Escríbela aquí para darle cierre."
   },
-  { 
-    id: 'esc-4', 
-    stage: 'escribir', 
-    type: 'video', 
-    title: "Video: Journaling interactivo para cerrar el día", 
-    duration: 11, 
-    ytId: "JNbbebvlShI" 
+  {
+    id: 'esc-4',
+    stage: 'escribir',
+    type: 'video',
+    title: "Video: Journaling interactivo para cerrar el día",
+    duration: 11,
+    ytId: "JNbbebvlShI"
   },
-  { 
-    id: 'esc-5', 
-    stage: 'escribir', 
-    type: 'video', 
-    title: "Video: Journaling guiado · Reflexión personal", 
-    duration: 19, 
-    ytId: "7YkmU8q7384" 
+  {
+    id: 'esc-5',
+    stage: 'escribir',
+    type: 'video',
+    title: "Video: Journaling guiado · Reflexión personal",
+    duration: 19,
+    ytId: "7YkmU8q7384"
   },
 
   // ETAPA 4: MEDITAR
-  { 
-    id: 'med-5min', 
-    stage: 'meditar', 
-    type: 'video', 
-    title: "Meditación · Opción 5 minutos", 
-    duration: 5, 
-    ytId: "4xHqAfT1qTY" 
+  {
+    id: 'med-5min',
+    stage: 'meditar',
+    type: 'video',
+    title: "Meditación · Opción 5 minutos",
+    duration: 5,
+    ytId: "4xHqAfT1qTY"
   },
-  { 
-    id: 'med-10min', 
-    stage: 'meditar', 
-    type: 'video', 
-    title: "Meditación · Opción 10 minutos", 
-    duration: 10, 
-    ytId: "v-pq2RQ7o1s" 
+  {
+    id: 'med-10min',
+    stage: 'meditar',
+    type: 'video',
+    title: "Meditación · Opción 10 minutos",
+    duration: 10,
+    ytId: "v-pq2RQ7o1s"
   },
-  { 
-    id: 'med-walk', 
-    stage: 'meditar', 
-    type: 'timer', 
+  {
+    id: 'med-walk',
+    stage: 'meditar',
+    type: 'timer',
     icon: 'MEDITAR',
-    title: "Meditación caminando (Kinhin)", 
-    duration: 5, 
-    instructions: "Camina a paso pausado y consciente. Nota el contacto de cada pie con el suelo; inhala en 3 pasos y exhala en 3 pasos." 
+    title: "Meditación caminando (Kinhin)",
+    duration: 5,
+    instructions: "Camina a paso pausado y consciente. Nota el contacto de cada pie con el suelo; inhala en 3 pasos y exhala en 3 pasos."
   },
-  { 
-    id: 'med-tension', 
-    stage: 'meditar', 
-    type: 'video', 
-    title: "Meditación para soltar tensiones", 
-    duration: 7, 
-    ytId: "KxRpK9ZGq4Y" 
+  {
+    id: 'med-tension',
+    stage: 'meditar',
+    type: 'video',
+    title: "Meditación para soltar tensiones",
+    duration: 7,
+    ytId: "KxRpK9ZGq4Y"
   },
-  { 
-    id: 'med-nidra', 
-    stage: 'meditar', 
-    type: 'video', 
-    title: "Yoga Nidra: Calmar el sistema nervioso", 
-    duration: 18, 
-    ytId: "dCaf8NDr1wQ" 
+  {
+    id: 'med-nidra',
+    stage: 'meditar',
+    type: 'video',
+    title: "Yoga Nidra: Calmar el sistema nervioso",
+    duration: 18,
+    ytId: "dCaf8NDr1wQ"
   },
-  { 
-    id: 'med-1', 
-    stage: 'meditar', 
-    type: 'video', 
-    title: "Meditación mindfulness: Calma y atención", 
-    duration: 6, 
-    ytId: "vB6OxxhSzCA" 
+  {
+    id: 'med-1',
+    stage: 'meditar',
+    type: 'video',
+    title: "Meditación mindfulness: Calma y atención",
+    duration: 6,
+    ytId: "vB6OxxhSzCA"
   },
-  { 
-    id: 'med-2', 
-    stage: 'meditar', 
-    type: 'video', 
-    title: "Descanso profundo sin sueño (NSDR)", 
-    duration: 22, 
-    ytId: "n-NIuBD59bk" 
+  {
+    id: 'med-2',
+    stage: 'meditar',
+    type: 'video',
+    title: "Descanso profundo sin sueño (NSDR)",
+    duration: 22,
+    ytId: "n-NIuBD59bk"
   },
-  { 
-    id: 'med-3', 
-    stage: 'meditar', 
-    type: 'video', 
-    title: "Sonidos de lluvia y naturaleza", 
-    duration: 5, 
-    ytId: "2OEL4P1Rz04" 
+  {
+    id: 'med-3',
+    stage: 'meditar',
+    type: 'video',
+    title: "Sonidos de lluvia y naturaleza",
+    duration: 5,
+    ytId: "2OEL4P1Rz04"
   }
 ];
 
@@ -434,9 +434,9 @@ function syncNamedPresetCards() {
   });
 }
 
-// Estado de selección inicial (Micro-pausa por defecto)
-let activeStages = new Set(DEFAULT_PRESETS.micro.stages);
-let selectedOptionIds = new Set(DEFAULT_PRESETS.micro.options);
+// Estado de selección inicial (siempre inicia vacío, sin nada marcado)
+let activeStages = new Set();
+let selectedOptionIds = new Set();
 
 // Estado del reproductor
 let currentQueue = [];
@@ -781,6 +781,7 @@ function onStageCheckboxClick(stageKey) {
 }
 
 function toggleOption(itemId, stageKey) {
+  activeCustomRoutineId = null;
   document.querySelectorAll('.preset-card').forEach(c => c.classList.remove('active'));
   if (selectedOptionIds.has(itemId)) {
     selectedOptionIds.delete(itemId);
@@ -795,14 +796,24 @@ function toggleOption(itemId, stageKey) {
 // PRESETS / RECOMENDACIONES RÁPIDAS
 // ==========================================================================
 
-function applyPreset(presetKey) {
-  document.querySelectorAll('.preset-card').forEach(c => c.classList.remove('active'));
-  const targetCard = document.getElementById(`preset-${presetKey}`);
-  if (targetCard) targetCard.classList.add('active');
+let activeCustomRoutineId = null;
 
+function applyPreset(presetKey, forceApply = false) {
+  const targetCard = document.getElementById(`preset-${presetKey}`);
+  const wasActive = targetCard && targetCard.classList.contains('active');
+
+  activeCustomRoutineId = null;
+  document.querySelectorAll('.preset-card').forEach(c => c.classList.remove('active'));
   expandedStageAccordions.clear();
   activeStages.clear();
   selectedOptionIds.clear();
+
+  if (wasActive && !forceApply) {
+    renderAllStages();
+    return;
+  }
+
+  if (targetCard) targetCard.classList.add('active');
 
   const preset = DEFAULT_PRESETS[presetKey];
   if (preset) {
@@ -855,10 +866,11 @@ function renderCustomPresets() {
   container.innerHTML = routines.map((r, idx) => {
     // Si es la única o si es la última en una lista impar (para que no quede a la mitad vacía)
     const isFullWidth = (total === 1) || (total % 2 !== 0 && idx === total - 1);
+    const activeCls = (activeCustomRoutineId === r.id) ? ' active' : '';
 
     if (isFullWidth) {
       return `
-        <button type="button" class="preset-card preset-custom-card custom-single" onclick="applyCustomRoutine('${r.id}')" id="preset-${r.id}">
+        <button type="button" class="preset-card preset-custom-card custom-single${activeCls}" onclick="applyCustomRoutine('${r.id}')" id="preset-${r.id}">
           <div class="preset-custom-main">
             <div class="preset-index">GUARDADA</div>
             <div class="preset-name">${escapeHtml(r.name)}</div>
@@ -869,7 +881,7 @@ function renderCustomPresets() {
       `;
     } else {
       return `
-        <button type="button" class="preset-card preset-custom-card custom-grid" onclick="applyCustomRoutine('${r.id}')" id="preset-${r.id}">
+        <button type="button" class="preset-card preset-custom-card custom-grid${activeCls}" onclick="applyCustomRoutine('${r.id}')" id="preset-${r.id}">
           <div class="preset-top">
             <span class="preset-index">GUARDADA</span>
             <span class="preset-time">${r.totalMin} MIN</span>
@@ -893,21 +905,33 @@ function escapeHtml(str) {
   })[m]);
 }
 
-function applyCustomRoutine(routineId) {
+function applyCustomRoutine(routineId, forceApply = false) {
   const routines = getCustomRoutinesList();
   const routine = routines.find(r => r.id === routineId);
   if (!routine) return;
 
-  document.querySelectorAll('.preset-card').forEach(c => c.classList.remove('active'));
-  const targetCard = document.getElementById(`preset-${routineId}`);
-  if (targetCard) targetCard.classList.add('active');
+  const wasActive = activeCustomRoutineId === routineId;
 
+  document.querySelectorAll('.preset-card').forEach(c => c.classList.remove('active'));
   expandedStageAccordions.clear();
   activeStages.clear();
   selectedOptionIds.clear();
 
-  (routine.activeStages || []).forEach(s => activeStages.add(s));
-  (routine.selectedOptionIds || []).forEach(id => {
+  if (wasActive && !forceApply) {
+    activeCustomRoutineId = null;
+    renderAllStages();
+    return;
+  }
+
+  activeCustomRoutineId = routineId;
+  const targetCard = document.getElementById(`preset-${routineId}`);
+  if (targetCard) targetCard.classList.add('active');
+
+  const rStages = routine.activeStages || routine.stages || [];
+  const rOptions = routine.selectedOptionIds || routine.options || [];
+
+  rStages.forEach(s => activeStages.add(s));
+  rOptions.forEach(id => {
     hiddenItemIds.delete(id);
     selectedOptionIds.add(id);
   });
@@ -1168,16 +1192,16 @@ function renderCustomRoutinesManager() {
           <div class="preset-edit-stage-group">
             <div class="preset-edit-stage-label">${stageNames[stageKey]}</div>
             ${items.map(item => {
-              const checked = routineOptions.includes(item.id) ? 'checked' : '';
-              const dur = formatPresetDuration(item.duration);
-              return `
+          const checked = routineOptions.includes(item.id) ? 'checked' : '';
+          const dur = formatPresetDuration(item.duration);
+          return `
                 <label class="preset-edit-check-row">
                   <input type="checkbox" class="option-checkbox custom-edit-checkbox" data-routine-id="${r.id}" value="${item.id}" ${checked}>
                   <span class="preset-edit-check-title">${escapeHtml(item.title)}</span>
                   <span class="preset-edit-check-dur">${dur}</span>
                 </label>
               `;
-            }).join('')}
+        }).join('')}
           </div>
         `;
       }).join('');
@@ -1261,6 +1285,8 @@ function saveCustomRoutineEdits(routineId) {
       name: newName,
       stages: chosenStages,
       options: chosenIds,
+      activeStages: chosenStages,
+      selectedOptionIds: chosenIds,
       count: chosenIds.length,
       totalMin
     };
@@ -1268,12 +1294,12 @@ function saveCustomRoutineEdits(routineId) {
   saveCustomRoutinesList(routines);
 
   const card = document.getElementById(`preset-${routineId}`);
-  const wasActive = card && card.classList.contains('active');
+  const wasActive = (activeCustomRoutineId === routineId) || (card && card.classList.contains('active'));
 
   expandedCustomRoutineId = null;
   renderCustomRoutinesManager();
   renderCustomPresets();
-  if (wasActive) applyCustomRoutine(routineId);
+  if (wasActive) applyCustomRoutine(routineId, true);
   updateTotalSummary();
 
   showZenToast('Rutina personalizada actualizada.', 'success');
@@ -1340,16 +1366,16 @@ function renderPresetEditorList() {
           <div class="preset-edit-stage-group">
             <div class="preset-edit-stage-label">${stageNames[stageKey]}</div>
             ${items.map(item => {
-              const checked = preset.options.includes(item.id) ? 'checked' : '';
-              const dur = formatPresetDuration(item.duration);
-              return `
+          const checked = preset.options.includes(item.id) ? 'checked' : '';
+          const dur = formatPresetDuration(item.duration);
+          return `
                 <label class="preset-edit-check-row">
                   <input type="checkbox" class="option-checkbox preset-edit-checkbox" data-preset-key="${key}" value="${item.id}" ${checked}>
                   <span class="preset-edit-check-title">${escapeHtml(item.title)}</span>
                   <span class="preset-edit-check-dur">${dur}</span>
                 </label>
               `;
-            }).join('')}
+        }).join('')}
           </div>
         `;
       }).join('');
@@ -1439,7 +1465,7 @@ function saveNamedPresetEdits(presetKey) {
 
   const card = document.getElementById(`preset-${presetKey}`);
   if (card && card.classList.contains('active')) {
-    applyPreset(presetKey);
+    applyPreset(presetKey, true);
   }
 
   expandedPresetEditorKey = null;
@@ -1462,7 +1488,7 @@ function resetSingleNamedPreset(presetKey) {
 
   const card = document.getElementById(`preset-${presetKey}`);
   if (card && card.classList.contains('active')) {
-    applyPreset(presetKey);
+    applyPreset(presetKey, true);
   }
 
   renderPresetEditorList();
@@ -1487,7 +1513,7 @@ async function resetAllNamedPresetsToDefault() {
   const activeCard = document.querySelector('.preset-card.active');
   if (activeCard && activeCard.id) {
     const activeKey = activeCard.id.replace('preset-', '');
-    if (DEFAULT_PRESETS[activeKey]) applyPreset(activeKey);
+    if (DEFAULT_PRESETS[activeKey]) applyPreset(activeKey, true);
   }
 
   showZenToast('Todas las rutinas recomendadas volvieron a sus valores por defecto.', 'success');
@@ -1542,8 +1568,8 @@ function updateTotalSummary() {
   const saveBtn = document.getElementById('btn-save-sticky');
 
   if (totalTimeEl) {
-    totalTimeEl.innerText = (totalMin > 0 && totalMin < 1) 
-      ? `${Math.round(totalMin * 60)} seg` 
+    totalTimeEl.innerText = (totalMin > 0 && totalMin < 1)
+      ? `${Math.round(totalMin * 60)} seg`
       : `${Math.round(totalMin * 10) / 10} min`;
   }
   if (totalCountEl) totalCountEl.innerText = count;
@@ -2146,6 +2172,17 @@ function saveNewPracticeFromModal() {
 // MODAL DE INFORMACIÓN CIENTÍFICA (ℹ️ AL LADO DEL TÍTULO)
 // ==========================================================================
 
+function openHowToUseModal() {
+  const modal = document.getElementById('how-to-use-modal');
+  if (modal) modal.classList.add('active');
+}
+
+function closeHowToUseModal(event) {
+  if (event && event.target !== event.currentTarget) return;
+  const modal = document.getElementById('how-to-use-modal');
+  if (modal) modal.classList.remove('active');
+}
+
 function openScientificInfoModal() {
   const modal = document.getElementById('scientific-info-modal');
   if (modal) modal.classList.add('active');
@@ -2317,7 +2354,7 @@ function backToBuilder() {
     try {
       if (document.exitFullscreen) document.exitFullscreen();
       else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-    } catch (e) {}
+    } catch (e) { }
   }
   const playerSec = document.getElementById('player-section');
   if (playerSec) playerSec.classList.remove('is-fullscreen');
@@ -2552,7 +2589,7 @@ function displayCurrentStretchPosture(announce = true) {
     speakStretchPosture(speechMessage);
 
     if (navigator.vibrate) {
-      try { navigator.vibrate([60, 40, 60]); } catch (e) {}
+      try { navigator.vibrate([60, 40, 60]); } catch (e) { }
     }
   }
 }
@@ -2704,7 +2741,7 @@ function stopStretchRoutine() {
     stretchTimer = null;
   }
   if ('speechSynthesis' in window) {
-    try { window.speechSynthesis.cancel(); } catch (e) {}
+    try { window.speechSynthesis.cancel(); } catch (e) { }
   }
 }
 
@@ -2968,7 +3005,7 @@ function clearNotepadText() {
 // REPRODUCTOR YOUTUBE
 // ==========================================================================
 
-window.onYouTubeIframeAPIReady = function() {
+window.onYouTubeIframeAPIReady = function () {
   ytReady = true;
 };
 
@@ -2983,7 +3020,7 @@ function disableCaptions(player) {
       player.setOption('captions', 'track', {});
       player.setOption('cc', 'track', {});
     }
-  } catch (err) {}
+  } catch (err) { }
 }
 
 function initOrLoadYouTube(videoId) {
@@ -3378,9 +3415,9 @@ function toggleFullscreen() {
         p.then(() => {
           try {
             if (screen.orientation && typeof screen.orientation.lock === 'function') {
-              screen.orientation.lock('landscape').catch(() => {});
+              screen.orientation.lock('landscape').catch(() => { });
             }
-          } catch (e) {}
+          } catch (e) { }
         }).catch((err) => {
           console.warn('Pantalla completa estándar bloqueada, activando modo inmersivo:', err);
           playerSec.classList.add('is-fullscreen');
@@ -3410,7 +3447,7 @@ function toggleFullscreen() {
       if (screen.orientation && typeof screen.orientation.unlock === 'function') {
         screen.orientation.unlock();
       }
-    } catch (e) {}
+    } catch (e) { }
 
     const exit = document.exitFullscreen ||
       document.webkitExitFullscreen ||
@@ -3511,7 +3548,7 @@ if ('serviceWorker' in navigator) {
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredInstallPrompt = e;
-  
+
   const installBtn = document.getElementById('btn-pwa-install');
   if (installBtn) {
     installBtn.style.display = 'inline-flex';

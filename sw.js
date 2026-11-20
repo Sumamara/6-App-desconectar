@@ -2,7 +2,7 @@
 // DESCONECTAR • SERVICE WORKER (PWA OFFLINE & INSTALACIÓN)
 // ==========================================================================
 
-const CACHE_NAME = 'desconectar-pwa-v39';
+const CACHE_NAME = 'desconectar-pwa-v42';
 
 // Recursos esenciales que se guardan en caché para funcionamiento offline
 const STATIC_ASSETS = [

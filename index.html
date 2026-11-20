@@ -55,6 +55,15 @@
         <div class="top-utility-bar">
           <span class="top-badge">Inner Base</span>
           <div class="header-actions">
+            <button type="button" class="btn-icon-circle" onclick="openHowToUseModal()"
+              title="Cómo usar la aplicación" aria-label="Cómo usar la aplicación">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              </svg>
+            </button>
             <button type="button" class="btn-icon-circle" onclick="openScientificInfoModal()"
               title="Base científica de las 4 etapas" aria-label="Base científica">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -89,8 +98,7 @@
         </h1>
 
         <p class="header-lead">
-          Tu espacio para <strong>desconectar con calma</strong> —elige una rutina recomendada o arma tu secuencia en
-          cuatro etapas a tu medida.
+          Tu espacio para <strong>desconectar con calma</strong>.
         </p>
       </header>
 
@@ -102,7 +110,7 @@
 
         <div class="presets-grid" id="presets-grid">
           <!-- Fila 1: 3 tarjetas -->
-          <button type="button" class="preset-card preset-col-3 active" onclick="applyPreset('micro')"
+          <button type="button" class="preset-card preset-col-3" onclick="applyPreset('micro')"
             id="preset-micro">
             <span class="preset-card-top">
               <span class="preset-icon-box">
@@ -710,6 +718,52 @@
       <div class="modal-footer modal-footer-between">
         <button type="button" class="btn-outline-sm" onclick="resetStageDefaults()">Restablecer</button>
         <button type="button" class="btn btn-sm" onclick="closeStageLibraryModal()">Listo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CÓMO USAR LA APLICACIÓN -->
+  <div class="modal-overlay" id="how-to-use-modal" onclick="closeHowToUseModal(event)">
+    <div class="modal-box" onclick="event.stopPropagation()" role="dialog" aria-modal="true"
+      aria-labelledby="modal-howto-title">
+      <div class="modal-header">
+        <h3 id="modal-howto-title">Cómo usar Desconectar</h3>
+        <button type="button" class="modal-close-icon" onclick="closeHowToUseModal()" aria-label="Cerrar">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="science-intro">
+          Elige una rutina recomendada o arma tu secuencia en cuatro etapas a tu medida.
+        </p>
+
+        <ol class="howto-steps-list">
+          <li class="howto-step">
+            <span class="howto-step-num">1</span>
+            <div class="howto-step-body">
+              <strong>Rutinas rápidas:</strong> toca cualquiera de las 5 tarjetas para cargarla al instante. Si la tocas de nuevo, se desmarca.
+            </div>
+          </li>
+          <li class="howto-step">
+            <span class="howto-step-num">2</span>
+            <div class="howto-step-body">
+              <strong>A tu medida:</strong> despliega <em>Estirar, Respirar, Escribir</em> o <em>Meditar</em> y marca solo las prácticas que necesites hoy.
+            </div>
+          </li>
+          <li class="howto-step">
+            <span class="howto-step-num">3</span>
+            <div class="howto-step-body">
+              <strong>Guarda tus favoritas:</strong> al crear una combinación nueva, pulsa <em>Guardar</em> abajo para reutilizarla en un toque.
+            </div>
+          </li>
+          <li class="howto-step">
+            <span class="howto-step-num">4</span>
+            <div class="howto-step-body">
+              <strong>Personaliza en Ajustes:</strong> edita las rutinas con nombre, activa o añade tus propios videos y configura la medición de estrés.
+            </div>
+          </li>
+        </ol>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-full" onclick="closeHowToUseModal()">Entendido</button>
       </div>
     </div>
   </div>

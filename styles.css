@@ -2504,3 +2504,49 @@ p {
 .preset-reset-all-btn {
   margin-top: 4px;
 }
+
+/* Guía rápida dentro del modal ¿Cómo usar? */
+.howto-steps-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.howto-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  background: #FFFFFF;
+  border: 1px solid var(--linea);
+  border-radius: 14px;
+}
+
+.howto-step-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
+  background: var(--crema-100);
+  color: var(--acento-700);
+  font-family: var(--font-lora);
+  font-size: 12.5px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.howto-step-body {
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--gris-azul-700);
+}
+
+.howto-step-body strong {
+  color: var(--navy);
+}
