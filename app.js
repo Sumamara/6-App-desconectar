@@ -343,33 +343,100 @@ if (savedItemsOrder && Array.isArray(savedItemsOrder)) {
   });
 }
 
-// Definición de presets recomendados estándar (5 presets alineados al catálogo activo)
-const DEFAULT_PRESETS = {
+// Definición de fábrica de los 5 presets con nombre
+const PRESET_ORDER = ['micro', 'walk', 'neck', 'quick_disconnect', 'complete'];
+
+const FACTORY_DEFAULT_PRESETS = {
   micro: {
+    name: 'Micro-pausa',
+    desc: 'Brazos arriba · Doble inhalación',
     stages: ['estirar', 'respirar'],
     options: ['est-micro', 'resp-micro']
   },
   walk: {
+    name: 'Pausa activa',
+    desc: 'Estiramiento 5 min',
     stages: ['estirar'],
     options: ['est-5min']
   },
-  quick_disconnect: {
-    stages: ['estirar', 'escribir'],
-    options: ['est-5min', 'esc-4pasos']
-  },
   neck: {
+    name: 'Tensión en cuello',
+    desc: 'Alivio cervical guiado',
     stages: ['estirar'],
     options: ['est-neck-10']
   },
+  quick_disconnect: {
+    name: 'Desconexión rápida',
+    desc: 'Estirar 5m y descarga en 4 pasos',
+    stages: ['estirar', 'escribir'],
+    options: ['est-5min', 'esc-4pasos']
+  },
   complete: {
+    name: 'Desconexión total',
+    desc: 'Las 4 etapas completas',
     stages: ['estirar', 'respirar', 'escribir', 'meditar'],
     options: ['est-5min', 'resp-resonante', 'esc-4pasos', 'med-10min']
   }
 };
 
+function loadNamedPresets() {
+  let overrides = {};
+  try {
+    overrides = JSON.parse(localStorage.getItem('zen_po_preset_overrides') || '{}') || {};
+  } catch (e) {
+    overrides = {};
+  }
+  const merged = {};
+  PRESET_ORDER.forEach(key => {
+    const base = FACTORY_DEFAULT_PRESETS[key];
+    const ov = overrides[key];
+    merged[key] = ov ? {
+      name: ov.name || base.name,
+      desc: ov.desc !== undefined ? ov.desc : base.desc,
+      stages: Array.isArray(ov.stages) ? [...ov.stages] : [...base.stages],
+      options: Array.isArray(ov.options) ? [...ov.options] : [...base.options]
+    } : {
+      name: base.name,
+      desc: base.desc,
+      stages: [...base.stages],
+      options: [...base.options]
+    };
+  });
+  return merged;
+}
+
+let DEFAULT_PRESETS = loadNamedPresets();
+
+function getPresetTotalMin(preset) {
+  if (!preset || !Array.isArray(preset.options)) return 0;
+  return preset.options.reduce((sum, id) => {
+    const item = fullCatalog.find(i => i.id === id);
+    return sum + (item ? item.duration : 0);
+  }, 0);
+}
+
+function formatPresetDuration(totalMin) {
+  if (totalMin > 0 && totalMin < 1) return `${Math.round(totalMin * 60)} seg`;
+  return `${Math.round(totalMin * 10) / 10} min`;
+}
+
+function syncNamedPresetCards() {
+  PRESET_ORDER.forEach(key => {
+    const card = document.getElementById(`preset-${key}`);
+    const preset = DEFAULT_PRESETS[key];
+    if (!card || !preset) return;
+    const nameEl = card.querySelector('.preset-name');
+    const descEl = card.querySelector('.preset-desc');
+    const timeEl = card.querySelector('.preset-time');
+    if (nameEl) nameEl.innerText = preset.name;
+    if (descEl) descEl.innerText = preset.desc;
+    if (timeEl) timeEl.innerText = formatPresetDuration(getPresetTotalMin(preset));
+  });
+}
+
 // Estado de selección inicial (Micro-pausa por defecto)
-let activeStages = new Set(['estirar', 'respirar']);
-let selectedOptionIds = new Set(['est-micro', 'resp-micro']);
+let activeStages = new Set(DEFAULT_PRESETS.micro.stages);
+let selectedOptionIds = new Set(DEFAULT_PRESETS.micro.options);
 
 // Estado del reproductor
 let currentQueue = [];
@@ -773,6 +840,7 @@ function saveCustomRoutinesList(list) {
 }
 
 function renderCustomPresets() {
+  syncNamedPresetCards();
   const container = document.getElementById('custom-presets-container');
   if (!container) return;
 
@@ -1048,7 +1116,32 @@ function openManageRoutinesModal() {
     }
   }
 
+  renderCustomRoutinesManager();
+
+  modal.classList.add('active');
+  switchSettingsTab('general');
+  renderPresetEditorList();
+}
+
+let expandedPresetEditorKey = null;
+let expandedCustomRoutineId = null;
+
+function toggleCustomRoutineEditor(routineId) {
+  expandedCustomRoutineId = (expandedCustomRoutineId === routineId) ? null : routineId;
+  renderCustomRoutinesManager();
+}
+
+function renderCustomRoutinesManager() {
+  const body = document.getElementById('manage-routines-body');
+  if (!body) return;
+
   const routines = getCustomRoutinesList();
+  const stageNames = {
+    estirar: 'Estirar',
+    respirar: 'Respirar',
+    escribir: 'Escribir',
+    meditar: 'Meditar'
+  };
 
   if (routines.length === 0) {
     body.innerHTML = `
@@ -1059,25 +1152,351 @@ function openManageRoutinesModal() {
         </p>
       </div>
     `;
-  } else {
-    body.innerHTML = routines.map(r => `
-      <div class="manage-routine-row" id="manage-row-${r.id}">
-        <div class="manage-routine-details">
-          <div class="manage-routine-title">${escapeHtml(r.name)}</div>
-          <div class="manage-routine-meta">${r.totalMin} MIN · ${r.count} PRÁCTICAS</div>
-        </div>
-        <button type="button" class="btn-delete-routine" onclick="deleteCustomRoutine('${r.id}')" title="Eliminar esta rutina">
-          Borrar
-        </button>
-      </div>
-    `).join('');
+    return;
   }
 
-  modal.classList.add('active');
+  body.innerHTML = routines.map(r => {
+    const isOpen = expandedCustomRoutineId === r.id;
+    const routineOptions = Array.isArray(r.options) ? r.options : [];
+    let editorHtml = '';
+
+    if (isOpen) {
+      const stagesHtml = STAGE_ORDER.map(stageKey => {
+        const items = fullCatalog.filter(i => i.stage === stageKey && !hiddenItemIds.has(i.id));
+        if (items.length === 0) return '';
+        return `
+          <div class="preset-edit-stage-group">
+            <div class="preset-edit-stage-label">${stageNames[stageKey]}</div>
+            ${items.map(item => {
+              const checked = routineOptions.includes(item.id) ? 'checked' : '';
+              const dur = formatPresetDuration(item.duration);
+              return `
+                <label class="preset-edit-check-row">
+                  <input type="checkbox" class="option-checkbox custom-edit-checkbox" data-routine-id="${r.id}" value="${item.id}" ${checked}>
+                  <span class="preset-edit-check-title">${escapeHtml(item.title)}</span>
+                  <span class="preset-edit-check-dur">${dur}</span>
+                </label>
+              `;
+            }).join('')}
+          </div>
+        `;
+      }).join('');
+
+      editorHtml = `
+        <div class="preset-edit-form">
+          <div class="preset-edit-fields">
+            <label class="preset-edit-field-label">Nombre
+              <input type="text" id="custom-edit-name-${r.id}" class="zen-dialog-input" value="${escapeHtml(r.name)}">
+            </label>
+          </div>
+          <div class="preset-edit-stages-wrap">${stagesHtml}</div>
+          <div class="preset-edit-actions">
+            <button type="button" class="btn-outline-sm" onclick="useCurrentSelectionForCustomRoutine('${r.id}')">Usar selección actual</button>
+            <button type="button" class="btn btn-sm" onclick="saveCustomRoutineEdits('${r.id}')">Guardar</button>
+          </div>
+        </div>
+      `;
+    }
+
+    return `
+      <div class="preset-edit-card ${isOpen ? 'open' : ''}" id="manage-row-${r.id}" style="margin-bottom: 8px;">
+        <div class="preset-edit-header" onclick="toggleCustomRoutineEditor('${r.id}')">
+          <div class="manage-routine-details">
+            <div class="manage-routine-title">${escapeHtml(r.name)}</div>
+            <div class="manage-routine-meta">${r.totalMin} MIN · ${r.count} PRÁCTICA${r.count === 1 ? '' : 'S'}</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <button type="button" class="btn-outline-sm" onclick="event.stopPropagation(); toggleCustomRoutineEditor('${r.id}')">
+              ${isOpen ? 'Cerrar' : 'Editar'}
+            </button>
+            <button type="button" class="btn-delete-routine" onclick="event.stopPropagation(); deleteCustomRoutine('${r.id}')" title="Eliminar esta rutina">
+              Borrar
+            </button>
+          </div>
+        </div>
+        ${editorHtml}
+      </div>
+    `;
+  }).join('');
+}
+
+function useCurrentSelectionForCustomRoutine(routineId) {
+  const checkboxes = document.querySelectorAll(`.custom-edit-checkbox[data-routine-id="${routineId}"]`);
+  checkboxes.forEach(cb => {
+    cb.checked = selectedOptionIds.has(cb.value);
+  });
+  showZenToast('Selección actual cargada. Pulsa Guardar para confirmar.', 'info');
+}
+
+function saveCustomRoutineEdits(routineId) {
+  const nameInput = document.getElementById(`custom-edit-name-${routineId}`);
+  const checkboxes = document.querySelectorAll(`.custom-edit-checkbox[data-routine-id="${routineId}"]:checked`);
+  const chosenIds = Array.from(checkboxes).map(cb => cb.value);
+
+  if (chosenIds.length === 0) {
+    showZenToast('Selecciona al menos una práctica para esta rutina.', 'warning');
+    return;
+  }
+
+  const chosenStages = Array.from(new Set(
+    chosenIds.map(id => {
+      const item = fullCatalog.find(i => i.id === id);
+      return item ? item.stage : null;
+    }).filter(Boolean)
+  ));
+
+  const totalMin = Math.round(
+    chosenIds.reduce((sum, id) => {
+      const item = fullCatalog.find(i => i.id === id);
+      return sum + (item ? item.duration : 0);
+    }, 0) * 10
+  ) / 10;
+
+  let routines = getCustomRoutinesList();
+  routines = routines.map(r => {
+    if (r.id !== routineId) return r;
+    const newName = (nameInput && nameInput.value.trim()) ? nameInput.value.trim() : r.name;
+    return {
+      ...r,
+      name: newName,
+      stages: chosenStages,
+      options: chosenIds,
+      count: chosenIds.length,
+      totalMin
+    };
+  });
+  saveCustomRoutinesList(routines);
+
+  const card = document.getElementById(`preset-${routineId}`);
+  const wasActive = card && card.classList.contains('active');
+
+  expandedCustomRoutineId = null;
+  renderCustomRoutinesManager();
+  renderCustomPresets();
+  if (wasActive) applyCustomRoutine(routineId);
+  updateTotalSummary();
+
+  showZenToast('Rutina personalizada actualizada.', 'success');
+}
+
+function switchSettingsTab(tab) {
+  const generalPanel = document.getElementById('settings-panel-general');
+  const routinesPanel = document.getElementById('settings-panel-routines');
+  const generalTab = document.getElementById('settings-tab-general');
+  const routinesTab = document.getElementById('settings-tab-routines');
+  const backBtn = document.getElementById('settings-back-btn');
+
+  const isRoutines = tab === 'routines';
+  if (generalPanel) generalPanel.style.display = isRoutines ? 'none' : 'block';
+  if (routinesPanel) routinesPanel.style.display = isRoutines ? 'block' : 'none';
+  if (backBtn) backBtn.style.display = isRoutines ? 'inline-flex' : 'none';
+  if (generalTab) {
+    generalTab.classList.toggle('active', !isRoutines);
+    generalTab.setAttribute('aria-selected', !isRoutines ? 'true' : 'false');
+  }
+  if (routinesTab) {
+    routinesTab.classList.toggle('active', isRoutines);
+    routinesTab.setAttribute('aria-selected', isRoutines ? 'true' : 'false');
+  }
+
+  if (isRoutines) {
+    renderPresetEditorList();
+  }
+}
+
+function backToSettingsFromLibrary() {
+  closeStageLibraryModal();
+  openManageRoutinesModal();
+}
+
+function togglePresetEditor(presetKey) {
+  expandedPresetEditorKey = (expandedPresetEditorKey === presetKey) ? null : presetKey;
+  renderPresetEditorList();
+}
+
+function renderPresetEditorList() {
+  const container = document.getElementById('preset-editor-list');
+  if (!container) return;
+
+  const stageNames = {
+    estirar: 'Estirar',
+    respirar: 'Respirar',
+    escribir: 'Escribir',
+    meditar: 'Meditar'
+  };
+
+  container.innerHTML = PRESET_ORDER.map(key => {
+    const preset = DEFAULT_PRESETS[key];
+    const totalMinStr = formatPresetDuration(getPresetTotalMin(preset));
+    const count = preset.options.length;
+    const isOpen = expandedPresetEditorKey === key;
+
+    let editorHtml = '';
+    if (isOpen) {
+      const stagesHtml = STAGE_ORDER.map(stageKey => {
+        const items = fullCatalog.filter(i => i.stage === stageKey && !hiddenItemIds.has(i.id));
+        if (items.length === 0) return '';
+        return `
+          <div class="preset-edit-stage-group">
+            <div class="preset-edit-stage-label">${stageNames[stageKey]}</div>
+            ${items.map(item => {
+              const checked = preset.options.includes(item.id) ? 'checked' : '';
+              const dur = formatPresetDuration(item.duration);
+              return `
+                <label class="preset-edit-check-row">
+                  <input type="checkbox" class="option-checkbox preset-edit-checkbox" data-preset-key="${key}" value="${item.id}" ${checked}>
+                  <span class="preset-edit-check-title">${escapeHtml(item.title)}</span>
+                  <span class="preset-edit-check-dur">${dur}</span>
+                </label>
+              `;
+            }).join('')}
+          </div>
+        `;
+      }).join('');
+
+      editorHtml = `
+        <div class="preset-edit-form">
+          <div class="preset-edit-fields">
+            <label class="preset-edit-field-label">Nombre
+              <input type="text" id="preset-edit-name-${key}" class="zen-dialog-input" value="${escapeHtml(preset.name)}">
+            </label>
+            <label class="preset-edit-field-label">Descripción corta
+              <input type="text" id="preset-edit-desc-${key}" class="zen-dialog-input" value="${escapeHtml(preset.desc)}">
+            </label>
+          </div>
+          <div class="preset-edit-stages-wrap">${stagesHtml}</div>
+          <div class="preset-edit-actions">
+            <button type="button" class="btn-outline-sm" onclick="useCurrentSelectionForPreset('${key}')">Usar selección actual</button>
+            <button type="button" class="btn-outline-sm" onclick="resetSingleNamedPreset('${key}')">Por defecto</button>
+            <button type="button" class="btn btn-sm" onclick="saveNamedPresetEdits('${key}')">Guardar</button>
+          </div>
+        </div>
+      `;
+    }
+
+    return `
+      <div class="preset-edit-card ${isOpen ? 'open' : ''}">
+        <div class="preset-edit-header" onclick="togglePresetEditor('${key}')">
+          <div class="preset-edit-summary">
+            <div class="manage-routine-title">${escapeHtml(preset.name)}</div>
+            <div class="manage-routine-meta">${totalMinStr} · ${count} práctica${count === 1 ? '' : 's'}</div>
+          </div>
+          <button type="button" class="btn-outline-sm" onclick="event.stopPropagation(); togglePresetEditor('${key}')">
+            ${isOpen ? 'Cerrar' : 'Editar'}
+          </button>
+        </div>
+        ${editorHtml}
+      </div>
+    `;
+  }).join('');
+}
+
+function useCurrentSelectionForPreset(presetKey) {
+  const checkboxes = document.querySelectorAll(`.preset-edit-checkbox[data-preset-key="${presetKey}"]`);
+  checkboxes.forEach(cb => {
+    cb.checked = selectedOptionIds.has(cb.value);
+  });
+  showZenToast('Selección actual cargada. Pulsa Guardar para confirmar.', 'info');
+}
+
+function saveNamedPresetEdits(presetKey) {
+  const nameInput = document.getElementById(`preset-edit-name-${presetKey}`);
+  const descInput = document.getElementById(`preset-edit-desc-${presetKey}`);
+  const checkboxes = document.querySelectorAll(`.preset-edit-checkbox[data-preset-key="${presetKey}"]:checked`);
+  const chosenIds = Array.from(checkboxes).map(cb => cb.value);
+
+  if (chosenIds.length === 0) {
+    showZenToast('Selecciona al menos una práctica para esta rutina.', 'warning');
+    return;
+  }
+
+  const chosenStages = Array.from(new Set(
+    chosenIds.map(id => {
+      const item = fullCatalog.find(i => i.id === id);
+      return item ? item.stage : null;
+    }).filter(Boolean)
+  ));
+
+  const base = FACTORY_DEFAULT_PRESETS[presetKey];
+  const updated = {
+    name: (nameInput && nameInput.value.trim()) ? nameInput.value.trim() : base.name,
+    desc: descInput ? descInput.value.trim() : base.desc,
+    stages: chosenStages,
+    options: chosenIds
+  };
+
+  let overrides = {};
+  try {
+    overrides = JSON.parse(localStorage.getItem('zen_po_preset_overrides') || '{}') || {};
+  } catch (e) {
+    overrides = {};
+  }
+  overrides[presetKey] = updated;
+  localStorage.setItem('zen_po_preset_overrides', JSON.stringify(overrides));
+
+  DEFAULT_PRESETS = loadNamedPresets();
+  syncNamedPresetCards();
+
+  const card = document.getElementById(`preset-${presetKey}`);
+  if (card && card.classList.contains('active')) {
+    applyPreset(presetKey);
+  }
+
+  expandedPresetEditorKey = null;
+  renderPresetEditorList();
+  showZenToast(`Rutina "${updated.name}" actualizada.`, 'success');
+}
+
+function resetSingleNamedPreset(presetKey) {
+  let overrides = {};
+  try {
+    overrides = JSON.parse(localStorage.getItem('zen_po_preset_overrides') || '{}') || {};
+  } catch (e) {
+    overrides = {};
+  }
+  delete overrides[presetKey];
+  localStorage.setItem('zen_po_preset_overrides', JSON.stringify(overrides));
+
+  DEFAULT_PRESETS = loadNamedPresets();
+  syncNamedPresetCards();
+
+  const card = document.getElementById(`preset-${presetKey}`);
+  if (card && card.classList.contains('active')) {
+    applyPreset(presetKey);
+  }
+
+  renderPresetEditorList();
+  showZenToast(`"${DEFAULT_PRESETS[presetKey].name}" restaurada por defecto.`, 'info');
+}
+
+async function resetAllNamedPresetsToDefault() {
+  const confirmed = await showZenConfirm({
+    title: 'Rutinas por defecto',
+    message: '¿Deseas restablecer las 5 rutinas recomendadas a sus nombres y prácticas originales?',
+    confirmText: 'Sí, restablecer',
+    isDanger: false
+  });
+  if (!confirmed) return;
+
+  localStorage.removeItem('zen_po_preset_overrides');
+  DEFAULT_PRESETS = loadNamedPresets();
+  syncNamedPresetCards();
+  expandedPresetEditorKey = null;
+  renderPresetEditorList();
+
+  const activeCard = document.querySelector('.preset-card.active');
+  if (activeCard && activeCard.id) {
+    const activeKey = activeCard.id.replace('preset-', '');
+    if (DEFAULT_PRESETS[activeKey]) applyPreset(activeKey);
+  }
+
+  showZenToast('Todas las rutinas recomendadas volvieron a sus valores por defecto.', 'success');
 }
 
 function closeManageRoutinesModal(event) {
   if (event && event.target !== event.currentTarget) return;
+  expandedPresetEditorKey = null;
+  expandedCustomRoutineId = null;
   const modal = document.getElementById('manage-routines-modal');
   if (modal) modal.classList.remove('active');
 }
@@ -1100,6 +1519,7 @@ async function deleteCustomRoutine(routineId) {
   saveCustomRoutinesList(routines);
 
   openManageRoutinesModal();
+  switchSettingsTab('routines');
   renderCustomPresets();
   updateTotalSummary();
 
@@ -2002,9 +2422,9 @@ function setupStretchRoutine(item) {
   isStretchPaused = false;
 
   const playBtn = document.getElementById('play-pause-btn');
-  if (playBtn) playBtn.innerText = "Pausar";
+  if (playBtn) playBtn.innerText = "⏸ Pausar";
   const stretchPlayBtn = document.getElementById('btn-stretch-play');
-  if (stretchPlayBtn) stretchPlayBtn.innerText = "Pausar";
+  if (stretchPlayBtn) stretchPlayBtn.innerText = "⏸ Pausar";
 
   updateStretchAudioToggleButtons();
   renderStretchPosturesStrip();
@@ -2213,10 +2633,10 @@ function toggleStretchPlay() {
   isStretchPaused = !isStretchPaused;
 
   const playBtn = document.getElementById('play-pause-btn');
-  if (playBtn) playBtn.innerText = isStretchPaused ? "Reanudar" : "Pausar";
+  if (playBtn) playBtn.innerText = isStretchPaused ? "▶ Reanudar" : "⏸ Pausar";
 
   const stretchPlayBtn = document.getElementById('btn-stretch-play');
-  if (stretchPlayBtn) stretchPlayBtn.innerText = isStretchPaused ? "Reanudar" : "Pausar";
+  if (stretchPlayBtn) stretchPlayBtn.innerText = isStretchPaused ? "▶ Reanudar" : "⏸ Pausar";
 
   if (isStretchPaused) {
     if ('speechSynthesis' in window) window.speechSynthesis.cancel();
@@ -2368,7 +2788,7 @@ function setupZenTimer(item) {
   activityTotalSeconds = Math.round((item.duration || 5) * 60);
   activitySecondsLeft = activityTotalSeconds;
   isActivityPaused = false;
-  document.getElementById('play-pause-btn').innerText = "Pausar";
+  document.getElementById('play-pause-btn').innerText = "⏸ Pausar";
 
   startActivityTimer();
 }
@@ -2407,6 +2827,12 @@ function updateActivityTimeDisplay() {
 // MODO ESCRITURA ZEN (BLOC DE NOTAS CON TEMPORIZADOR)
 // ==========================================================================
 
+function autoResizeTextarea(el) {
+  if (!el) return;
+  el.style.height = 'auto';
+  el.style.height = `${el.scrollHeight}px`;
+}
+
 function setupNotepad(item) {
   document.getElementById('notepad-title').innerText = item.promptTitle || item.title;
   const descEl = document.getElementById('notepad-desc');
@@ -2419,10 +2845,10 @@ function setupNotepad(item) {
           <div class="notepad-step-item">
             <label class="notepad-step-q" for="notepad-step-input-${idx}">${escapeHtml(step.q)}</label>
             <div class="notepad-step-note">*${escapeHtml(step.note)}</div>
-            <textarea id="notepad-step-input-${idx}" class="notepad-step-input" rows="3"
+            <textarea id="notepad-step-input-${idx}" class="notepad-step-input" rows="2"
               data-question="${escapeHtml(step.q)}"
               placeholder="Escribe tu respuesta aquí..."
-              oninput="updateWordCount()"></textarea>
+              oninput="autoResizeTextarea(this); updateWordCount()"></textarea>
           </div>
         `).join('')}
       </div>
@@ -2436,7 +2862,11 @@ function setupNotepad(item) {
     if (textarea) {
       textarea.style.display = '';
       textarea.value = '';
-      textarea.oninput = updateWordCount;
+      textarea.style.height = 'auto';
+      textarea.oninput = () => {
+        autoResizeTextarea(textarea);
+        updateWordCount();
+      };
     }
   }
 
@@ -2445,7 +2875,7 @@ function setupNotepad(item) {
   writingTotalSeconds = Math.round((item.duration || 5) * 60);
   writingSecondsLeft = writingTotalSeconds;
   isWritingPaused = false;
-  document.getElementById('play-pause-btn').innerText = "Pausar";
+  document.getElementById('play-pause-btn').innerText = "⏸ Pausar";
 
   startWritingTimer();
 }
@@ -2615,6 +3045,9 @@ function syncRealVideoDuration(playerInstance) {
 }
 
 function onPlayerStateChange(event) {
+  const currentItem = currentQueue[currentStepIdx];
+  if (!currentItem || currentItem.type !== 'video') return;
+
   const pauseOverlay = document.getElementById('pause-overlay');
   const transitionOverlay = document.getElementById('transition-overlay');
   const playBtn = document.getElementById('play-pause-btn');
@@ -2623,12 +3056,12 @@ function onPlayerStateChange(event) {
     disableCaptions(event.target);
     syncRealVideoDuration(event.target);
     if (pauseOverlay) pauseOverlay.style.display = 'none';
-    if (playBtn) playBtn.innerText = "Pausar";
+    if (playBtn) playBtn.innerText = "⏸ Pausar";
     startProgressLoop();
   } else if (event.data === YT.PlayerState.PAUSED) {
     if (transitionOverlay && transitionOverlay.style.display !== 'flex') {
       if (pauseOverlay) pauseOverlay.style.display = 'flex';
-      if (playBtn) playBtn.innerText = "Reanudar";
+      if (playBtn) playBtn.innerText = "▶ Reanudar";
     }
   } else if (event.data === YT.PlayerState.ENDED) {
     handleStepEnded();
@@ -2685,26 +3118,19 @@ function showRoutineCelebrationModal() {
 
   if (isMeasureImprovementEnabled() && moodScoreBefore !== null && moodScoreAfter !== null) {
     const stressDrop = moodScoreBefore - moodScoreAfter;
-    let deltaHtml = '';
+    let headline = '';
     if (stressDrop > 0) {
-      deltaHtml = `<div class="completed-delta-text">-${stressDrop} PUNTOS DE ESTRÉS REGISTRADOS</div>`;
+      headline = `<div class="completed-delta-text">Tu estrés bajó ${stressDrop} punto${stressDrop === 1 ? '' : 's'}</div>`;
     } else if (stressDrop === 0) {
-      deltaHtml = `<div class="completed-delta-text" style="color:#0A2540;">NIVEL DE ESTRÉS ESTABLE</div>`;
+      headline = `<div class="completed-delta-text completed-delta-neutral">Nivel de estrés estable</div>`;
     } else {
-      deltaHtml = `<div class="completed-delta-text" style="color:#985500;">ESPACIO DE PAUSA REGISTRADO</div>`;
+      headline = `<div class="completed-delta-text completed-delta-neutral">Pausa registrada</div>`;
     }
 
     container.innerHTML = `
       <div class="completed-progress-card">
-        <div class="completed-progress-summary">
-          Nivel de estrés: pasó de <strong>${moodScoreBefore}</strong> a <strong>${moodScoreAfter}</strong>.
-        </div>
-        <div class="completed-score-row">
-          <span class="completed-score-badge">ANTES · ${moodScoreBefore}/100</span>
-          <span class="completed-arrow">→</span>
-          <span class="completed-score-badge completed-score-badge-after">AHORA · ${moodScoreAfter}/100</span>
-        </div>
-        ${deltaHtml}
+        ${headline}
+        <div class="completed-score-simple">Estrés: <strong>${moodScoreBefore}</strong> → <strong>${moodScoreAfter}</strong></div>
       </div>
     `;
     container.style.display = 'block';
@@ -2789,13 +3215,13 @@ function togglePlay() {
 
   if (item && item.type === 'writing') {
     isWritingPaused = !isWritingPaused;
-    playBtn.innerText = isWritingPaused ? "Reanudar" : "Pausar";
+    playBtn.innerText = isWritingPaused ? "▶ Reanudar" : "⏸ Pausar";
     return;
   }
 
   if (item && item.type === 'timer') {
     isActivityPaused = !isActivityPaused;
-    playBtn.innerText = isActivityPaused ? "Reanudar" : "Pausar";
+    playBtn.innerText = isActivityPaused ? "▶ Reanudar" : "⏸ Pausar";
     document.getElementById('timer-state-label').innerText = isActivityPaused ? "PAUSADO" : "EN CURSO";
     return;
   }
@@ -2885,15 +3311,26 @@ function seekVideo(e) {
   ytPlayer.seekTo(dur * pct, true);
 }
 
+const SVG_ICON_AUDIO = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>`;
+const SVG_ICON_MUTED = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>`;
+const SVG_ICON_EXPAND = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><polyline points="21 15 21 21 15 21"></polyline><polyline points="3 9 3 3 9 3"></polyline></svg>`;
+const SVG_ICON_COLLAPSE = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 14 10 14 10 20"></polyline><polyline points="20 10 14 10 14 4"></polyline><polyline points="14 20 14 14 20 14"></polyline><polyline points="10 4 10 10 4 10"></polyline></svg>`;
+
 function toggleMute() {
   if (!ytPlayer) return;
   const btn = document.getElementById('mute-btn');
   if (ytPlayer.isMuted()) {
     ytPlayer.unMute();
-    btn.innerText = 'Audio';
+    if (btn) {
+      btn.innerHTML = SVG_ICON_AUDIO;
+      btn.title = 'Silenciar audio';
+    }
   } else {
     ytPlayer.mute();
-    btn.innerText = 'Silencio';
+    if (btn) {
+      btn.innerHTML = SVG_ICON_MUTED;
+      btn.title = 'Activar audio';
+    }
   }
 }
 
@@ -2911,7 +3348,7 @@ function updateFullscreenBtnState() {
   const playerSec = document.getElementById('player-section');
   const isFs = isFullscreenActive();
   if (btn) {
-    btn.innerText = isFs ? 'Reducir' : 'Expandir';
+    btn.innerHTML = isFs ? SVG_ICON_COLLAPSE : SVG_ICON_EXPAND;
     btn.title = isFs ? 'Salir de pantalla completa' : 'Pantalla completa';
   }
   if (playerSec) {
@@ -2949,7 +3386,7 @@ function toggleFullscreen() {
           playerSec.classList.add('is-fullscreen');
           const btn = document.getElementById('fullscreen-btn');
           if (btn) {
-            btn.innerText = 'Reducir';
+            btn.innerHTML = SVG_ICON_COLLAPSE;
             btn.title = 'Salir de pantalla completa';
           }
         });
@@ -2962,7 +3399,7 @@ function toggleFullscreen() {
         playerSec.classList.add('is-fullscreen');
         const btn = document.getElementById('fullscreen-btn');
         if (btn) {
-          btn.innerText = 'Reducir';
+          btn.innerHTML = SVG_ICON_COLLAPSE;
           btn.title = 'Salir de pantalla completa';
         }
       }
@@ -2984,7 +3421,7 @@ function toggleFullscreen() {
     }
     const btn = document.getElementById('fullscreen-btn');
     if (btn) {
-      btn.innerText = 'Expandir';
+      btn.innerHTML = SVG_ICON_EXPAND;
       btn.title = 'Pantalla completa';
     }
   }
