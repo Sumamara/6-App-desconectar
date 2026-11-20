@@ -13,54 +13,70 @@ if (window.location.protocol === 'file:') {
 const defaultCatalog = [
   // ETAPA 1: ESTIRAR
   { 
-    id: 'est-guided', 
-    stage: 'estirar', 
-    type: 'stretch-routine', 
-    icon: '🤸',
-    title: "🤸 Estiramiento Guiado en Etapas (15s • 5 min)", 
-    duration: 5, 
-    instructions: "Rutina guiada con locución por voz, campana sonora y temporizador de 15 segundos por movimiento (5 min en 2 rondas de 10 posturas): hombros atrás y adelante, cuello media luna, diciendo no y sí, brazos, tocarse los pies, arquearse atrás y subir pantorrillas." 
-  },
-  { 
     id: 'est-micro', 
     stage: 'estirar', 
     type: 'timer', 
-    icon: '🧍',
-    title: "🧍 Levantarse y estirar manos arriba (30 seg)", 
+    icon: 'ESTIRAR',
+    title: "Levantarse y estirar brazos arriba (30 seg)", 
     duration: 0.5, 
-    instructions: "Ponte de pie, despega la mirada de la pantalla y estira los brazos bien arriba hacia el cielo. Abre el pecho, inhala profundo y sacude suavemente manos y piernas para liberar tensiones acumuladas." 
+    instructions: "Ponte de pie, despega la mirada de la pantalla y estira los brazos arriba. Abre el pecho, inhala profundo y suelta suavemente manos y piernas." 
   },
   { 
     id: 'est-walk', 
     stage: 'estirar', 
     type: 'timer', 
-    icon: '🚶',
-    title: "🚶 Caminata Suave de Movilidad", 
+    icon: 'MOVILIDAD',
+    title: "Caminata suave de movilidad", 
     duration: 5, 
-    instructions: "Ponte de pie y camina a paso relajado por la habitación o la oficina. Mueve los brazos libremente, gira los hombros en círculos y afloja el cuello mientras das cada paso." 
+    instructions: "Ponte de pie y camina a paso relajado por la habitación o la oficina. Mueve los brazos libremente, gira los hombros en círculos y afloja el cuello." 
   },
   { 
-    id: 'est-quick', 
+    id: 'est-5min', 
     stage: 'estirar', 
-    type: 'timer', 
-    icon: '🤸',
-    title: "🤸 Movilidad y Estiramiento Suave (7 min)", 
-    duration: 7, 
-    instructions: "De pie o sentado cómodamente, realiza giros suaves de cuello, hombros y tronco. Abre el pecho e inhala sintiendo cómo se oxigena la espalda alta y la postura." 
+    type: 'video', 
+    title: "Estiramiento 5 min · Relaja tu cuerpo y alivia tensiones", 
+    duration: 5, 
+    ytId: "DwRR59ektIs" 
   },
   { 
     id: 'est-1', 
     stage: 'estirar', 
     type: 'video', 
-    title: "Estiramiento de Cuello y Hombros", 
+    title: "Estiramiento de cuello y hombros", 
     duration: 10, 
     ytId: "s-7lyvblFNI" 
+  },
+  { 
+    id: 'est-neck-10', 
+    stage: 'estirar', 
+    type: 'video', 
+    title: "Estiramiento de cuello (13 min)", 
+    duration: 13, 
+    ytId: "JFYCz-OIyJI" 
+  },
+  { 
+    id: 'est-guided', 
+    stage: 'estirar', 
+    type: 'stretch-routine', 
+    icon: 'ESTIRAR',
+    title: "Estiramiento guiado en etapas (15s · 5 min)", 
+    duration: 5, 
+    instructions: "Rutina guiada con locución por voz, tono de cambio y temporizador de 15 segundos por movimiento (5 min en 2 rondas de 10 posturas)." 
+  },
+  { 
+    id: 'est-quick', 
+    stage: 'estirar', 
+    type: 'timer', 
+    icon: 'MOVILIDAD',
+    title: "Movilidad y estiramiento suave (7 min)", 
+    duration: 7, 
+    instructions: "De pie o sentado con la espalda recta, realiza giros suaves de cuello, hombros y tronco. Abre el pecho e inhala profundo." 
   },
   { 
     id: 'est-2', 
     stage: 'estirar', 
     type: 'video', 
-    title: "Movilidad Suave de Espalda y Columna", 
+    title: "Movilidad suave de espalda y columna", 
     duration: 11, 
     ytId: "4pKly2JojMw" 
   },
@@ -68,62 +84,62 @@ const defaultCatalog = [
     id: 'est-3', 
     stage: 'estirar', 
     type: 'video', 
-    title: "Pausa Activa de Postura en Escritorio", 
+    title: "Pausa activa de postura en escritorio", 
     duration: 10, 
     ytId: "s-7lyvblFNI" 
   },
 
   // ETAPA 2: RESPIRAR
   { 
-    id: 'resp-micro', 
+    id: 'resp-resonante', 
     stage: 'respirar', 
     type: 'timer', 
-    icon: '😮‍💨',
-    title: "😮‍💨 Doble Inhalación Exprés (30 seg)", 
-    duration: 0.5, 
-    instructions: "Haz dos inhalaciones seguidas por la nariz: una profunda y larga, e inmediatamente una segunda inhalación corta para expandir al máximo los pulmones. Luego suelta todo el aire por la boca en una exhalación lenta y completa. Es el suspiro fisiológico para resetear el sistema nervioso." 
-  },
-  { 
-    id: 'resp-478-timer', 
-    stage: 'respirar', 
-    type: 'timer', 
-    icon: '🫁',
-    title: "🫁 Respiración 4-7-8 Guiada (3 ciclos)", 
-    duration: 1, 
-    instructions: "Inhala suave por la nariz (4 segundos)... Mantén el aire en tus pulmones (7 segundos)... Exhala lento por la boca vaciando todo el pecho (8 segundos). Siente cómo se calma tu pulso." 
+    icon: 'COHERENCIA',
+    title: "Respiración diafragmática resonante", 
+    duration: 5, 
+    instructions: "Vas a respirar con el contador hasta 5 y luego, cuando se quite el contador, vas a seguir tú contando hasta 5 donde se sienta bien." 
   },
   { 
     id: 'resp-double', 
     stage: 'respirar', 
     type: 'timer', 
-    icon: '😮‍💨',
-    title: "😮‍💨 Respiración de Doble Inhalación (Suspiro Fisiológico)", 
-    duration: 3, 
-    instructions: "Haz dos inhalaciones seguidas por la nariz: una profunda y larga, e inmediatamente una segunda inhalación corta para expandir al máximo los pulmones. Luego suelta todo el aire por la boca en una exhalación lenta y completa. Es el método neurobiológico más rápido para calmar el estrés y la aceleración mental." 
-  },
-  { 
-    id: 'resp-resonante', 
-    stage: 'respirar', 
-    type: 'timer', 
-    icon: '💓',
-    title: "💓 Respiración Resonante (Coherencia Cardíaca)", 
-    duration: 5, 
-    instructions: "Inhala suavemente por la nariz durante 5.5 segundos inflando el abdomen para activar el diafragma... y exhala suave por la boca durante 5.5 segundos vaciando todo el aire. Sigue el ritmo del círculo para que llegues a tu ritmo natural y sincronices tu mente y corazón." 
+    icon: 'RESPIRAR',
+    title: "Opción doble inhalación", 
+    duration: 2, 
+    instructions: "Respirar profundo todo lo que puedas y con los pulmones llenos inhalar una vez más y exhalar por la boca." 
   },
   { 
     id: 'resp-ocean', 
     stage: 'respirar', 
     type: 'timer', 
-    icon: '🌊',
-    title: "🌊 Respiración del Mar (Respiración Oceánica / Ujjayi)", 
-    duration: 4, 
-    instructions: "Inhala y exhala por la nariz de manera suave y profunda, contrayendo sutilmente la parte posterior de la garganta. Escucharás un murmullo continuo similar al oleaje de las olas del mar. Este sonido relaja la mente y ancla tu presencia en calma." 
+    icon: 'RESPIRAR',
+    title: "Opción del mar", 
+    duration: 2, 
+    instructions: "Vas a respirar profundo todo lo que puedas y vas a exhalar haciendo un sonido con la garganta, hacerlo hasta que te sientas muy relajada al menos 2 minutos." 
+  },
+  { 
+    id: 'resp-micro', 
+    stage: 'respirar', 
+    type: 'timer', 
+    icon: 'RESPIRAR',
+    title: "Doble inhalación exprés (30 seg)", 
+    duration: 0.5, 
+    instructions: "Haz dos inhalaciones seguidas por la nariz: una profunda y larga, y enseguida una segunda inhalación corta para expandir los pulmones. Suelta el aire por la boca en una exhalación lenta y completa." 
+  },
+  { 
+    id: 'resp-478-timer', 
+    stage: 'respirar', 
+    type: 'timer', 
+    icon: 'RESPIRAR',
+    title: "Respiración 4-7-8 guiada (3 ciclos)", 
+    duration: 1, 
+    instructions: "Inhala suave por la nariz (4 segundos), sostén el aire (7 segundos) y exhala lento por la boca vaciando el pecho (8 segundos)." 
   },
   { 
     id: 'resp-resonante-vid', 
     stage: 'respirar', 
     type: 'video', 
-    title: "Coherencia Cardíaca Guiada con Campanas", 
+    title: "Coherencia cardíaca guiada con campanas", 
     duration: 5, 
     ytId: "Zsp00w0R3As" 
   },
@@ -131,7 +147,7 @@ const defaultCatalog = [
     id: 'resp-1', 
     stage: 'respirar', 
     type: 'video', 
-    title: "Respiración 4-7-8 para Calmar el Sistema Nervioso", 
+    title: "Respiración 4-7-8 para calmar el sistema nervioso", 
     duration: 5, 
     ytId: "inpok4MKVLM" 
   },
@@ -139,7 +155,7 @@ const defaultCatalog = [
     id: 'resp-2', 
     stage: 'respirar', 
     type: 'video', 
-    title: "Respiración Cuadrada (Box Breathing)", 
+    title: "Respiración cuadrada (Box Breathing)", 
     duration: 4, 
     ytId: "inpok4MKVLM" 
   },
@@ -147,44 +163,71 @@ const defaultCatalog = [
     id: 'resp-3', 
     stage: 'respirar', 
     type: 'video', 
-    title: "Respiración Diafragmática Relajante", 
+    title: "Respiración diafragmática relajante", 
     duration: 6, 
     ytId: "vB6OxxhSzCA" 
   },
 
-  // ETAPA 3: ESCRIBIR (HÍBRIDO: BLOC ZEN O VIDEO GUIADO)
+  // ETAPA 3: ESCRIBIR
   { 
-    id: 'esc-1', 
+    id: 'esc-4pasos', 
     stage: 'escribir', 
     type: 'writing', 
-    title: "📝 Bloc Zen: Descarga Mental (Brain Dump)", 
+    title: "Bloc de notas: Descarga mental (4 pasos)", 
     duration: 5,
-    promptTitle: "✍️ Descarga Mental",
-    promptDesc: "Escribe todo lo que ronda en tu cabeza sin filtros ni juicios. Vacía tus pendientes y preocupaciones para desconectar."
+    promptTitle: "Descarga mental en 4 pasos",
+    promptDesc: "Responde estas 4 preguntas con calma para soltar pendientes y salir del modo supervivencia.",
+    promptSteps: [
+      {
+        q: "1. ¿Qué tienes en mente?",
+        note: "No podemos relajarnos si la amígdala está activa; si nuestro sistema de supervivencia debe decir algo, escúchalo primero."
+      },
+      {
+        q: "2. ¿Qué quedó pendiente del trabajo?",
+        note: "Sal mentalmente del trabajo. Todo está escrito aquí; ya no necesitas tenerlo en mente."
+      },
+      {
+        q: "3. ¿Qué le dirías a una amiga que pasa por lo mismo?",
+        note: "Trátate de manera compasiva, no seas tan duro contigo mismo. Así salimos del modo supervivencia."
+      },
+      {
+        q: "4. ¿Te sientes mejor o peor que al inicio?",
+        note: "Si te sientes peor, cambia el método. Esto debe ser neutral o relajante."
+      }
+    ]
   },
   { 
     id: 'esc-2', 
     stage: 'escribir', 
     type: 'writing', 
-    title: "📝 Bloc Zen: Diario de Gratitud (3 cosas)", 
+    title: "Bloc de notas: Registro de gratitud (3 cosas)", 
     duration: 3,
-    promptTitle: "✨ 3 Cosas que Agradeces Hoy",
-    promptDesc: "Identifica y escribe 3 momentos, personas o detalles simples por los que sientes gratitud en este instante."
+    promptTitle: "3 cosas que agradeces hoy",
+    promptDesc: "Identifica y escribe 3 momentos, personas o detalles concretos por los que sientes gratitud hoy."
+  },
+  { 
+    id: 'esc-1', 
+    stage: 'escribir', 
+    type: 'writing', 
+    title: "Bloc de notas: Descarga mental (Brain Dump)", 
+    duration: 5,
+    promptTitle: "Descarga mental",
+    promptDesc: "Escribe todo lo que ronda en tu cabeza sin filtros. Vacía pendientes y preocupaciones para cerrar la jornada."
   },
   { 
     id: 'esc-3', 
     stage: 'escribir', 
     type: 'writing', 
-    title: "📝 Bloc Zen: ¿Qué elijo soltar hoy?", 
+    title: "Bloc de notas: Qué elijo soltar hoy", 
     duration: 5,
-    promptTitle: "🕊️ Soltar lo que no controlo",
-    promptDesc: "¿Qué situación o expectativa está fuera de tu control hoy? Escríbela aquí con la intención de dejarla ir."
+    promptTitle: "Soltar lo que no está bajo mi control",
+    promptDesc: "¿Qué situación o expectativa queda fuera de tu control hoy? Escríbela aquí para darle cierre."
   },
   { 
     id: 'esc-4', 
     stage: 'escribir', 
     type: 'video', 
-    title: "📹 Video: Journaling Interactivo para Mejorar tu Día", 
+    title: "Video: Journaling interactivo para cerrar el día", 
     duration: 11, 
     ytId: "JNbbebvlShI" 
   },
@@ -192,26 +235,42 @@ const defaultCatalog = [
     id: 'esc-5', 
     stage: 'escribir', 
     type: 'video', 
-    title: "📹 Video: Journaling Guiado • Crecimiento Personal", 
+    title: "Video: Journaling guiado · Reflexión personal", 
     duration: 19, 
     ytId: "7YkmU8q7384" 
   },
 
   // ETAPA 4: MEDITAR
   { 
+    id: 'med-5min', 
+    stage: 'meditar', 
+    type: 'video', 
+    title: "Meditación · Opción 5 minutos", 
+    duration: 5, 
+    ytId: "4xHqAfT1qTY" 
+  },
+  { 
+    id: 'med-10min', 
+    stage: 'meditar', 
+    type: 'video', 
+    title: "Meditación · Opción 10 minutos", 
+    duration: 10, 
+    ytId: "v-pq2RQ7o1s" 
+  },
+  { 
     id: 'med-walk', 
     stage: 'meditar', 
     type: 'timer', 
-    icon: '🚶‍♂️',
-    title: "🚶‍♂️ Meditación Caminando (Kinhin)", 
+    icon: 'MEDITAR',
+    title: "Meditación caminando (Kinhin)", 
     duration: 5, 
-    instructions: "Camina a paso muy pausado y consciente. Siente el contacto de la planta del pie con el suelo. Inhala en 3 pasos, exhala en 3 pasos. Ancla tu atención al momento presente sin prisa." 
+    instructions: "Camina a paso pausado y consciente. Nota el contacto de cada pie con el suelo; inhala en 3 pasos y exhala en 3 pasos." 
   },
   { 
     id: 'med-tension', 
     stage: 'meditar', 
     type: 'video', 
-    title: "🧘 Meditación para Quitar Tensiones", 
+    title: "Meditación para soltar tensiones", 
     duration: 7, 
     ytId: "KxRpK9ZGq4Y" 
   },
@@ -219,7 +278,7 @@ const defaultCatalog = [
     id: 'med-nidra', 
     stage: 'meditar', 
     type: 'video', 
-    title: "🧘‍♀️ Yoga Nidra: Calmar el Sistema Nervioso", 
+    title: "Yoga Nidra: Calmar el sistema nervioso", 
     duration: 18, 
     ytId: "dCaf8NDr1wQ" 
   },
@@ -227,7 +286,7 @@ const defaultCatalog = [
     id: 'med-1', 
     stage: 'meditar', 
     type: 'video', 
-    title: "Meditación Mindfulness: Calma y Atención", 
+    title: "Meditación mindfulness: Calma y atención", 
     duration: 6, 
     ytId: "vB6OxxhSzCA" 
   },
@@ -235,7 +294,7 @@ const defaultCatalog = [
     id: 'med-2', 
     stage: 'meditar', 
     type: 'video', 
-    title: "Relajación Guiada Antiestrés (NSDR)", 
+    title: "Descanso profundo sin sueño (NSDR)", 
     duration: 22, 
     ytId: "n-NIuBD59bk" 
   },
@@ -243,7 +302,7 @@ const defaultCatalog = [
     id: 'med-3', 
     stage: 'meditar', 
     type: 'video', 
-    title: "Sonidos de Lluvia y Naturaleza", 
+    title: "Sonidos de lluvia y naturaleza", 
     duration: 5, 
     ytId: "2OEL4P1Rz04" 
   }
@@ -251,23 +310,30 @@ const defaultCatalog = [
 
 const STAGE_ORDER = ['estirar', 'respirar', 'escribir', 'meditar'];
 
-// Cargar catálogo personalizado y lista de elementos ocultos
+// Prácticas desactivadas por defecto (se pueden activar desde Ajustes -> Personalizar <Etapa>)
+const DEFAULT_HIDDEN_ITEM_IDS = [
+  // Estirar (solo activas: levantarse, caminata, estiramiento 5 min y estiramientos de cuello)
+  'est-guided', 'est-quick', 'est-2', 'est-3',
+  // Respirar (activas: doble inhalación 30 seg, diafragmática resonante y doble inhalación; opción del mar desactivada)
+  'resp-ocean', 'resp-478-timer', 'resp-resonante-vid', 'resp-1', 'resp-2', 'resp-3',
+  // Escribir (solo activas: descarga mental 4 pasos y gratitud)
+  'esc-1', 'esc-3', 'esc-4', 'esc-5',
+  // Meditar (solo activas: opción 5 min y opción 10 min)
+  'med-walk', 'med-tension', 'med-nidra', 'med-1', 'med-2', 'med-3'
+];
+
+// Cargar catálogo personalizado y lista de elementos ocultos (claves aisladas para prueba-original)
 let customItems = JSON.parse(localStorage.getItem('zen_custom_stage_items') || '[]');
 let fullCatalog = [...defaultCatalog, ...customItems];
-let hiddenItemIds = new Set(JSON.parse(localStorage.getItem('zen_hidden_item_ids') || '[]'));
 
-// Cargar orden personalizado de las prácticas si fue modificado con los 6 puntos
-const savedItemsOrder = JSON.parse(localStorage.getItem('zen_items_order') || 'null');
+const storedHiddenRaw = localStorage.getItem('zen_po_hidden_item_ids');
+let hiddenItemIds = new Set(
+  storedHiddenRaw !== null ? JSON.parse(storedHiddenRaw) : DEFAULT_HIDDEN_ITEM_IDS
+);
+
+// Cargar orden personalizado de las prácticas si fue modificado
+const savedItemsOrder = JSON.parse(localStorage.getItem('zen_po_items_order') || 'null');
 if (savedItemsOrder && Array.isArray(savedItemsOrder)) {
-  if (!savedItemsOrder.includes('est-guided')) {
-    const microIdx = savedItemsOrder.indexOf('est-micro');
-    if (microIdx !== -1) {
-      savedItemsOrder.splice(microIdx, 0, 'est-guided');
-    } else {
-      savedItemsOrder.unshift('est-guided');
-    }
-    localStorage.setItem('zen_items_order', JSON.stringify(savedItemsOrder));
-  }
   const orderMap = new Map();
   savedItemsOrder.forEach((id, idx) => orderMap.set(id, idx));
   fullCatalog.sort((a, b) => {
@@ -277,7 +343,7 @@ if (savedItemsOrder && Array.isArray(savedItemsOrder)) {
   });
 }
 
-// Definición de presets recomendados estándar (5 presets optimizados)
+// Definición de presets recomendados estándar (5 presets alineados al catálogo activo)
 const DEFAULT_PRESETS = {
   micro: {
     stages: ['estirar', 'respirar'],
@@ -285,19 +351,19 @@ const DEFAULT_PRESETS = {
   },
   walk: {
     stages: ['estirar'],
-    options: ['est-guided']
+    options: ['est-5min']
   },
   quick_disconnect: {
     stages: ['estirar', 'escribir'],
-    options: ['est-guided', 'esc-1']
+    options: ['est-5min', 'esc-4pasos']
   },
   neck: {
-    stages: ['estirar', 'meditar'],
-    options: ['est-1', 'med-tension']
+    stages: ['estirar'],
+    options: ['est-neck-10']
   },
   complete: {
     stages: ['estirar', 'respirar', 'escribir', 'meditar'],
-    options: ['est-guided', 'resp-1', 'esc-2', 'med-1']
+    options: ['est-5min', 'resp-resonante', 'esc-4pasos', 'med-10min']
   }
 };
 
@@ -336,81 +402,81 @@ const STRETCH_POSTURES = [
     id: 'hombros-atras',
     title: 'Hombros hacia atrás',
     voiceText: 'Hombros hacia atrás',
-    desc: 'Rueda los hombros en círculos lentos y amplios hacia atrás. Abre el pecho e inhala profundo.',
-    icon: '🔄',
-    tip: 'Inhala al subir los hombros y exhala al bajarlos para liberar el trapecio.'
+    desc: 'Ruede los hombros en círculos lentos y amplios hacia atrás. Abra el pecho e inhale profundo.',
+    icon: '01',
+    tip: 'Inhale al subir los hombros y exhale al bajarlos para liberar el trapecio.'
   },
   {
     id: 'hombros-adelante',
     title: 'Hombros hacia adelante',
     voiceText: 'Hombros hacia adelante',
-    desc: 'Gira suavemente los hombros en círculos hacia adelante, liberando la tensión de la espalda alta.',
-    icon: '🔄',
-    tip: 'Siente cómo se expande y relaja la zona entre tus omóplatos.'
+    desc: 'Gire suavemente los hombros en círculos hacia adelante, soltando la tensión de la espalda alta.',
+    icon: '02',
+    tip: 'Note cómo se expande y afloja la zona entre los omóplatos.'
   },
   {
     id: 'cuello-medialuna',
     title: 'Cuello: media luna atrás y adelante',
     voiceText: 'Cuello, media luna atrás y adelante',
-    desc: 'Baja la barbilla y rueda suavemente de hombro a hombro en semicírculo adelante, y luego atrás.',
-    icon: '🌙',
-    tip: 'Movimiento fluido y suave. No fuerces la extensión cervical.'
+    desc: 'Baje la barbilla y ruede suavemente de hombro a hombro en semicírculo adelante, y luego atrás.',
+    icon: '03',
+    tip: 'Movimiento fluido y controlado. No fuerce la extensión cervical.'
   },
   {
     id: 'diciendo-no',
     title: 'Cuello: diciendo que no',
     voiceText: 'Cuello, diciendo que no',
-    desc: 'Gira lentamente la cabeza de izquierda a derecha con suavidad, mirando sobre cada hombro.',
-    icon: '↔️',
-    tip: 'Mantén la espalda erguida y suelta la tensión de la mandíbula.'
+    desc: 'Gire lentamente la cabeza de izquierda a derecha, mirando sobre cada hombro.',
+    icon: '04',
+    tip: 'Mantenga la espalda erguida y suelte la tensión de la mandíbula.'
   },
   {
     id: 'diciendo-si',
     title: 'Cuello: diciendo que sí',
     voiceText: 'Cuello, diciendo que sí',
-    desc: 'Asiente suavemente con la cabeza arriba y abajo, mirando con calma al techo y al pecho.',
-    icon: '↕️',
-    tip: 'Alarga el cuello suavemente sin comprimir la nuca.'
+    desc: 'Asienta suavemente con la cabeza arriba y abajo, llevando la mirada con calma al techo y al pecho.',
+    icon: '05',
+    tip: 'Alargue el cuello sin comprimir la nuca.'
   },
   {
     id: 'brazo-un-lado',
     title: 'Brazo hacia un lado',
     voiceText: 'Brazo hacia un lado',
-    desc: 'Cruza un brazo sobre tu pecho y sostenlo suavemente con la otra mano a la altura del antebrazo.',
-    icon: '💪',
-    tip: 'Mantén el hombro abajo y lejos de la oreja mientras respiras.'
+    desc: 'Cruce un brazo sobre el pecho y sosténgalo con la otra mano a la altura del antebrazo.',
+    icon: '06',
+    tip: 'Mantenga el hombro abajo y lejos de la oreja mientras respira.'
   },
   {
     id: 'brazo-otro-lado',
     title: 'Brazo hacia el otro lado',
     voiceText: 'Brazo hacia el otro lado',
-    desc: 'Cambia de brazo: cruza el otro brazo sobre el pecho y estira con respiración profunda.',
-    icon: '💪',
-    tip: 'Equilibra ambos hombros y la musculatura escapular.'
+    desc: 'Cambie de brazo: cruce el otro sobre el pecho y estire con respiración profunda.',
+    icon: '07',
+    tip: 'Equilibre ambos hombros y la musculatura escapular.'
   },
   {
     id: 'tocarse-pies',
     title: 'Tocarse los pies',
     voiceText: 'Tocarse los pies',
-    desc: 'Inclina el tronco hacia abajo buscando tus pies o tobillos con rodillas ligeramente flexionadas.',
-    icon: '🦶',
-    tip: 'Descomprime la zona lumbar y estira los isquiotibiales sin tirones.'
+    desc: 'Incline el tronco hacia abajo buscando los pies o tobillos con rodillas ligeramente flexionadas.',
+    icon: '08',
+    tip: 'Descomprima la zona lumbar y estire isquiotibiales sin tirones.'
   },
   {
     id: 'hacerse-atras',
     title: 'Hacerse hacia atrás',
     voiceText: 'Hacerse hacia atrás',
-    desc: 'Apoya las manos en la cintura o espalda baja y arquea suavemente el torso hacia atrás.',
-    icon: '🏹',
-    tip: 'Abre el pecho hacia el cielo y contrarresta las horas en el escritorio.'
+    desc: 'Apoye las manos en la cintura o espalda baja y arquee suavemente el torso hacia atrás.',
+    icon: '09',
+    tip: 'Abra el pecho y contrarreste las horas frente al escritorio.'
   },
   {
     id: 'subir-pantorrillas',
     title: 'Subir pantorrillas',
     voiceText: 'Subir pantorrillas',
-    desc: 'Apóyate en las puntas de los pies, eleva los talones y baja de forma suave y controlada.',
-    icon: '🦵',
-    tip: 'Activa la bomba muscular de los gemelos y reactiva el retorno venoso.'
+    desc: 'Apóyese en las puntas de los pies, eleve los talones y baje de forma controlada.',
+    icon: '10',
+    tip: 'Activa la bomba muscular de los gemelos y el retorno venoso.'
   }
 ];
 
@@ -445,9 +511,8 @@ function showStageInfoToast(text, title) {
 
   toast.innerHTML = `
     <div class="stage-info-toast-header">
-      <span class="stage-info-toast-icon">ℹ️</span>
       <span class="stage-info-toast-title">${title}</span>
-      <button type="button" class="stage-info-toast-close" aria-label="Cerrar">&times;</button>
+      <button type="button" class="stage-info-toast-close" aria-label="Cerrar">Cerrar</button>
     </div>
     <div class="stage-info-toast-body">${text}</div>
   `;
@@ -490,23 +555,26 @@ function toggleStageChevronClick(stageKey, event) {
   }
   if (!activeStages.has(stageKey)) {
     activeStages.add(stageKey);
+    expandedStageAccordions.add(stageKey);
+    renderAllStages();
+  } else {
     const stageItems = fullCatalog.filter(i => i.stage === stageKey && !hiddenItemIds.has(i.id));
     const hasAnySelected = stageItems.some(i => selectedOptionIds.has(i.id));
-    if (!hasAnySelected && stageItems.length > 0) {
-      selectedOptionIds.add(stageItems[0].id);
+    if (!hasAnySelected) {
+      activeStages.delete(stageKey);
+      expandedStageAccordions.delete(stageKey);
+      renderAllStages();
+    } else {
+      toggleStageMoreOptions(stageKey, event);
     }
-    expandedStageAccordions.add(stageKey);
-  } else {
-    toggleStageMoreOptions(stageKey, event);
   }
-  renderAllStages();
 }
 
 function renderOptionItemHtml(item, isSelected, stageKey) {
-  let iconTag = '📹 Video';
-  if (item.type === 'writing') iconTag = '📝 Bloc Zen';
-  if (item.type === 'timer') iconTag = '⏱️ Temporizador';
-  if (item.type === 'stretch-routine') iconTag = '🤸 Guiado (15s)';
+  let iconTag = 'VIDEO';
+  if (item.type === 'writing') iconTag = 'BLOC';
+  if (item.type === 'timer') iconTag = 'TEMPORIZADOR';
+  if (item.type === 'stretch-routine') iconTag = 'GUIADO · 15S';
 
   const durLabel = (item.duration > 0 && item.duration < 1) ? `${Math.round(item.duration * 60)} seg` : `${item.duration} min`;
 
@@ -514,9 +582,10 @@ function renderOptionItemHtml(item, isSelected, stageKey) {
     <div class="option-item ${isSelected ? 'selected' : ''}" onclick="toggleOption('${item.id}', '${stageKey}')">
       <input type="checkbox" class="option-checkbox" ${isSelected ? 'checked' : ''} onclick="event.stopPropagation(); toggleOption('${item.id}', '${stageKey}')">
       <div class="option-content">
-        <div class="option-title">${item.title}</div>
+        <div class="option-title">${escapeHtml(item.title)}</div>
         <div class="option-meta">
-          <span>⏱ ${durLabel}</span>
+          <span>${durLabel}</span>
+          <span>·</span>
           <span class="option-tag">${iconTag}</span>
         </div>
       </div>
@@ -532,10 +601,10 @@ function renderAllStages() {
     const badgeEl = document.getElementById(`badge-${stageKey}`);
     const chevronBtn = document.getElementById(`chevron-btn-${stageKey}`);
 
-    if (!listEl || !cardEl || !checkboxEl) return;
+    if (!listEl || !cardEl) return;
 
     const isActive = activeStages.has(stageKey);
-    checkboxEl.checked = isActive;
+    if (checkboxEl) checkboxEl.checked = isActive;
     cardEl.classList.toggle('active', isActive);
 
     // Solo mostrar las prácticas que NO estén ocultas en la biblioteca
@@ -550,8 +619,8 @@ function renderAllStages() {
     if (chevronBtn) {
       if (!isActive) {
         chevronBtn.style.visibility = 'visible';
-        chevronBtn.style.opacity = '0.35';
-        chevronBtn.title = 'Activar etapa';
+        chevronBtn.style.opacity = '0.6';
+        chevronBtn.title = 'Ver opciones';
         chevronBtn.setAttribute('aria-expanded', 'false');
       } else if (unselectedInStage.length > 0) {
         chevronBtn.style.visibility = 'visible';
@@ -570,23 +639,22 @@ function renderAllStages() {
 
     if (stageItems.length === 0) {
       listEl.innerHTML = `
-        <div style="padding: 12px; text-align: center; color: var(--text-muted); font-size: 12px; line-height: 1.4;">
-          No hay prácticas visibles en esta etapa.<br>
-          Toca el engrane ⚙️ arriba para activar o añadir prácticas desde la biblioteca.
+        <div class="empty-stage-msg">
+          No hay prácticas visibles en esta etapa. Abra la biblioteca de etapa para activar o añadir prácticas.
         </div>
       `;
     } else if (selectedInStage.length > 0 && unselectedInStage.length > 0) {
       // Las seleccionadas se muestran directamente y las no seleccionadas se repliegan en el acordeón
       listEl.innerHTML = `
-        <div class="stage-selected-options" style="display:flex; flex-direction:column; gap:8px;">
+        <div class="stage-selected-options">
           ${selectedInStage.map(item => renderOptionItemHtml(item, true, stageKey)).join('')}
         </div>
 
         <div class="stage-accordion-content ${isExpanded ? 'open' : ''}" id="accordion-${stageKey}">
-          <div class="stage-accordion-header-hint">Otras opciones disponibles:</div>
+          <div class="stage-accordion-header-hint">Otras opciones disponibles</div>
           ${unselectedInStage.map(item => renderOptionItemHtml(item, false, stageKey)).join('')}
           <button type="button" class="stage-accordion-close-btn" onclick="toggleStageMoreOptions('${stageKey}', event)" title="Contraer opciones" aria-label="Contraer opciones">
-            <span class="stage-accordion-close-arrow">▲</span>
+            Contraer
           </button>
         </div>
       `;
@@ -604,28 +672,28 @@ function renderAllStages() {
 }
 
 function toggleStage(stageKey, event) {
-  document.querySelectorAll('.preset-card').forEach(c => c.classList.remove('active'));
   if (!activeStages.has(stageKey)) {
     activeStages.add(stageKey);
-    const stageItems = fullCatalog.filter(i => i.stage === stageKey && !hiddenItemIds.has(i.id));
-    const hasAnySelected = stageItems.some(i => selectedOptionIds.has(i.id));
-    if (!hasAnySelected && stageItems.length > 0) {
-      selectedOptionIds.add(stageItems[0].id);
-      expandedStageAccordions.add(stageKey); // Mostrar todas las opciones si no tenía nada seleccionado
-    } else if (!hasAnySelected) {
-      expandedStageAccordions.add(stageKey);
-    } else {
-      expandedStageAccordions.delete(stageKey);
-    }
+    expandedStageAccordions.add(stageKey);
     renderAllStages();
   } else {
-    toggleStageMoreOptions(stageKey, event);
+    const stageItems = fullCatalog.filter(i => i.stage === stageKey && !hiddenItemIds.has(i.id));
+    const hasAnySelected = stageItems.some(i => selectedOptionIds.has(i.id));
+    if (!hasAnySelected) {
+      activeStages.delete(stageKey);
+      expandedStageAccordions.delete(stageKey);
+      renderAllStages();
+    } else {
+      toggleStageMoreOptions(stageKey, event);
+    }
   }
 }
 
 function onStageCheckboxClick(stageKey) {
   document.querySelectorAll('.preset-card').forEach(c => c.classList.remove('active'));
-  const isChecked = document.getElementById(`check-stage-${stageKey}`).checked;
+  const cb = document.getElementById(`check-stage-${stageKey}`);
+  if (!cb) return;
+  const isChecked = cb.checked;
   if (isChecked) {
     activeStages.add(stageKey);
     const stageItems = fullCatalog.filter(i => i.stage === stageKey && !hiddenItemIds.has(i.id));
@@ -677,7 +745,7 @@ function applyPreset(presetKey) {
       hiddenItemIds.delete(opt);
       selectedOptionIds.add(opt);
     });
-    localStorage.setItem('zen_hidden_item_ids', JSON.stringify(Array.from(hiddenItemIds)));
+    localStorage.setItem('zen_po_hidden_item_ids', JSON.stringify(Array.from(hiddenItemIds)));
   }
 
   renderAllStages();
@@ -722,29 +790,25 @@ function renderCustomPresets() {
 
     if (isFullWidth) {
       return `
-        <div class="preset-card preset-custom-card custom-single" onclick="applyCustomRoutine('${r.id}')" id="preset-${r.id}">
+        <button type="button" class="preset-card preset-custom-card custom-single" onclick="applyCustomRoutine('${r.id}')" id="preset-${r.id}">
           <div class="preset-custom-main">
-            <div class="preset-icon">⭐</div>
-            <div class="preset-content">
-              <div class="preset-name">${escapeHtml(r.name)}</div>
-              <div class="preset-desc">${r.count} prácticas configuradas • Toca para cargar</div>
-            </div>
+            <div class="preset-index">GUARDADA</div>
+            <div class="preset-name">${escapeHtml(r.name)}</div>
+            <div class="preset-desc">${r.count} prácticas · Cargar selección</div>
           </div>
-          <span class="preset-badge-tag">${r.totalMin} min</span>
-        </div>
+          <span class="preset-badge-tag">${r.totalMin} MIN</span>
+        </button>
       `;
     } else {
       return `
-        <div class="preset-card preset-custom-card custom-grid" onclick="applyCustomRoutine('${r.id}')" id="preset-${r.id}">
-          <div class="preset-card-top">
-            <span class="preset-icon">⭐</span>
-            <span class="preset-time-pill">${r.totalMin} min</span>
+        <button type="button" class="preset-card preset-custom-card custom-grid" onclick="applyCustomRoutine('${r.id}')" id="preset-${r.id}">
+          <div class="preset-top">
+            <span class="preset-index">GUARDADA</span>
+            <span class="preset-time">${r.totalMin} MIN</span>
           </div>
-          <div class="preset-card-body">
-            <div class="preset-name">${escapeHtml(r.name)}</div>
-            <div class="preset-desc">${r.count} prácticas • Toca para cargar</div>
-          </div>
-        </div>
+          <div class="preset-name">${escapeHtml(r.name)}</div>
+          <div class="preset-desc">${r.count} prácticas · Cargar</div>
+        </button>
       `;
     }
   }).join('');
@@ -779,7 +843,7 @@ function applyCustomRoutine(routineId) {
     hiddenItemIds.delete(id);
     selectedOptionIds.add(id);
   });
-  localStorage.setItem('zen_hidden_item_ids', JSON.stringify(Array.from(hiddenItemIds)));
+  localStorage.setItem('zen_po_hidden_item_ids', JSON.stringify(Array.from(hiddenItemIds)));
 
   renderAllStages();
 
@@ -836,7 +900,7 @@ async function onSaveStickyClick() {
   const defaultName = `Mi Rutina (${totalMin} min)`;
 
   const routineName = await showZenPrompt({
-    title: '💾 Guardar Rutina',
+    title: 'Guardar rutina',
     subtitle: `Esta combinación tiene ${currentQueue.length} prácticas (${totalMin} min). Escribe un nombre para guardarla:`,
     defaultValue: defaultName,
     placeholder: 'Ej. Pausa de la Tarde',
@@ -868,7 +932,7 @@ async function onSaveStickyClick() {
   const card = document.getElementById(`preset-${newRoutine.id}`);
   if (card) card.classList.add('active');
 
-  showZenToast(`⭐ ¡Rutina "${cleanName}" guardada en tus recomendaciones!`, 'success');
+  showZenToast(`Rutina "${cleanName}" guardada en sus recomendaciones.`, 'success');
 }
 
 // --------------------------------------------------------------------------
@@ -880,63 +944,20 @@ let moodScoreAfter = null;
 let moodMeasureResolver = null;
 
 function isMeasureImprovementEnabled() {
-  return localStorage.getItem('zen_measure_improvement') === 'true';
+  const saved = localStorage.getItem('zen_po_measure_improvement');
+  return saved === null ? true : saved === 'true';
 }
 
 function toggleMeasureImprovement(enabled) {
-  localStorage.setItem('zen_measure_improvement', enabled ? 'true' : 'false');
+  localStorage.setItem('zen_po_measure_improvement', enabled ? 'true' : 'false');
 }
 
 function onMoodSliderChange(val) {
   const num = parseInt(val, 10);
-  const numberEl = document.getElementById('mood-slider-number');
-  const labelEl = document.getElementById('mood-slider-label');
-  const ticks = document.querySelectorAll('#mood-slider-ticks span');
-
-  if (numberEl) {
-    numberEl.innerText = num;
-    
-    // Colores según nivel de bienestar
-    if (num <= 2) {
-      numberEl.style.color = '#fca5a5';
-      numberEl.style.textShadow = '0 0 20px rgba(239, 68, 68, 0.45)';
-    } else if (num <= 4) {
-      numberEl.style.color = '#fdba74';
-      numberEl.style.textShadow = '0 0 20px rgba(249, 115, 22, 0.45)';
-    } else if (num <= 6) {
-      numberEl.style.color = '#fde047';
-      numberEl.style.textShadow = '0 0 20px rgba(234, 179, 8, 0.45)';
-    } else if (num <= 8) {
-      numberEl.style.color = '#a5b4fc';
-      numberEl.style.textShadow = '0 0 20px rgba(99, 102, 241, 0.45)';
-    } else {
-      numberEl.style.color = '#86efac';
-      numberEl.style.textShadow = '0 0 20px rgba(34, 197, 94, 0.45)';
-    }
-  }
-
-  const moodDescriptions = {
-    1: '🔴 Máxima tensión / Agobio',
-    2: '🔴 Mucho estrés / Sobrecarga',
-    3: '🟠 Tensión notable',
-    4: '🟠 Algo intranquilo',
-    5: '🟡 Estado neutral / equilibrado',
-    6: '🟡 Relajado / En control',
-    7: '🔵 Calma y serenidad',
-    8: '🔵 Bienestar notable',
-    9: '🟢 Gran ligereza y paz',
-    10: '🟢 Plena calma y serenidad interior'
-  };
-
-  if (labelEl) {
-    labelEl.innerText = moodDescriptions[num] || 'Equilibrado';
-  }
-
-  // Actualizar marca activa
-  if (ticks && ticks.length > 0) {
-    ticks.forEach((tick, idx) => {
-      tick.classList.toggle('active', (idx + 1) === num);
-    });
+  const bubble = document.getElementById('vas-thumb-bubble');
+  if (bubble) {
+    bubble.innerText = num;
+    bubble.style.left = `calc(${num}% + ${12 - num * 0.24}px)`;
   }
 }
 
@@ -950,7 +971,7 @@ function setMoodSliderVal(val) {
 
 function confirmMoodSlider() {
   const slider = document.getElementById('mood-slider-input');
-  const score = slider ? parseInt(slider.value, 10) : 5;
+  const score = slider ? parseInt(slider.value, 10) : 50;
   selectMoodScore(score);
 }
 
@@ -959,22 +980,17 @@ function requestMoodRating(isAfter = false) {
     moodMeasureResolver = resolve;
     const modal = document.getElementById('mood-measure-modal');
     const titleEl = document.getElementById('mood-modal-title');
-    const subtitleEl = document.getElementById('mood-modal-subtitle');
     const confirmBtn = document.getElementById('mood-slider-confirm-btn');
     const slider = document.getElementById('mood-slider-input');
 
-    const defaultScore = 5;
+    const defaultScore = 50;
 
-    if (titleEl && subtitleEl && confirmBtn) {
-      if (!isAfter) {
-        titleEl.innerText = '¿Cómo te sientes antes de empezar?';
-        subtitleEl.innerText = 'Desliza para registrar tu nivel de calma o tensión actual:';
-        confirmBtn.innerText = 'Comenzar Rutina ➔';
-      } else {
-        titleEl.innerText = '¿Ahora cómo te sientes?';
-        subtitleEl.innerText = 'Desliza para registrar cómo te sientes tras completar tu práctica:';
-        confirmBtn.innerText = 'Ver Resultado ➔';
-      }
+    if (titleEl) {
+      titleEl.innerText = '¿Qué tan estresado/a se siente en este momento?';
+    }
+
+    if (confirmBtn) {
+      confirmBtn.innerText = !isAfter ? 'Comenzar rutina →' : 'Ver resultado →';
     }
 
     if (slider) {
@@ -1024,10 +1040,10 @@ function openManageRoutinesModal() {
   const pwaBtn = document.getElementById('btn-pwa-install');
   if (pwaBtn) {
     if (window.matchMedia('(display-mode: standalone)').matches) {
-      pwaBtn.innerText = '✓ Instalada';
+      pwaBtn.innerText = 'Instalada';
       pwaBtn.disabled = true;
     } else {
-      pwaBtn.innerText = '📲 Instalar';
+      pwaBtn.innerText = 'Instalar';
       pwaBtn.disabled = false;
     }
   }
@@ -1037,10 +1053,9 @@ function openManageRoutinesModal() {
   if (routines.length === 0) {
     body.innerHTML = `
       <div class="empty-routines-state">
-        <div style="font-size:28px; margin-bottom:8px;">📝</div>
-        <strong>No tienes rutinas personalizadas</strong>
-        <p style="margin:4px 0 0; font-size:12px; color:var(--text-sub);">
-          Selecciona tus prácticas favoritas en la pantalla principal y toca el icono 💾 junto a "Comenzar Sesión" para guardarlas.
+        <strong>Sin rutinas personalizadas</strong>
+        <p>
+          Seleccione sus prácticas en la pantalla principal y pulse "Guardar" en la barra inferior para crear una rutina propia.
         </p>
       </div>
     `;
@@ -1048,11 +1063,11 @@ function openManageRoutinesModal() {
     body.innerHTML = routines.map(r => `
       <div class="manage-routine-row" id="manage-row-${r.id}">
         <div class="manage-routine-details">
-          <div class="manage-routine-title">⭐ ${escapeHtml(r.name)}</div>
-          <div class="manage-routine-meta">⏱️ ${r.totalMin} min • ${r.count} prácticas</div>
+          <div class="manage-routine-title">${escapeHtml(r.name)}</div>
+          <div class="manage-routine-meta">${r.totalMin} MIN · ${r.count} PRÁCTICAS</div>
         </div>
-        <button class="btn-delete-routine" onclick="deleteCustomRoutine('${r.id}')" title="Eliminar esta rutina">
-          🗑️ Borrar
+        <button type="button" class="btn-delete-routine" onclick="deleteCustomRoutine('${r.id}')" title="Eliminar esta rutina">
+          Borrar
         </button>
       </div>
     `).join('');
@@ -1136,6 +1151,11 @@ function buildQueue() {
 // MODAL DE BIBLIOTECA POR ETAPA (ENGRANE ⚙️ EN CADA CATEGORÍA)
 // ==========================================================================
 
+function openStageLibraryFromSettings(stageKey) {
+  closeManageRoutinesModal();
+  openStageLibraryModal(stageKey);
+}
+
 function openStageLibraryModal(stageKey) {
   currentLibraryStage = stageKey;
   const modal = document.getElementById('stage-library-modal');
@@ -1145,14 +1165,14 @@ function openStageLibraryModal(stageKey) {
   if (!modal) return;
 
   const stageTitles = {
-    estirar: '🤸 1. Estirar',
-    respirar: '🫁 2. Respirar',
-    escribir: '✍️ 3. Escribir',
-    meditar: '🧘 4. Meditar'
+    estirar: 'Estirar',
+    respirar: 'Respirar',
+    escribir: 'Escribir',
+    meditar: 'Meditar'
   };
 
-  titleEl.innerText = `Biblioteca: ${stageTitles[stageKey] || stageKey}`;
-  addBtn.innerText = `➕ Añadir video o práctica a esta etapa`;
+  titleEl.innerText = `Personalizar ${stageTitles[stageKey] || stageKey}`;
+  addBtn.innerText = `+ Añadir video de YouTube o práctica`;
 
   renderStageLibraryList();
   modal.classList.add('active');
@@ -1175,10 +1195,10 @@ function renderStageLibraryList() {
   listEl.innerHTML = stageItems.map(item => {
     const isVisible = !hiddenItemIds.has(item.id);
     const isCustom = item.id.startsWith('cust-');
-    let iconTag = '📹 Video';
-    if (item.type === 'writing') iconTag = '📝 Bloc Zen';
-    if (item.type === 'timer') iconTag = '⏱️ Temporizador';
-    if (item.type === 'stretch-routine') iconTag = '🤸 Guiado (15s)';
+    let iconTag = 'VIDEO';
+    if (item.type === 'writing') iconTag = 'BLOC';
+    if (item.type === 'timer') iconTag = 'TEMPORIZADOR';
+    if (item.type === 'stretch-routine') iconTag = 'GUIADO · 15S';
 
     return `
       <div class="library-item-row" id="lib-row-${item.id}" data-id="${item.id}" draggable="true">
@@ -1191,31 +1211,31 @@ function renderStageLibraryList() {
           <div class="library-item-details">
             <div class="library-item-title">${escapeHtml(item.title)}</div>
             <div class="library-item-meta">
-              <span>⏱ ${(item.duration > 0 && item.duration < 1) ? `${Math.round(item.duration * 60)} seg` : `${item.duration} min`}</span>
-              <span>•</span>
+              <span>${(item.duration > 0 && item.duration < 1) ? `${Math.round(item.duration * 60)} seg` : `${item.duration} min`}</span>
+              <span>·</span>
               <span>${iconTag}</span>
-              ${!isVisible ? '<span style="color:#f87171; font-weight:600;">(Oculta)</span>' : ''}
+              ${!isVisible ? '<span class="library-hidden-tag">OCULTA</span>' : ''}
             </div>
           </div>
         </div>
         <div class="library-item-right-actions">
           ${isCustom ? `
-            <button class="btn-delete-cust-item" onclick="deleteCustomItem('${item.id}')" title="Eliminar de mi biblioteca">
-              🗑️
+            <button type="button" class="btn-delete-cust-item" onclick="deleteCustomItem('${item.id}')" title="Eliminar de mi biblioteca">
+              Borrar
             </button>
           ` : ''}
           <div class="library-drag-handle" 
-               title="Ajustar posición (Arrastra o toca los 6 puntos)" 
+               title="Ajustar posición" 
                aria-label="Ajustar posición" 
                data-id="${item.id}"
                onclick="openReorderMenu(event, '${item.id}')">
-            <svg width="14" height="20" viewBox="0 0 14 20" fill="currentColor">
-              <circle cx="3.5" cy="4" r="1.8"/>
-              <circle cx="10.5" cy="4" r="1.8"/>
-              <circle cx="3.5" cy="10" r="1.8"/>
-              <circle cx="10.5" cy="10" r="1.8"/>
-              <circle cx="3.5" cy="16" r="1.8"/>
-              <circle cx="10.5" cy="16" r="1.8"/>
+            <svg width="14" height="18" viewBox="0 0 14 20" fill="currentColor" aria-hidden="true">
+              <circle cx="3.5" cy="4" r="1.5"/>
+              <circle cx="10.5" cy="4" r="1.5"/>
+              <circle cx="3.5" cy="10" r="1.5"/>
+              <circle cx="10.5" cy="10" r="1.5"/>
+              <circle cx="3.5" cy="16" r="1.5"/>
+              <circle cx="10.5" cy="16" r="1.5"/>
             </svg>
           </div>
         </div>
@@ -1261,17 +1281,17 @@ function openReorderMenu(event, itemId) {
   const menu = document.createElement('div');
   menu.className = 'reorder-popup-menu';
   menu.innerHTML = `
-    <button class="reorder-popup-item" ${isFirst ? 'disabled' : ''} onclick="moveStageItem('${itemId}', -1)">
-      ⬆️ Subir posición
+    <button type="button" class="reorder-popup-item" ${isFirst ? 'disabled' : ''} onclick="moveStageItem('${itemId}', -1)">
+      Subir posición
     </button>
-    <button class="reorder-popup-item" ${isLast ? 'disabled' : ''} onclick="moveStageItem('${itemId}', 1)">
-      ⬇️ Bajar posición
+    <button type="button" class="reorder-popup-item" ${isLast ? 'disabled' : ''} onclick="moveStageItem('${itemId}', 1)">
+      Bajar posición
     </button>
-    <button class="reorder-popup-item" ${isFirst ? 'disabled' : ''} onclick="moveStageItemToExtreme('${itemId}', 'top')">
-      🔝 Al inicio
+    <button type="button" class="reorder-popup-item" ${isFirst ? 'disabled' : ''} onclick="moveStageItemToExtreme('${itemId}', 'top')">
+      Al inicio
     </button>
-    <button class="reorder-popup-item" ${isLast ? 'disabled' : ''} onclick="moveStageItemToExtreme('${itemId}', 'bottom')">
-      🔻 Al final
+    <button type="button" class="reorder-popup-item" ${isLast ? 'disabled' : ''} onclick="moveStageItemToExtreme('${itemId}', 'bottom')">
+      Al final
     </button>
   `;
 
@@ -1348,7 +1368,7 @@ function saveStageItemsOrder(reorderedStageItemIds) {
   }
 
   fullCatalog = newFullCatalog;
-  localStorage.setItem('zen_items_order', JSON.stringify(fullCatalog.map(i => i.id)));
+  localStorage.setItem('zen_po_items_order', JSON.stringify(fullCatalog.map(i => i.id)));
 
   renderStageLibraryList();
   renderAllStages();
@@ -1401,13 +1421,18 @@ async function resetStageDefaults() {
   }
 
   fullCatalog = newFullCatalog;
-  localStorage.setItem('zen_items_order', JSON.stringify(fullCatalog.map(i => i.id)));
+  localStorage.setItem('zen_po_items_order', JSON.stringify(fullCatalog.map(i => i.id)));
 
-  // 5. Restablecer visibilidad (quitar de ocultos todos los de esta etapa)
+  // 5. Restablecer visibilidad según DEFAULT_HIDDEN_ITEM_IDS para esta etapa
+  const defaultHiddenSet = new Set(DEFAULT_HIDDEN_ITEM_IDS);
   restoredStageItems.forEach(item => {
-    hiddenItemIds.delete(item.id);
+    if (defaultHiddenSet.has(item.id)) {
+      hiddenItemIds.add(item.id);
+    } else {
+      hiddenItemIds.delete(item.id);
+    }
   });
-  localStorage.setItem('zen_hidden_item_ids', JSON.stringify(Array.from(hiddenItemIds)));
+  localStorage.setItem('zen_po_hidden_item_ids', JSON.stringify(Array.from(hiddenItemIds)));
 
   // 6. Refrescar lista y pantalla principal
   renderStageLibraryList();
@@ -1550,7 +1575,7 @@ function toggleItemVisibility(itemId) {
     }
   }
 
-  localStorage.setItem('zen_hidden_item_ids', JSON.stringify(Array.from(hiddenItemIds)));
+  localStorage.setItem('zen_po_hidden_item_ids', JSON.stringify(Array.from(hiddenItemIds)));
   renderStageLibraryList();
   renderAllStages();
 }
@@ -1574,7 +1599,7 @@ async function deleteCustomItem(itemId) {
   fullCatalog = fullCatalog.filter(i => i.id !== itemId);
   selectedOptionIds.delete(itemId);
   hiddenItemIds.delete(itemId);
-  localStorage.setItem('zen_hidden_item_ids', JSON.stringify(Array.from(hiddenItemIds)));
+  localStorage.setItem('zen_po_hidden_item_ids', JSON.stringify(Array.from(hiddenItemIds)));
 
   renderStageLibraryList();
   renderAllStages();
@@ -1656,7 +1681,7 @@ function saveNewPracticeFromModal() {
       id: 'cust-' + Date.now(),
       stage: stageKey,
       type: 'video',
-      title: title.startsWith('📹') ? title : `📹 ${title}`,
+      title,
       duration,
       ytId
     };
@@ -1665,10 +1690,10 @@ function saveNewPracticeFromModal() {
       id: 'cust-' + Date.now(),
       stage: stageKey,
       type: 'writing',
-      title: title.startsWith('📝') ? title : `📝 ${title}`,
+      title,
       duration,
       promptTitle: title,
-      promptDesc: instructions || 'Escribe libremente y desconecta.'
+      promptDesc: instructions || 'Escriba libremente para cerrar el día.'
     };
   } else {
     // timer
@@ -1676,10 +1701,10 @@ function saveNewPracticeFromModal() {
       id: 'cust-' + Date.now(),
       stage: stageKey,
       type: 'timer',
-      icon: '⏱️',
-      title: title.startsWith('⏱️') ? title : `⏱️ ${title}`,
+      icon: 'PRÁCTICA',
+      title,
       duration,
-      instructions: instructions || 'Realiza este movimiento a paso relajado y consciente.'
+      instructions: instructions || 'Realice esta práctica a paso relajado y consciente.'
     };
   }
 
@@ -1720,17 +1745,17 @@ function showZenToast(message, type = 'info', duration = 3500) {
   const container = document.getElementById('zen-toast-container');
   if (!container) return;
 
-  const icons = {
-    success: '✅',
-    error: '❌',
-    warning: '⚠️',
-    info: 'ℹ️'
+  const tags = {
+    success: 'LISTO',
+    error: 'ERROR',
+    warning: 'AVISO',
+    info: 'NOTA'
   };
 
   const toast = document.createElement('div');
   toast.className = `zen-toast zen-toast-${type}`;
   toast.innerHTML = `
-    <span class="zen-toast-icon">${icons[type] || '✨'}</span>
+    <span class="zen-toast-tag">${tags[type] || 'NOTA'}</span>
     <span class="zen-toast-text">${escapeHtml(message)}</span>
   `;
 
@@ -1977,9 +2002,9 @@ function setupStretchRoutine(item) {
   isStretchPaused = false;
 
   const playBtn = document.getElementById('play-pause-btn');
-  if (playBtn) playBtn.innerText = "⏸ Pausar";
+  if (playBtn) playBtn.innerText = "Pausar";
   const stretchPlayBtn = document.getElementById('btn-stretch-play');
-  if (stretchPlayBtn) stretchPlayBtn.innerText = "⏸ Pausar";
+  if (stretchPlayBtn) stretchPlayBtn.innerText = "Pausar";
 
   updateStretchAudioToggleButtons();
   renderStretchPosturesStrip();
@@ -1994,10 +2019,10 @@ function updateStretchAudioToggleButtons() {
   const chimeIcon = document.getElementById('stretch-chime-icon');
 
   if (voiceBtn) voiceBtn.classList.toggle('is-muted', !isStretchVoiceEnabled);
-  if (voiceIcon) voiceIcon.innerText = isStretchVoiceEnabled ? '🗣️' : '🔇';
+  if (voiceIcon) voiceIcon.innerText = isStretchVoiceEnabled ? 'VOZ ON' : 'VOZ OFF';
 
   if (chimeBtn) chimeBtn.classList.toggle('is-muted', !isStretchChimeEnabled);
-  if (chimeIcon) chimeIcon.innerText = isStretchChimeEnabled ? '🔔' : '🔕';
+  if (chimeIcon) chimeIcon.innerText = isStretchChimeEnabled ? 'TONO ON' : 'TONO OFF';
 }
 
 function toggleStretchVoice() {
@@ -2005,11 +2030,11 @@ function toggleStretchVoice() {
   localStorage.setItem('zen_stretch_voice', isStretchVoiceEnabled ? 'true' : 'false');
   updateStretchAudioToggleButtons();
   if (isStretchVoiceEnabled) {
-    showZenToast('🗣️ Voz de locución activada', 'info', 2000);
+    showZenToast('Voz de locución activada.', 'info', 2000);
     const postureIdx = currentStretchStageIdx % STRETCH_POSTURES.length;
     speakStretchPosture(STRETCH_POSTURES[postureIdx].voiceText);
   } else {
-    showZenToast('🔇 Voz de locución silenciada', 'info', 2000);
+    showZenToast('Voz de locución silenciada.', 'info', 2000);
     if ('speechSynthesis' in window) window.speechSynthesis.cancel();
   }
 }
@@ -2019,10 +2044,10 @@ function toggleStretchChime() {
   localStorage.setItem('zen_stretch_chime', isStretchChimeEnabled ? 'true' : 'false');
   updateStretchAudioToggleButtons();
   if (isStretchChimeEnabled) {
-    showZenToast('🔔 Campana sonora activada', 'info', 2000);
+    showZenToast('Tono de cambio activado.', 'info', 2000);
     playStretchChime(false);
   } else {
-    showZenToast('🔕 Campana silenciada', 'info', 2000);
+    showZenToast('Tono de cambio silenciado.', 'info', 2000);
   }
 }
 
@@ -2042,8 +2067,7 @@ function renderStretchPosturesStrip() {
 
     return `
       <button type="button" class="stretch-chip ${statusClass}" onclick="jumpToStretchPosture(${idx})" title="${idx + 1}. ${escapeHtml(p.title)} (15s)">
-        <span class="stretch-chip-num">${statusClass === 'completed' && idx !== currentPostureIdx ? '✓' : (idx + 1)}</span>
-        <span>${p.icon}</span>
+        <span class="stretch-chip-num">${p.icon}</span>
         <span>${escapeHtml(p.title.split(':')[0])}</span>
       </button>
     `;
@@ -2153,14 +2177,11 @@ function updateStretchDisplay() {
     secEl.innerText = Math.max(0, stretchSecondsLeftInPosture);
   }
 
-  // 2. Anillo SVG de 15 segundos
-  const ringFill = document.getElementById('stretch-ring-fill');
-  if (ringFill) {
-    const circumference = 326.726; // 2 * PI * 52
+  // 2. Barra lineal de 15 segundos
+  const barFill = document.getElementById('stretch-bar-fill');
+  if (barFill) {
     const fraction = Math.max(0, Math.min(1, stretchSecondsLeftInPosture / STRETCH_POSTURE_DURATION));
-    const offset = circumference * (1 - fraction);
-    ringFill.style.strokeDashoffset = offset;
-    ringFill.classList.toggle('warning', stretchSecondsLeftInPosture <= 3);
+    barFill.style.width = (fraction * 100) + '%';
   }
 
   // 3. Pequeño contador de los 5 minutos
@@ -2192,10 +2213,10 @@ function toggleStretchPlay() {
   isStretchPaused = !isStretchPaused;
 
   const playBtn = document.getElementById('play-pause-btn');
-  if (playBtn) playBtn.innerText = isStretchPaused ? "▶ Reanudar" : "⏸ Pausar";
+  if (playBtn) playBtn.innerText = isStretchPaused ? "Reanudar" : "Pausar";
 
   const stretchPlayBtn = document.getElementById('btn-stretch-play');
-  if (stretchPlayBtn) stretchPlayBtn.innerText = isStretchPaused ? "▶ Reanudar" : "⏸ Pausar";
+  if (stretchPlayBtn) stretchPlayBtn.innerText = isStretchPaused ? "Reanudar" : "Pausar";
 
   if (isStretchPaused) {
     if ('speechSynthesis' in window) window.speechSynthesis.cancel();
@@ -2339,15 +2360,15 @@ function playStretchChime(isFinal = false) {
 // ==========================================================================
 
 function setupZenTimer(item) {
-  document.getElementById('timer-icon').innerText = item.icon || '⏱️';
+  document.getElementById('timer-icon').innerText = item.icon || 'PRÁCTICA';
   document.getElementById('timer-activity-title').innerText = item.title;
-  document.getElementById('timer-activity-desc').innerText = item.instructions || "Realiza este movimiento a paso relajado y consciente.";
-  document.getElementById('timer-state-label').innerText = "En curso";
+  document.getElementById('timer-activity-desc').innerText = item.instructions || "Realice esta práctica a paso relajado y consciente.";
+  document.getElementById('timer-state-label').innerText = "EN CURSO";
 
   activityTotalSeconds = Math.round((item.duration || 5) * 60);
   activitySecondsLeft = activityTotalSeconds;
   isActivityPaused = false;
-  document.getElementById('play-pause-btn').innerText = "⏸ Pausar";
+  document.getElementById('play-pause-btn').innerText = "Pausar";
 
   startActivityTimer();
 }
@@ -2388,24 +2409,73 @@ function updateActivityTimeDisplay() {
 
 function setupNotepad(item) {
   document.getElementById('notepad-title').innerText = item.promptTitle || item.title;
-  document.getElementById('notepad-desc').innerText = item.promptDesc || "Tómate este tiempo para escribir y desconectar.";
-
+  const descEl = document.getElementById('notepad-desc');
   const textarea = document.getElementById('zen-text-input');
-  textarea.value = '';
+
+  if (Array.isArray(item.promptSteps) && item.promptSteps.length > 0) {
+    descEl.innerHTML = `
+      <div class="notepad-steps-list">
+        ${item.promptSteps.map((step, idx) => `
+          <div class="notepad-step-item">
+            <label class="notepad-step-q" for="notepad-step-input-${idx}">${escapeHtml(step.q)}</label>
+            <div class="notepad-step-note">*${escapeHtml(step.note)}</div>
+            <textarea id="notepad-step-input-${idx}" class="notepad-step-input" rows="3"
+              data-question="${escapeHtml(step.q)}"
+              placeholder="Escribe tu respuesta aquí..."
+              oninput="updateWordCount()"></textarea>
+          </div>
+        `).join('')}
+      </div>
+    `;
+    if (textarea) {
+      textarea.value = '';
+      textarea.style.display = 'none';
+    }
+  } else {
+    descEl.innerText = item.promptDesc || "Tómate este tiempo para escribir y desconectar.";
+    if (textarea) {
+      textarea.style.display = '';
+      textarea.value = '';
+      textarea.oninput = updateWordCount;
+    }
+  }
+
   updateWordCount();
-  textarea.oninput = updateWordCount;
 
   writingTotalSeconds = Math.round((item.duration || 5) * 60);
   writingSecondsLeft = writingTotalSeconds;
   isWritingPaused = false;
-  document.getElementById('play-pause-btn').innerText = "⏸ Pausar";
+  document.getElementById('play-pause-btn').innerText = "Pausar";
 
   startWritingTimer();
 }
 
+function getCombinedNotepadText() {
+  const stepInputs = document.querySelectorAll('.notepad-step-input');
+  if (stepInputs.length > 0) {
+    const filled = [];
+    stepInputs.forEach(input => {
+      const val = input.value.trim();
+      if (val) {
+        filled.push(`${input.dataset.question}\n${val}`);
+      }
+    });
+    return filled.join('\n\n');
+  }
+  const textarea = document.getElementById('zen-text-input');
+  return textarea ? textarea.value : '';
+}
+
 function updateWordCount() {
-  const text = document.getElementById('zen-text-input').value.trim();
-  const words = text ? text.split(/\s+/).length : 0;
+  const stepInputs = document.querySelectorAll('.notepad-step-input');
+  let raw = '';
+  if (stepInputs.length > 0) {
+    raw = Array.from(stepInputs).map(el => el.value.trim()).filter(Boolean).join(' ');
+  } else {
+    const textarea = document.getElementById('zen-text-input');
+    raw = textarea ? textarea.value.trim() : '';
+  }
+  const words = raw ? raw.split(/\s+/).length : 0;
   document.getElementById('notepad-words-count').innerText = `${words} palabra${words === 1 ? '' : 's'}`;
 }
 
@@ -2436,18 +2506,18 @@ function updateWritingTimeDisplay() {
   const pct = (current / writingTotalSeconds) * 100;
   document.getElementById('progress-bar').style.width = pct + '%';
   document.getElementById('time-display').innerText = `${formatTime(current)} / ${formatTime(writingTotalSeconds)}`;
-  document.getElementById('notepad-time-left').innerText = `⏱ Tiempo restante: ${formatTime(writingSecondsLeft)}`;
+  document.getElementById('notepad-time-left').innerText = `TIEMPO RESTANTE · ${formatTime(writingSecondsLeft)}`;
 }
 
 function copyNotepadText() {
-  const text = document.getElementById('zen-text-input').value;
-  if (!text) return alert("El bloc está vacío.");
-  navigator.clipboard.writeText(text).then(() => alert("Copiado al portapapeles 📋"));
+  const text = getCombinedNotepadText();
+  if (!text.trim()) return showZenToast("El bloc está vacío.", "warning");
+  navigator.clipboard.writeText(text).then(() => showZenToast("Texto copiado al portapapeles.", "success"));
 }
 
 function downloadNotepadText() {
-  const text = document.getElementById('zen-text-input').value;
-  if (!text) return alert("El bloc está vacío.");
+  const text = getCombinedNotepadText();
+  if (!text.trim()) return alert("El bloc está vacío.");
   const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -2457,7 +2527,9 @@ function downloadNotepadText() {
 
 function clearNotepadText() {
   if (confirm("¿Deseas soltar y borrar este texto?")) {
-    document.getElementById('zen-text-input').value = '';
+    document.querySelectorAll('.notepad-step-input').forEach(el => { el.value = ''; });
+    const textarea = document.getElementById('zen-text-input');
+    if (textarea) textarea.value = '';
     updateWordCount();
   }
 }
@@ -2551,12 +2623,12 @@ function onPlayerStateChange(event) {
     disableCaptions(event.target);
     syncRealVideoDuration(event.target);
     if (pauseOverlay) pauseOverlay.style.display = 'none';
-    if (playBtn) playBtn.innerText = "⏸ Pausar";
+    if (playBtn) playBtn.innerText = "Pausar";
     startProgressLoop();
   } else if (event.data === YT.PlayerState.PAUSED) {
     if (transitionOverlay && transitionOverlay.style.display !== 'flex') {
       if (pauseOverlay) pauseOverlay.style.display = 'flex';
-      if (playBtn) playBtn.innerText = "▶ Reanudar";
+      if (playBtn) playBtn.innerText = "Reanudar";
     }
   } else if (event.data === YT.PlayerState.ENDED) {
     handleStepEnded();
@@ -2577,7 +2649,7 @@ function handleStepEnded() {
     const nextBtn = document.getElementById('transition-next-btn');
     if (nextBtn) {
       nextBtn.style.display = 'inline-flex';
-      nextBtn.innerText = "Empezar ahora ⏭";
+      nextBtn.innerText = "Empezar ahora →";
       nextBtn.onclick = nextStep;
     }
     transitionOverlay.style.display = 'flex';
@@ -2612,25 +2684,25 @@ function showRoutineCelebrationModal() {
   const container = document.getElementById('completed-improvement-container');
 
   if (isMeasureImprovementEnabled() && moodScoreBefore !== null && moodScoreAfter !== null) {
-    const delta = moodScoreAfter - moodScoreBefore;
+    const stressDrop = moodScoreBefore - moodScoreAfter;
     let deltaHtml = '';
-    if (delta > 0) {
-      deltaHtml = `<div class="completed-delta-text">🌿 +${delta} puntos de calma ganados</div>`;
-    } else if (delta === 0) {
-      deltaHtml = `<div class="completed-delta-text" style="color:#a5b4fc;">✨ Mantuviste tu equilibrio interior</div>`;
+    if (stressDrop > 0) {
+      deltaHtml = `<div class="completed-delta-text">-${stressDrop} PUNTOS DE ESTRÉS REGISTRADOS</div>`;
+    } else if (stressDrop === 0) {
+      deltaHtml = `<div class="completed-delta-text" style="color:#0A2540;">NIVEL DE ESTRÉS ESTABLE</div>`;
     } else {
-      deltaHtml = `<div class="completed-delta-text" style="color:#fde047;">🌱 Un espacio valioso de escucha y descanso</div>`;
+      deltaHtml = `<div class="completed-delta-text" style="color:#985500;">ESPACIO DE PAUSA REGISTRADO</div>`;
     }
 
     container.innerHTML = `
       <div class="completed-progress-card">
-        <div style="font-size:13px; color:#cbd5e1; margin-bottom:10px;">
-          ¡Muy bien! Esta rutina te ayudó a pasar de <strong>${moodScoreBefore}</strong> a <strong>${moodScoreAfter}</strong>.
+        <div class="completed-progress-summary">
+          Nivel de estrés: pasó de <strong>${moodScoreBefore}</strong> a <strong>${moodScoreAfter}</strong>.
         </div>
         <div class="completed-score-row">
-          <span class="completed-score-badge">Antes: ${moodScoreBefore}/10</span>
-          <span class="completed-arrow">➜</span>
-          <span class="completed-score-badge" style="border:1px solid #34d399; color:#86efac;">Ahora: ${moodScoreAfter}/10</span>
+          <span class="completed-score-badge">ANTES · ${moodScoreBefore}/100</span>
+          <span class="completed-arrow">→</span>
+          <span class="completed-score-badge completed-score-badge-after">AHORA · ${moodScoreAfter}/100</span>
         </div>
         ${deltaHtml}
       </div>
@@ -2717,14 +2789,14 @@ function togglePlay() {
 
   if (item && item.type === 'writing') {
     isWritingPaused = !isWritingPaused;
-    playBtn.innerText = isWritingPaused ? "▶ Reanudar" : "⏸ Pausar";
+    playBtn.innerText = isWritingPaused ? "Reanudar" : "Pausar";
     return;
   }
 
   if (item && item.type === 'timer') {
     isActivityPaused = !isActivityPaused;
-    playBtn.innerText = isActivityPaused ? "▶ Reanudar" : "⏸ Pausar";
-    document.getElementById('timer-state-label').innerText = isActivityPaused ? "Pausado" : "En curso";
+    playBtn.innerText = isActivityPaused ? "Reanudar" : "Pausar";
+    document.getElementById('timer-state-label').innerText = isActivityPaused ? "PAUSADO" : "EN CURSO";
     return;
   }
 
@@ -2818,10 +2890,10 @@ function toggleMute() {
   const btn = document.getElementById('mute-btn');
   if (ytPlayer.isMuted()) {
     ytPlayer.unMute();
-    btn.innerText = '🔊';
+    btn.innerText = 'Audio';
   } else {
     ytPlayer.mute();
-    btn.innerText = '🔇';
+    btn.innerText = 'Silencio';
   }
 }
 
@@ -2839,7 +2911,7 @@ function updateFullscreenBtnState() {
   const playerSec = document.getElementById('player-section');
   const isFs = isFullscreenActive();
   if (btn) {
-    btn.innerHTML = isFs ? '🗗' : '⛶';
+    btn.innerText = isFs ? 'Reducir' : 'Expandir';
     btn.title = isFs ? 'Salir de pantalla completa' : 'Pantalla completa';
   }
   if (playerSec) {
@@ -2877,7 +2949,7 @@ function toggleFullscreen() {
           playerSec.classList.add('is-fullscreen');
           const btn = document.getElementById('fullscreen-btn');
           if (btn) {
-            btn.innerHTML = '🗗';
+            btn.innerText = 'Reducir';
             btn.title = 'Salir de pantalla completa';
           }
         });
@@ -2890,7 +2962,7 @@ function toggleFullscreen() {
         playerSec.classList.add('is-fullscreen');
         const btn = document.getElementById('fullscreen-btn');
         if (btn) {
-          btn.innerHTML = '🗗';
+          btn.innerText = 'Reducir';
           btn.title = 'Salir de pantalla completa';
         }
       }
@@ -2912,7 +2984,7 @@ function toggleFullscreen() {
     }
     const btn = document.getElementById('fullscreen-btn');
     if (btn) {
-      btn.innerHTML = '⛶';
+      btn.innerText = 'Expandir';
       btn.title = 'Pantalla completa';
     }
   }
@@ -3013,7 +3085,7 @@ window.addEventListener('appinstalled', () => {
   deferredInstallPrompt = null;
   const installBtn = document.getElementById('btn-pwa-install');
   if (installBtn) installBtn.style.display = 'none';
-  showZenToast('✨ ¡Aplicación instalada con éxito en tu dispositivo!', 'success');
+  showZenToast('Aplicación instalada en su dispositivo.', 'success');
 });
 
 function promptInstallApp() {

@@ -1,0 +1,45 @@
+# Referencias externas y carpetas locales de trabajo
+.Recursos/
+.agents/
+.impeccable/
+
+# Pruebas experimentales y notas de futuras mejoras
+prueba-*/
+futuro_*.md
+mejoras_a_futuro.md
+
+# Dependencias y builds (Node / herramientas auxiliares)
+node_modules/
+dist/
+build/
+.next/
+
+# Variables de entorno y secretos
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+
+# Sistema operativo (Windows / macOS / Linux)
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+.AppleDouble
+.LSOverride
+*~
+
+# Editores e IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
