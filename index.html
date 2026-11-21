@@ -6,14 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>Desconectar · Inner Base</title>
-  <meta name="description" content="Tu espacio para desconectar con calma. Rutinas guiadas en 4 etapas: estirar, respirar, escribir y meditar.">
+  <meta name="description"
+    content="Tu espacio para desconectar con calma. Rutinas guiadas en 4 etapas: estirar, respirar, escribir y meditar.">
 
   <!-- Open Graph / WhatsApp Link Preview -->
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_ES">
   <meta property="og:site_name" content="Inner Base">
   <meta property="og:title" content="Desconectar · Inner Base">
-  <meta property="og:description" content="Tu espacio para desconectar con calma. Rutinas guiadas en 4 etapas: estirar, respirar, escribir y meditar.">
+  <meta property="og:description"
+    content="Tu espacio para desconectar con calma. Rutinas guiadas en 4 etapas: estirar, respirar, escribir y meditar.">
   <meta property="og:url" content="https://sumamara.github.io/6-App-desconectar/">
   <meta property="og:image" content="https://sumamara.github.io/6-App-desconectar/icons/og-whatsapp.jpg">
   <meta property="og:image:secure_url" content="https://sumamara.github.io/6-App-desconectar/icons/og-whatsapp.jpg">
@@ -74,8 +76,8 @@
         <div class="top-utility-bar">
           <span class="top-badge">Inner Base</span>
           <div class="header-actions">
-            <button type="button" class="btn-icon-circle" onclick="openHowToUseModal()"
-              title="Cómo usar la aplicación" aria-label="Cómo usar la aplicación">
+            <button type="button" class="btn-icon-circle" onclick="openHowToUseModal()" title="Cómo usar la aplicación"
+              aria-label="Cómo usar la aplicación">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <circle cx="12" cy="12" r="10"></circle>
@@ -129,8 +131,7 @@
 
         <div class="presets-grid" id="presets-grid">
           <!-- Fila 1: 3 tarjetas -->
-          <button type="button" class="preset-card preset-col-3" onclick="applyPreset('micro')"
-            id="preset-micro">
+          <button type="button" class="preset-card preset-col-3" onclick="applyPreset('micro')" id="preset-micro">
             <span class="preset-card-top">
               <span class="preset-icon-box">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -368,7 +369,7 @@
         <blockquote class="caveat-quote">
           “Descansar bien también es una habilidad angular: cuando bajas el ruido, vuelve la claridad.”
         </blockquote>
-        <figcaption class="quote-caption">INNER BASE · PRUEBA LINKTREE</figcaption>
+        <figcaption class="quote-caption">Inner Base · Desconectar</figcaption>
       </figure>
 
       <footer class="app-watermark">
@@ -382,7 +383,7 @@
         <div class="player-header">
           <div class="player-header-meta">
             <span id="step-counter" class="badge-step">Etapa 1 de 4</span>
-            <h2 id="current-title" class="player-title">Cargando...</h2>
+            <h2 id="current-title" class="player-title">Cargando…</h2>
           </div>
           <button type="button" class="btn btn-secondary btn-sm" onclick="backToBuilder()">Salir</button>
         </div>
@@ -390,29 +391,26 @@
         <!-- CASO A: VIDEO -->
         <div class="video-wrapper" id="video-wrapper-box">
           <div id="pause-overlay" class="player-overlay" onclick="togglePlay()">
-            <span class="overlay-kicker">Pausa</span>
             <h3>Práctica en pausa</h3>
             <p>Inhala con calma, exhala la tensión. Tómate tu tiempo.</p>
-            <button type="button" class="btn">Continuar práctica →</button>
+            <button type="button" class="btn">Continuar práctica</button>
           </div>
 
           <div id="transition-overlay" class="player-overlay">
-            <span class="overlay-kicker">Etapa completada</span>
-            <h3 id="next-up-text">Siguiente etapa...</h3>
+            <h3 id="next-up-text">Siguiente etapa…</h3>
             <div class="overlay-actions">
-              <button type="button" class="btn" id="transition-next-btn" onclick="nextStep()">Empezar ahora →</button>
+              <button type="button" class="btn" id="transition-next-btn" onclick="nextStep()">Empezar ahora</button>
               <button type="button" class="btn btn-secondary" onclick="addBreakTime()">+30 seg</button>
             </div>
           </div>
 
           <div id="error-overlay" class="player-overlay">
-            <span class="overlay-kicker">Video no disponible</span>
             <h3>No se pudo cargar este video</h3>
             <p id="error-desc">Este video no permite reproducción embebida o requiere servidor local.</p>
             <div class="overlay-actions">
-              <button type="button" class="btn" onclick="skipErrorVideo()">Saltar etapa →</button>
+              <button type="button" class="btn" onclick="skipErrorVideo()">Saltar etapa</button>
               <a id="error-youtube-link" class="btn btn-secondary" href="#" target="_blank"
-                rel="noopener noreferrer">Abrir en YouTube →</a>
+                rel="noopener noreferrer">Abrir en YouTube</a>
             </div>
           </div>
 
@@ -442,7 +440,7 @@
               <button type="button" class="btn-outline-sm btn-outline-danger"
                 onclick="clearNotepadText()">Soltar</button>
             </div>
-            <button type="button" class="btn btn-sm" onclick="nextStep()">Listo, siguiente →</button>
+            <button type="button" class="btn btn-sm" onclick="nextStep()">Listo, siguiente</button>
           </div>
         </div>
 
@@ -518,9 +516,9 @@
           </div>
 
           <div class="stretch-action-buttons">
-            <button type="button" class="btn-outline-sm" onclick="prevStretchPosture()">← Anterior</button>
+            <button type="button" class="btn-outline-sm" onclick="prevStretchPosture()">Anterior</button>
             <button type="button" class="btn btn-sm" id="btn-stretch-play" onclick="toggleStretchPlay()">Pausar</button>
-            <button type="button" class="btn-outline-sm" onclick="nextStretchPosture()">Siguiente →</button>
+            <button type="button" class="btn-outline-sm" onclick="nextStretchPosture()">Siguiente</button>
           </div>
 
           <div class="stretch-postures-strip" id="stretch-postures-strip"></div>
@@ -534,16 +532,20 @@
         <!-- Controles inferiores (layout compacto estilo original) -->
         <div class="controls">
           <div class="ctrl-group">
-            <button type="button" class="btn-ctrl btn-ctrl-icon" onclick="prevStep()" title="Anterior" aria-label="Anterior">
+            <button type="button" class="btn-ctrl btn-ctrl-icon" onclick="prevStep()" title="Anterior"
+              aria-label="Anterior">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <rect x="4" y="5" width="2.5" height="14" rx="1"></rect>
                 <polygon points="19 5 9 12 19 19 19 5"></polygon>
               </svg>
             </button>
-            <button type="button" class="btn-ctrl" id="seek-back-btn" onclick="seekRelative(-10)" title="Retroceder 10 segundos">↺ 10s</button>
+            <button type="button" class="btn-ctrl" id="seek-back-btn" onclick="seekRelative(-10)"
+              title="Retroceder 10 segundos">↺ 10s</button>
             <button type="button" class="btn btn-ctrl-play" id="play-pause-btn" onclick="togglePlay()">⏸ Pausar</button>
-            <button type="button" class="btn-ctrl" id="seek-fwd-btn" onclick="seekRelative(10)" title="Avanzar 10 segundos">10s ↻</button>
-            <button type="button" class="btn-ctrl btn-ctrl-icon" onclick="nextStep()" title="Siguiente" aria-label="Siguiente">
+            <button type="button" class="btn-ctrl" id="seek-fwd-btn" onclick="seekRelative(10)"
+              title="Avanzar 10 segundos">10s ↻</button>
+            <button type="button" class="btn-ctrl btn-ctrl-icon" onclick="nextStep()" title="Siguiente"
+              aria-label="Siguiente">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <polygon points="5 5 15 12 5 19 5 5"></polygon>
                 <rect x="17.5" y="5" width="2.5" height="14" rx="1"></rect>
@@ -554,7 +556,8 @@
           <span id="time-display" class="time-display">00:00 / 00:00</span>
 
           <div class="ctrl-extra" id="video-extra-controls">
-            <button type="button" class="btn-ctrl btn-ctrl-icon" id="mute-btn" onclick="toggleMute()" title="Silenciar / activar audio" aria-label="Audio">
+            <button type="button" class="btn-ctrl btn-ctrl-icon" id="mute-btn" onclick="toggleMute()"
+              title="Silenciar / activar audio" aria-label="Audio">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
@@ -562,7 +565,8 @@
                 <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
               </svg>
             </button>
-            <button type="button" class="btn-ctrl btn-ctrl-icon" id="fullscreen-btn" onclick="toggleFullscreen()" title="Pantalla completa" aria-label="Pantalla completa">
+            <button type="button" class="btn-ctrl btn-ctrl-icon" id="fullscreen-btn" onclick="toggleFullscreen()"
+              title="Pantalla completa" aria-label="Pantalla completa">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <polyline points="15 3 21 3 21 9"></polyline>
@@ -599,7 +603,7 @@
           Guardar
         </button>
         <button type="button" class="btn btn-cta-acento" id="start-btn" onclick="startRoutine()" disabled>
-          Comenzar →
+          Comenzar
         </button>
       </div>
     </div>
@@ -758,25 +762,29 @@
           <li class="howto-step">
             <span class="howto-step-num">1</span>
             <div class="howto-step-body">
-              <strong>Rutinas rápidas:</strong> toca cualquiera de las 5 tarjetas para cargarla al instante. Si la tocas de nuevo, se desmarca.
+              <strong>Rutinas rápidas:</strong> toca cualquiera de las 5 tarjetas para cargarla al instante. Si la tocas
+              de nuevo, se desmarca.
             </div>
           </li>
           <li class="howto-step">
             <span class="howto-step-num">2</span>
             <div class="howto-step-body">
-              <strong>A tu medida:</strong> despliega <em>Estirar, Respirar, Escribir</em> o <em>Meditar</em> y marca solo las prácticas que necesites hoy.
+              <strong>A tu medida:</strong> despliega <em>Estirar, Respirar, Escribir</em> o <em>Meditar</em> y marca
+              solo las prácticas que necesites hoy.
             </div>
           </li>
           <li class="howto-step">
             <span class="howto-step-num">3</span>
             <div class="howto-step-body">
-              <strong>Guarda tus favoritas:</strong> al crear una combinación nueva, pulsa <em>Guardar</em> abajo para reutilizarla en un toque.
+              <strong>Guarda tus favoritas:</strong> al crear una combinación nueva, pulsa <em>Guardar</em> abajo para
+              reutilizarla en un toque.
             </div>
           </li>
           <li class="howto-step">
             <span class="howto-step-num">4</span>
             <div class="howto-step-body">
-              <strong>Personaliza en Ajustes:</strong> edita las rutinas con nombre, activa o añade tus propios videos y configura la medición de estrés.
+              <strong>Personaliza en Ajustes:</strong> edita las rutinas con nombre, activa o añade tus propios videos y
+              configura la medición de estrés.
             </div>
           </li>
         </ol>

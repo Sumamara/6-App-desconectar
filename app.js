@@ -1047,9 +1047,13 @@ function toggleMeasureImprovement(enabled) {
 function onMoodSliderChange(val) {
   const num = parseInt(val, 10);
   const bubble = document.getElementById('vas-thumb-bubble');
+  const slider = document.getElementById('mood-slider-input');
   if (bubble) {
     bubble.innerText = num;
     bubble.style.left = `calc(${num}% + ${12 - num * 0.24}px)`;
+  }
+  if (slider) {
+    slider.style.background = `linear-gradient(to right, var(--navy) 0%, var(--navy) ${num}%, var(--linea) ${num}%, var(--linea) 100%)`;
   }
 }
 
@@ -1082,7 +1086,7 @@ function requestMoodRating(isAfter = false) {
     }
 
     if (confirmBtn) {
-      confirmBtn.innerText = !isAfter ? 'Comenzar rutina →' : 'Ver resultado →';
+      confirmBtn.innerText = !isAfter ? 'Comenzar rutina' : 'Ver resultado';
     }
 
     if (slider) {
@@ -2984,7 +2988,7 @@ function copyNotepadText() {
 
 function downloadNotepadText() {
   const text = getCombinedNotepadText();
-  if (!text.trim()) return alert("El bloc está vacío.");
+  if (!text.trim()) return showZenToast("El bloc está vacío.", "warning");
   const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -2992,13 +2996,27 @@ function downloadNotepadText() {
   a.click();
 }
 
-function clearNotepadText() {
-  if (confirm("¿Deseas soltar y borrar este texto?")) {
-    document.querySelectorAll('.notepad-step-input').forEach(el => { el.value = ''; });
-    const textarea = document.getElementById('zen-text-input');
-    if (textarea) textarea.value = '';
-    updateWordCount();
+async function clearNotepadText() {
+  const text = getCombinedNotepadText();
+  if (!text.trim()) return showZenToast("El bloc ya está vacío.", "info");
+  const confirmed = await showZenConfirm({
+    title: 'Borrar notas',
+    message: '¿Deseas soltar y borrar este texto?',
+    confirmText: 'Sí, borrar',
+    isDanger: true
+  });
+  if (!confirmed) return;
+  document.querySelectorAll('.notepad-step-input').forEach(el => {
+    el.value = '';
+    el.style.height = 'auto';
+  });
+  const textarea = document.getElementById('zen-text-input');
+  if (textarea) {
+    textarea.value = '';
+    textarea.style.height = 'auto';
   }
+  updateWordCount();
+  showZenToast("Texto borrado.", "info");
 }
 
 // ==========================================================================
@@ -3119,7 +3137,7 @@ function handleStepEnded() {
     const nextBtn = document.getElementById('transition-next-btn');
     if (nextBtn) {
       nextBtn.style.display = 'inline-flex';
-      nextBtn.innerText = "Empezar ahora →";
+      nextBtn.innerText = "Empezar ahora";
       nextBtn.onclick = nextStep;
     }
     transitionOverlay.style.display = 'flex';
