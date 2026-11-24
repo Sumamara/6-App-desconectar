@@ -2379,6 +2379,35 @@ function backToBuilder() {
   renderAllStages();
 }
 
+let stepEndHandled = false;
+let fsHideControlsTimer = null;
+
+function wakeFullscreenControls() {
+  const playerSec = document.getElementById('player-section');
+  if (!playerSec || !playerSec.classList.contains('is-fullscreen')) return;
+  playerSec.classList.remove('fs-controls-hidden');
+  clearTimeout(fsHideControlsTimer);
+  fsHideControlsTimer = setTimeout(() => {
+    const pauseOverlay = document.getElementById('pause-overlay');
+    const isPaused = pauseOverlay && pauseOverlay.style.display === 'flex';
+    if (playerSec.classList.contains('is-fullscreen') && !isPaused) {
+      playerSec.classList.add('fs-controls-hidden');
+    }
+  }, 3000);
+}
+
+function onVideoSurfaceTap() {
+  const playerSec = document.getElementById('player-section');
+  if (playerSec && playerSec.classList.contains('is-fullscreen')) {
+    if (playerSec.classList.contains('fs-controls-hidden')) {
+      wakeFullscreenControls();
+      return;
+    }
+    wakeFullscreenControls();
+  }
+  togglePlay();
+}
+
 function loadStep(index) {
   clearTimeout(transitionTimeout);
   clearInterval(progressTimer);
@@ -2386,6 +2415,7 @@ function loadStep(index) {
   stopActivityTimer();
   stopStretchRoutine();
   hideOverlays();
+  stepEndHandled = false;
 
   currentStepIdx = index;
   const item = currentQueue[currentStepIdx];
@@ -3124,10 +3154,16 @@ function onPlayerStateChange(event) {
 }
 
 function handleStepEnded() {
+  if (stepEndHandled) return;
+  stepEndHandled = true;
+
   clearInterval(progressTimer);
   stopWritingTimer();
   stopActivityTimer();
   stopStretchRoutine();
+  if (ytPlayer && ytPlayer.pauseVideo) {
+    try { ytPlayer.pauseVideo(); } catch (e) {}
+  }
 
   const transitionOverlay = document.getElementById('transition-overlay');
 
@@ -3248,9 +3284,14 @@ function startProgressLoop() {
     const current = ytPlayer.getCurrentTime() || 0;
     const duration = ytPlayer.getDuration() || 0;
     if (duration > 0) {
-      const pct = (current / duration) * 100;
+      const pct = Math.min(100, (current / duration) * 100);
       document.getElementById('progress-bar').style.width = pct + '%';
       document.getElementById('time-display').innerText = `${formatTime(current)} / ${formatTime(duration)}`;
+
+      // Cortar ~2.2s antes del final real para evitar tarjetas y videos sugeridos de YouTube
+      if (duration > 10 && current >= duration - 2.2 && !stepEndHandled) {
+        handleStepEnded();
+      }
     }
   }, 250);
 }
@@ -3408,12 +3449,24 @@ function updateFullscreenBtnState() {
   }
   if (playerSec) {
     playerSec.classList.toggle('is-fullscreen', isFs);
+    if (isFs) {
+      wakeFullscreenControls();
+    } else {
+      clearTimeout(fsHideControlsTimer);
+      playerSec.classList.remove('fs-controls-hidden');
+    }
   }
 }
 
 ['fullscreenchange', 'webkitfullscreenchange', 'mozfullscreenchange', 'MSFullscreenChange'].forEach((evt) => {
   document.addEventListener(evt, updateFullscreenBtnState);
 });
+
+const playerSectionEl = document.getElementById('player-section');
+if (playerSectionEl) {
+  playerSectionEl.addEventListener('mousemove', wakeFullscreenControls, { passive: true });
+  playerSectionEl.addEventListener('touchstart', wakeFullscreenControls, { passive: true });
+}
 
 function toggleFullscreen() {
   const playerSec = document.getElementById('player-section');
@@ -3439,6 +3492,7 @@ function toggleFullscreen() {
         }).catch((err) => {
           console.warn('Pantalla completa estándar bloqueada, activando modo inmersivo:', err);
           playerSec.classList.add('is-fullscreen');
+          wakeFullscreenControls();
           const btn = document.getElementById('fullscreen-btn');
           if (btn) {
             btn.innerHTML = SVG_ICON_COLLAPSE;
@@ -3460,7 +3514,8 @@ function toggleFullscreen() {
       }
     }
   } else {
-    playerSec.classList.remove('is-fullscreen');
+    clearTimeout(fsHideControlsTimer);
+    playerSec.classList.remove('is-fullscreen', 'fs-controls-hidden');
     try {
       if (screen.orientation && typeof screen.orientation.unlock === 'function') {
         screen.orientation.unlock();

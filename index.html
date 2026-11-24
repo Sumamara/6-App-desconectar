@@ -414,6 +414,8 @@
           </div>
 
           <div id="youtube-iframe-container"></div>
+          <div class="video-click-shield" id="video-click-shield" onclick="onVideoSurfaceTap()"
+            title="Pausar o reanudar" aria-label="Pausar o reanudar video"></div>
         </div>
 
         <!-- CASO B: BLOC DE NOTAS -->
@@ -523,51 +525,56 @@
           <div class="stretch-postures-strip" id="stretch-postures-strip"></div>
         </div>
 
-        <!-- Barra de progreso universal -->
-        <div class="progress-container" onclick="seekVideo(event)" role="progressbar" aria-label="Progreso de la etapa">
-          <div class="progress-bar" id="progress-bar"></div>
-        </div>
-
-        <!-- Controles inferiores (layout compacto estilo original) -->
-        <div class="controls">
-          <div class="ctrl-group">
-            <button type="button" class="btn-ctrl btn-ctrl-icon" onclick="prevStep()" title="Anterior" aria-label="Anterior">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <rect x="4" y="5" width="2.5" height="14" rx="1"></rect>
-                <polygon points="19 5 9 12 19 19 19 5"></polygon>
-              </svg>
-            </button>
-            <button type="button" class="btn-ctrl" id="seek-back-btn" onclick="seekRelative(-10)" title="Retroceder 10 segundos">↺ 10s</button>
-            <button type="button" class="btn btn-ctrl-play" id="play-pause-btn" onclick="togglePlay()">⏸ Pausar</button>
-            <button type="button" class="btn-ctrl" id="seek-fwd-btn" onclick="seekRelative(10)" title="Avanzar 10 segundos">10s ↻</button>
-            <button type="button" class="btn-ctrl btn-ctrl-icon" onclick="nextStep()" title="Siguiente" aria-label="Siguiente">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <polygon points="5 5 15 12 5 19 5 5"></polygon>
-                <rect x="17.5" y="5" width="2.5" height="14" rx="1"></rect>
-              </svg>
-            </button>
+        <!-- Dock de barra de progreso y controles (flota y se auto-oculta en Modo Cine) -->
+        <div class="player-controls-dock" id="player-controls-dock">
+          <!-- Barra de progreso universal (área táctil amplia) -->
+          <div class="progress-container" onclick="seekVideo(event)" role="progressbar" aria-label="Progreso de la etapa">
+            <div class="progress-track">
+              <div class="progress-bar" id="progress-bar"></div>
+            </div>
           </div>
 
-          <span id="time-display" class="time-display">00:00 / 00:00</span>
+          <!-- Controles inferiores (layout compacto sin saltos) -->
+          <div class="controls">
+            <div class="ctrl-group">
+              <button type="button" class="btn-ctrl btn-ctrl-icon" onclick="prevStep()" title="Anterior" aria-label="Anterior">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <rect x="4" y="5" width="2.5" height="14" rx="1"></rect>
+                  <polygon points="19 5 9 12 19 19 19 5"></polygon>
+                </svg>
+              </button>
+              <button type="button" class="btn-ctrl" id="seek-back-btn" onclick="seekRelative(-10)" title="Retroceder 10 segundos">↺ 10s</button>
+              <button type="button" class="btn btn-ctrl-play" id="play-pause-btn" onclick="togglePlay()">⏸ Pausar</button>
+              <button type="button" class="btn-ctrl" id="seek-fwd-btn" onclick="seekRelative(10)" title="Avanzar 10 segundos">10s ↻</button>
+              <button type="button" class="btn-ctrl btn-ctrl-icon" onclick="nextStep()" title="Siguiente" aria-label="Siguiente">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <polygon points="5 5 15 12 5 19 5 5"></polygon>
+                  <rect x="17.5" y="5" width="2.5" height="14" rx="1"></rect>
+                </svg>
+              </button>
+            </div>
 
-          <div class="ctrl-extra" id="video-extra-controls">
-            <button type="button" class="btn-ctrl btn-ctrl-icon" id="mute-btn" onclick="toggleMute()" title="Silenciar / activar audio" aria-label="Audio">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
-              </svg>
-            </button>
-            <button type="button" class="btn-ctrl btn-ctrl-icon" id="fullscreen-btn" onclick="toggleFullscreen()" title="Pantalla completa" aria-label="Pantalla completa">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <polyline points="15 3 21 3 21 9"></polyline>
-                <polyline points="9 21 3 21 3 15"></polyline>
-                <polyline points="21 15 21 21 15 21"></polyline>
-                <polyline points="3 9 3 3 9 3"></polyline>
-              </svg>
-            </button>
+            <span id="time-display" class="time-display">00:00 / 00:00</span>
+
+            <div class="ctrl-extra" id="video-extra-controls">
+              <button type="button" class="btn-ctrl btn-ctrl-icon" id="mute-btn" onclick="toggleMute()" title="Silenciar / activar audio" aria-label="Audio">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                </svg>
+              </button>
+              <button type="button" class="btn-ctrl btn-ctrl-icon" id="fullscreen-btn" onclick="toggleFullscreen()" title="Pantalla completa" aria-label="Pantalla completa">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <polyline points="9 21 3 21 3 15"></polyline>
+                  <polyline points="21 15 21 21 15 21"></polyline>
+                  <polyline points="3 9 3 3 9 3"></polyline>
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
