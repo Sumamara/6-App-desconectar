@@ -19,7 +19,12 @@ const defaultCatalog = [
     icon: 'ESTIRAR',
     title: "Levantarse y estirar brazos arriba (30 seg)",
     duration: 0.5,
-    instructions: "Ponte de pie, despega la mirada de la pantalla y estira los brazos arriba. Abre el pecho, inhala profundo y suelta suavemente manos y piernas."
+    instructions: "Ponte de pie, despega la mirada de la pantalla y estira los brazos arriba. Abre el pecho, inhala profundo y suelta suavemente manos y piernas.",
+    steps: [
+      "Ponte de pie y despega la mirada de la pantalla.",
+      "Estira los brazos hacia arriba abriendo el pecho e inhala profundo.",
+      "Exhala lento y suelta manos, hombros y piernas."
+    ]
   },
   {
     id: 'est-walk',
@@ -28,7 +33,12 @@ const defaultCatalog = [
     icon: 'MOVILIDAD',
     title: "Caminata suave de movilidad",
     duration: 5,
-    instructions: "Ponte de pie y camina a paso relajado por la habitación o la oficina. Mueve los brazos libremente, gira los hombros en círculos y afloja el cuello."
+    instructions: "Ponte de pie y camina a paso relajado por la habitación o la oficina. Mueve los brazos libremente, gira los hombros en círculos y afloja el cuello.",
+    steps: [
+      "Camina a paso relajado por la habitación o pasillo.",
+      "Deja los brazos sueltos y gira los hombros en círculos lentos.",
+      "Afloja el cuello y respira sin prisa hasta escuchar la campana."
+    ]
   },
   {
     id: 'est-5min',
@@ -95,36 +105,56 @@ const defaultCatalog = [
     stage: 'respirar',
     type: 'timer',
     icon: 'COHERENCIA',
+    breathMode: 'resonant-5',
     title: "Respiración diafragmática resonante",
     duration: 5,
-    instructions: "Vas a respirar con el contador hasta 5 y luego, cuando se quite el contador, vas a seguir tú contando hasta 5 donde se sienta bien."
+    instructions: "Vas a respirar con el contador hasta 5 y luego, cuando se quite el contador, vas a seguir tú contando hasta 5 donde se sienta bien.",
+    steps: [
+      "Sigue el círculo: inhala contando hasta 5 y exhala contando hasta 5.",
+      "Al primer minuto se oculta el contador para que sigas a tu propio ritmo."
+    ]
   },
   {
     id: 'resp-double',
     stage: 'respirar',
     type: 'timer',
     icon: 'RESPIRAR',
-    title: "Opción doble inhalación",
+    title: "Suspiro fisiológico",
     duration: 2,
-    instructions: "Respirar profundo todo lo que puedas y con los pulmones llenos inhalar una vez más y exhalar por la boca."
+    instructions: "Respirar profundo todo lo que puedas y con los pulmones llenos inhalar una vez más y exhalar por la boca.",
+    steps: [
+      "Inhala profundo por la nariz llenando los pulmones.",
+      "Haz una segunda inhalación corta arriba del todo.",
+      "Exhala largo y lento por la boca."
+    ]
   },
   {
     id: 'resp-ocean',
     stage: 'respirar',
     type: 'timer',
     icon: 'RESPIRAR',
+    breathMode: 'resonant-5',
     title: "Opción del mar",
     duration: 2,
-    instructions: "Vas a respirar profundo todo lo que puedas y vas a exhalar haciendo un sonido con la garganta, hacerlo hasta que te sientas muy relajada al menos 2 minutos."
+    instructions: "Vas a respirar profundo todo lo que puedas y vas a exhalar haciendo un sonido con la garganta, hacerlo hasta que te sientas muy relajada al menos 2 minutos.",
+    steps: [
+      "Inhala profundo todo lo que puedas.",
+      "Exhala suave haciendo un sonido constante con la garganta.",
+      "Repite con calma al menos 2 minutos."
+    ]
   },
   {
     id: 'resp-micro',
     stage: 'respirar',
     type: 'timer',
     icon: 'RESPIRAR',
-    title: "Doble inhalación exprés (30 seg)",
+    title: "Suspiro fisiológico exprés (30 seg)",
     duration: 0.5,
-    instructions: "Haz dos inhalaciones seguidas por la nariz: una profunda y larga, y enseguida una segunda inhalación corta para expandir los pulmones. Suelta el aire por la boca en una exhalación lenta y completa."
+    instructions: "Haz dos inhalaciones seguidas por la nariz: una profunda y larga, y enseguida una segunda inhalación corta para expandir los pulmones. Suelta el aire por la boca en una exhalación lenta y completa.",
+    steps: [
+      "Inhala profundo por la nariz y agrega una inhalación corta extra.",
+      "Suelta todo el aire lento por la boca."
+    ]
   },
   {
     id: 'resp-478-timer',
@@ -245,7 +275,7 @@ const defaultCatalog = [
     id: 'med-5min',
     stage: 'meditar',
     type: 'video',
-    title: "Meditación · Opción 5 minutos",
+    title: "Ruido mental",
     duration: 5,
     ytId: "4xHqAfT1qTY"
   },
@@ -253,7 +283,7 @@ const defaultCatalog = [
     id: 'med-10min',
     stage: 'meditar',
     type: 'video',
-    title: "Meditación · Opción 10 minutos",
+    title: "Yoga Nidra",
     duration: 10,
     ytId: "v-pq2RQ7o1s"
   },
@@ -1133,6 +1163,11 @@ function openManageRoutinesModal() {
     measureCheck.checked = isMeasureImprovementEnabled();
   }
 
+  const chimeCheck = document.getElementById('check-default-chime');
+  if (chimeCheck) {
+    chimeCheck.checked = getDefaultChimeEnabled();
+  }
+
   const pwaBtn = document.getElementById('btn-pwa-install');
   if (pwaBtn) {
     if (window.matchMedia('(display-mode: standalone)').matches) {
@@ -1312,31 +1347,50 @@ function saveCustomRoutineEdits(routineId) {
 function switchSettingsTab(tab) {
   const generalPanel = document.getElementById('settings-panel-general');
   const routinesPanel = document.getElementById('settings-panel-routines');
+  const stagesPanel = document.getElementById('settings-panel-stages');
   const generalTab = document.getElementById('settings-tab-general');
   const routinesTab = document.getElementById('settings-tab-routines');
-  const backBtn = document.getElementById('settings-back-btn');
+  const stagesTab = document.getElementById('settings-tab-stages');
 
-  const isRoutines = tab === 'routines';
-  if (generalPanel) generalPanel.style.display = isRoutines ? 'none' : 'block';
-  if (routinesPanel) routinesPanel.style.display = isRoutines ? 'block' : 'none';
-  if (backBtn) backBtn.style.display = isRoutines ? 'inline-flex' : 'none';
+  const activeTab = (tab === 'routines' || tab === 'stages') ? tab : 'general';
+  if (generalPanel) generalPanel.style.display = activeTab === 'general' ? 'block' : 'none';
+  if (routinesPanel) routinesPanel.style.display = activeTab === 'routines' ? 'block' : 'none';
+  if (stagesPanel) stagesPanel.style.display = activeTab === 'stages' ? 'block' : 'none';
+
   if (generalTab) {
-    generalTab.classList.toggle('active', !isRoutines);
-    generalTab.setAttribute('aria-selected', !isRoutines ? 'true' : 'false');
+    generalTab.classList.toggle('active', activeTab === 'general');
+    generalTab.setAttribute('aria-selected', activeTab === 'general' ? 'true' : 'false');
   }
   if (routinesTab) {
-    routinesTab.classList.toggle('active', isRoutines);
-    routinesTab.setAttribute('aria-selected', isRoutines ? 'true' : 'false');
+    routinesTab.classList.toggle('active', activeTab === 'routines');
+    routinesTab.setAttribute('aria-selected', activeTab === 'routines' ? 'true' : 'false');
+  }
+  if (stagesTab) {
+    stagesTab.classList.toggle('active', activeTab === 'stages');
+    stagesTab.setAttribute('aria-selected', activeTab === 'stages' ? 'true' : 'false');
   }
 
-  if (isRoutines) {
+  if (activeTab === 'routines') {
     renderPresetEditorList();
+  }
+}
+
+function toggleDefaultChimeSetting(enabled) {
+  isTimerChimeEnabled = Boolean(enabled);
+  isStretchChimeEnabled = Boolean(enabled);
+  localStorage.setItem('zen_po_timer_chime', isTimerChimeEnabled ? 'true' : 'false');
+  localStorage.setItem('zen_stretch_chime', isStretchChimeEnabled ? 'true' : 'false');
+  updateTimerChimeButton();
+  updateStretchAudioToggleButtons();
+  if (isTimerChimeEnabled) {
+    playTimerChime(false);
   }
 }
 
 function backToSettingsFromLibrary() {
   closeStageLibraryModal();
   openManageRoutinesModal();
+  switchSettingsTab('stages');
 }
 
 function togglePresetEditor(presetKey) {
@@ -2345,6 +2399,11 @@ async function startRoutine() {
     moodScoreBefore = initialScore;
   }
 
+  // Aplicar valor por defecto de sonido configurado en Ajustes al iniciar cada sesión
+  const defaultChime = getDefaultChimeEnabled();
+  isTimerChimeEnabled = defaultChime;
+  isStretchChimeEnabled = defaultChime;
+
   document.getElementById('builder-section').style.display = 'none';
   document.getElementById('bottom-sticky-bar').style.display = 'none';
   document.getElementById('player-section').style.display = 'block';
@@ -2802,66 +2861,135 @@ function speakStretchPosture(text) {
   }
 }
 
+let zenAudioCtx = null;
+
+function getZenAudioCtx() {
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+  if (!AudioCtx) return null;
+  if (!zenAudioCtx) zenAudioCtx = new AudioCtx();
+  if (zenAudioCtx.state === 'suspended') {
+    zenAudioCtx.resume().catch(() => { });
+  }
+  return zenAudioCtx;
+}
+
 function playStretchChime(isFinal = false) {
   if (!isStretchChimeEnabled) return;
 
   try {
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    if (!AudioCtx) return;
-    const ctx = new AudioCtx();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
+    const ctx = getZenAudioCtx();
+    if (!ctx) return;
     const now = ctx.currentTime;
 
-    osc.type = 'sine';
+    // Madera / Marimba corta (~0.42s, timbre cálido y caída limpia)
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(860, now);
+    filter.connect(ctx.destination);
 
-    if (!isFinal) {
-      // Tono suave de dos armónicos relajantes (F5 698.46Hz -> A5 880Hz)
-      osc.frequency.setValueAtTime(698.46, now);
-      osc.frequency.exponentialRampToValueAtTime(880.00, now + 0.12);
+    const seq = isFinal ? [261.63, 392.0] : [293.66];
+    seq.forEach((f, idx) => {
+      const t = now + idx * 0.2;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(f, t);
 
-      gain.gain.setValueAtTime(0.2, now);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.2);
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start(now);
-      osc.stop(now + 1.2);
-    } else {
-      // Campana de finalización suave (C5 -> E5 -> G5)
-      osc.frequency.setValueAtTime(523.25, now);
-      osc.frequency.setValueAtTime(659.25, now + 0.15);
-      osc.frequency.setValueAtTime(783.99, now + 0.3);
-
-      gain.gain.setValueAtTime(0.25, now);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 2.0);
+      gain.gain.setValueAtTime(0.0001, t);
+      gain.gain.linearRampToValueAtTime(0.24, t + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.4);
 
       osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start(now);
-      osc.stop(now + 2.0);
-    }
+      gain.connect(filter);
+      osc.start(t);
+      osc.stop(t + 0.42);
+    });
   } catch (e) {
     // AudioContext puede estar restringido antes de interacción
   }
 }
 
 // ==========================================================================
-// MODO TEMPORIZADOR ZEN (CAMINATA / ACTIVIDAD)
+// MODO TEMPORIZADOR ZEN (ANILLO CIRCULAR + RITMO VISUAL + CAMPANA)
 // ==========================================================================
 
+const TIMER_RING_CIRCUMFERENCE = 603.19;
+let currentTimerItem = null;
+
+function getDefaultChimeEnabled() {
+  return localStorage.getItem('zen_po_timer_chime') !== 'false';
+}
+
+let isTimerChimeEnabled = getDefaultChimeEnabled();
+
+function updateTimerChimeButton() {
+  const btn = document.getElementById('btn-timer-chime');
+  const label = document.getElementById('timer-chime-label');
+  if (btn) btn.classList.toggle('is-muted', !isTimerChimeEnabled);
+  if (label) label.innerText = isTimerChimeEnabled ? 'Campana ON' : 'Silencio';
+}
+
+function toggleTimerChime() {
+  isTimerChimeEnabled = !isTimerChimeEnabled;
+  updateTimerChimeButton();
+  if (isTimerChimeEnabled) playTimerChime(false);
+}
+
+function playTimerChime(isFinal = false) {
+  if (!isTimerChimeEnabled) return;
+  const prev = isStretchChimeEnabled;
+  isStretchChimeEnabled = true;
+  playStretchChime(isFinal);
+  isStretchChimeEnabled = prev;
+}
+
 function setupZenTimer(item) {
-  document.getElementById('timer-icon').innerText = item.icon || 'PRÁCTICA';
-  document.getElementById('timer-activity-title').innerText = item.title;
-  document.getElementById('timer-activity-desc').innerText = item.instructions || "Realice esta práctica a paso relajado y consciente.";
-  document.getElementById('timer-state-label').innerText = "EN CURSO";
+  currentTimerItem = item;
+  const stateLabel = document.getElementById('timer-state-label');
+  if (stateLabel) stateLabel.innerText = "En curso";
+
+  updateTimerChimeButton();
+
+  const stepsContainer = document.getElementById('timer-steps-guide');
+  const descEl = document.getElementById('timer-activity-desc');
+
+  if (stepsContainer && Array.isArray(item.steps) && item.steps.length > 0) {
+    stepsContainer.innerHTML = item.steps.map((text, idx) => `
+      <div class="timer-step-row">
+        <span class="timer-step-num">${idx + 1}</span>
+        <span>${escapeHtml(text)}</span>
+      </div>
+    `).join('');
+    stepsContainer.style.display = 'flex';
+    if (descEl) descEl.style.display = 'none';
+  } else {
+    if (stepsContainer) {
+      stepsContainer.innerHTML = '';
+      stepsContainer.style.display = 'none';
+    }
+    if (descEl) {
+      descEl.innerText = item.instructions || "Realiza esta práctica a paso relajado y consciente.";
+      descEl.style.display = 'block';
+    }
+  }
 
   activityTotalSeconds = Math.round((item.duration || 5) * 60);
   activitySecondsLeft = activityTotalSeconds;
   isActivityPaused = false;
   document.getElementById('play-pause-btn').innerText = "⏸ Pausar";
 
-  startActivityTimer();
+  playTimerChime(false);
+  // Pintar primero el estado contraído antes de iniciar el primer segundo para que la 1ª inhalación se expanda suave
+  const stageEl = document.getElementById('timer-ring-stage');
+  if (stageEl) {
+    stageEl.classList.remove('phase-inhale', 'phase-inhale-peak', 'phase-exhale', 'phase-still');
+    void stageEl.offsetWidth;
+  }
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      startActivityTimer();
+    });
+  });
 }
 
 function startActivityTimer() {
@@ -2876,6 +3004,7 @@ function startActivityTimer() {
 
     if (activitySecondsLeft <= 0) {
       stopActivityTimer();
+      playTimerChime(true);
       handleStepEnded();
     }
   }, 1000);
@@ -2886,12 +3015,87 @@ function stopActivityTimer() {
   activityTimer = null;
 }
 
+function updateTimerBreathingCue(elapsed) {
+  const stageEl = document.getElementById('timer-ring-stage');
+  const cueEl = document.getElementById('timer-phase-cue');
+  const countEl = document.getElementById('timer-breath-count');
+  const freeTextEl = document.getElementById('timer-free-text');
+  const digitsEl = document.getElementById('timer-digits');
+  if (!cueEl || !stageEl) return;
+
+  const mode = currentTimerItem && currentTimerItem.breathMode;
+  stageEl.classList.remove('phase-inhale', 'phase-inhale-peak', 'phase-exhale', 'phase-still');
+  cueEl.classList.remove('is-exhale');
+  if (freeTextEl) freeTextEl.style.display = 'none';
+  if (digitsEl) digitsEl.style.display = 'block';
+
+  if (mode === 'resonant-5') {
+    if (elapsed < 60) {
+      stageEl.classList.add('breathing-count-focus');
+      cueEl.style.display = 'block';
+      if (countEl) countEl.style.display = 'block';
+      const secInCycle = elapsed % 10;
+      if (secInCycle < 5) {
+        cueEl.innerText = 'Inhala';
+        if (countEl) countEl.innerText = String(secInCycle + 1);
+        stageEl.classList.add('phase-inhale');
+      } else {
+        cueEl.innerText = 'Exhala';
+        cueEl.classList.add('is-exhale');
+        if (countEl) countEl.innerText = String(secInCycle - 4);
+        stageEl.classList.add('phase-exhale');
+      }
+    } else {
+      // Después del primer minuto: sin contador, sin animación y sin reloj; foco total en su ritmo natural
+      stageEl.classList.remove('breathing-count-focus');
+      cueEl.style.display = 'none';
+      if (countEl) countEl.style.display = 'none';
+      if (digitsEl) digitsEl.style.display = 'none';
+      if (freeTextEl) freeTextEl.style.display = 'flex';
+      stageEl.classList.add('phase-still');
+    }
+  } else if (mode === 'double-inhale') {
+    stageEl.classList.add('breathing-count-focus');
+    cueEl.style.display = 'block';
+    if (countEl) countEl.style.display = 'block';
+    const secInCycle = elapsed % 10;
+    if (secInCycle < 3) {
+      cueEl.innerText = 'Inhala';
+      if (countEl) countEl.innerText = String(secInCycle + 1);
+      stageEl.classList.add('phase-inhale');
+    } else if (secInCycle < 5) {
+      cueEl.innerText = 'Inhala más';
+      if (countEl) countEl.innerText = String(secInCycle - 2);
+      stageEl.classList.add('phase-inhale-peak');
+    } else {
+      cueEl.innerText = 'Exhala';
+      cueEl.classList.add('is-exhale');
+      if (countEl) countEl.innerText = String(secInCycle - 4);
+      stageEl.classList.add('phase-exhale');
+    }
+  } else {
+    stageEl.classList.remove('breathing-count-focus');
+    cueEl.style.display = 'none';
+    if (countEl) countEl.style.display = 'none';
+    const gentlePulse = Math.floor(elapsed / 4) % 2 === 0;
+    stageEl.classList.add(gentlePulse ? 'phase-inhale' : 'phase-exhale');
+  }
+}
+
 function updateActivityTimeDisplay() {
-  const current = activityTotalSeconds - activitySecondsLeft;
-  const pct = (current / activityTotalSeconds) * 100;
+  const current = Math.max(0, activityTotalSeconds - activitySecondsLeft);
+  const pct = activityTotalSeconds > 0 ? Math.min(100, (current / activityTotalSeconds) * 100) : 0;
   document.getElementById('progress-bar').style.width = pct + '%';
   document.getElementById('time-display').innerText = `${formatTime(current)} / ${formatTime(activityTotalSeconds)}`;
   document.getElementById('timer-digits').innerText = formatTime(activitySecondsLeft);
+
+  const ringEl = document.getElementById('timer-ring-progress');
+  if (ringEl) {
+    const offset = TIMER_RING_CIRCUMFERENCE * (1 - pct / 100);
+    ringEl.style.strokeDashoffset = offset.toFixed(2);
+  }
+
+  updateTimerBreathingCue(current);
 }
 
 // ==========================================================================
@@ -3162,7 +3366,7 @@ function handleStepEnded() {
   stopActivityTimer();
   stopStretchRoutine();
   if (ytPlayer && ytPlayer.pauseVideo) {
-    try { ytPlayer.pauseVideo(); } catch (e) {}
+    try { ytPlayer.pauseVideo(); } catch (e) { }
   }
 
   const transitionOverlay = document.getElementById('transition-overlay');

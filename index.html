@@ -363,16 +363,8 @@
         </div>
       </section>
 
-      <!-- Tarjeta de cita estilo Linktree (bg-navy-600 + Caveat) -->
-      <figure class="linktree-quote-card">
-        <blockquote class="caveat-quote">
-          “Descansar bien también es una habilidad angular: cuando bajas el ruido, vuelve la claridad.”
-        </blockquote>
-        <figcaption class="quote-caption">Inner Base · Desconectar</figcaption>
-      </figure>
-
       <footer class="app-watermark">
-        <p>Inner Base · Habilidades angulares para crecer con base</p>
+        <p>Inner Base · v0.51 · Habilidades angulares para crecer con base</p>
       </footer>
     </main>
 
@@ -445,18 +437,43 @@
           </div>
         </div>
 
-        <!-- CASO C: TEMPORIZADOR (TARJETA NAVY-600 ESTILO LINKTREE) -->
+        <!-- CASO C: TEMPORIZADOR ZEN (ANILLO CIRCULAR + RITMO VISUAL + CAMPANA) -->
         <div id="zen-timer-wrapper" class="timer-panel">
           <div class="timer-navy-hero" id="timer-zen-circle">
             <div class="timer-hero-top">
-              <span class="timer-zen-tag" id="timer-icon">Práctica guiada</span>
-              <span class="timer-zen-state" id="timer-state-label">En curso</span>
+              <span class="timer-zen-state-dot" id="timer-state-label">En curso</span>
+              <button type="button" class="btn-timer-chime" id="btn-timer-chime" onclick="toggleTimerChime()"
+                title="Activar o silenciar campana de inicio y fin">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                </svg>
+                <span id="timer-chime-label">Campana ON</span>
+              </button>
             </div>
-            <div class="timer-zen-digits" id="timer-digits">05:00</div>
-            <h3 id="timer-activity-title" class="timer-hero-title">Caminata suave de movilidad</h3>
-            <p id="timer-activity-desc" class="timer-hero-desc">
-              Ponte de pie y camina a paso relajado por la habitación, soltando hombros y cuello.
-            </p>
+
+            <div class="timer-ring-stage" id="timer-ring-stage">
+              <div class="timer-ripple-layer timer-ripple-1" aria-hidden="true"></div>
+              <div class="timer-ripple-layer timer-ripple-2" aria-hidden="true"></div>
+              <div class="timer-ripple-layer timer-ripple-3" aria-hidden="true"></div>
+              <svg class="timer-ring-svg" viewBox="0 0 220 220" aria-hidden="true">
+                <circle class="timer-ring-track" cx="110" cy="110" r="96"></circle>
+                <circle class="timer-ring-progress" id="timer-ring-progress" cx="110" cy="110" r="96"></circle>
+              </svg>
+              <div class="timer-ring-center">
+                <div class="timer-phase-cue" id="timer-phase-cue" style="display: none;">Inhala</div>
+                <div class="timer-breath-count" id="timer-breath-count" style="display: none;">1</div>
+                <div class="timer-free-text" id="timer-free-text" style="display: none;">
+                  <strong>A tu propio ritmo</strong>
+                  <span>Resuena donde se sienta natural y cómodo</span>
+                </div>
+                <div class="timer-zen-digits" id="timer-digits">05:00</div>
+              </div>
+            </div>
+
+            <div id="timer-steps-guide" class="timer-steps-guide"></div>
+            <p id="timer-activity-desc" class="timer-hero-desc" style="display: none;"></p>
           </div>
         </div>
 
@@ -580,7 +597,7 @@
       </div>
 
       <footer class="app-watermark">
-        <p>Inner Base · Desconectar</p>
+        <p>Inner Base · v0.53 · Desconectar</p>
       </footer>
     </section>
 
@@ -615,13 +632,6 @@
       aria-labelledby="modal-manage-title">
       <div class="modal-header">
         <div class="modal-header-left">
-          <button type="button" class="modal-back-btn" id="settings-back-btn" style="display: none;"
-            onclick="switchSettingsTab('general')" title="Volver a Ajustes" aria-label="Volver a Ajustes">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-          </button>
           <h3 id="modal-manage-title">Ajustes</h3>
         </div>
         <button type="button" class="modal-close-icon" onclick="closeManageRoutinesModal()"
@@ -633,6 +643,8 @@
           onclick="switchSettingsTab('general')">Ajustes</button>
         <button type="button" class="settings-tab-btn" id="settings-tab-routines" role="tab" aria-selected="false"
           onclick="switchSettingsTab('routines')">Ajustes de rutinas</button>
+        <button type="button" class="settings-tab-btn" id="settings-tab-stages" role="tab" aria-selected="false"
+          onclick="switchSettingsTab('stages')">Ajustes de etapas</button>
       </div>
 
       <!-- PANEL 1: AJUSTES GENERALES -->
@@ -651,6 +663,18 @@
             </label>
           </div>
 
+          <div class="setting-toggle-box">
+            <div class="setting-toggle-info">
+              <div class="setting-toggle-title">Sonido en temporizadores</div>
+              <div class="setting-toggle-desc">Activa o silencia por defecto el sonido de inicio y cierre. También puedes cambiarlo durante la práctica.</div>
+            </div>
+            <label class="switch" for="check-default-chime" title="Activar o silenciar sonido por defecto">
+              <input type="checkbox" id="check-default-chime" checked
+                onchange="toggleDefaultChimeSetting(this.checked)">
+              <span class="slider"></span>
+            </label>
+          </div>
+
           <div class="setting-toggle-box" id="pwa-install-modal-box">
             <div class="setting-toggle-info">
               <div class="setting-toggle-title">Instalar aplicación</div>
@@ -660,7 +684,31 @@
               Instalar
             </button>
           </div>
+        </div>
+      </div>
 
+      <!-- PANEL 2: AJUSTES DE RUTINAS CON NOMBRE + PERSONALIZADAS -->
+      <div id="settings-panel-routines" style="display: none;">
+        <div class="modal-body preset-editor-panel">
+          <p class="preset-editor-intro">
+            Edita el nombre, descripción o prácticas de las 5 rutinas recomendadas.
+          </p>
+          <div id="preset-editor-list" class="preset-editor-list"></div>
+          <button type="button" class="btn btn-secondary btn-full preset-reset-all-btn"
+            onclick="resetAllNamedPresetsToDefault()">
+            Por defecto (restablecer todas)
+          </button>
+
+          <div class="settings-custom-routines-block">
+            <div class="settings-group-label">Rutinas personalizadas</div>
+            <div class="modal-routines-list" id="manage-routines-body"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 3: AJUSTES DE ETAPAS -->
+      <div id="settings-panel-stages" style="display: none;">
+        <div class="modal-body modal-settings-stack">
           <div class="settings-customize-group">
             <div class="settings-group-label">Personalizar etapas</div>
             <div class="settings-customize-grid">
@@ -685,25 +733,6 @@
                 <span class="settings-stage-arrow" aria-hidden="true">→</span>
               </button>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PANEL 2: AJUSTES DE RUTINAS CON NOMBRE + PERSONALIZADAS -->
-      <div id="settings-panel-routines" style="display: none;">
-        <div class="modal-body preset-editor-panel">
-          <p class="preset-editor-intro">
-            Edita el nombre, descripción o prácticas de las 5 rutinas recomendadas.
-          </p>
-          <div id="preset-editor-list" class="preset-editor-list"></div>
-          <button type="button" class="btn btn-secondary btn-full preset-reset-all-btn"
-            onclick="resetAllNamedPresetsToDefault()">
-            Por defecto (restablecer todas)
-          </button>
-
-          <div class="settings-custom-routines-block">
-            <div class="settings-group-label">Rutinas personalizadas</div>
-            <div class="modal-routines-list" id="manage-routines-body"></div>
           </div>
         </div>
       </div>

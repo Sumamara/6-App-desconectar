@@ -1209,7 +1209,7 @@ p {
   background: var(--navy-600);
   color: var(--crema);
   border-radius: 16px;
-  padding: 24px;
+  padding: 20px 22px 24px;
   margin-bottom: 12px;
 }
 
@@ -1218,7 +1218,226 @@ p {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.timer-zen-state-dot {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(253, 251, 244, 0.78);
+  letter-spacing: 0.02em;
+}
+
+.btn-timer-chime {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  border: 1px solid rgba(253, 251, 244, 0.22);
+  background: rgba(253, 251, 244, 0.1);
+  color: var(--crema);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 160ms ease, opacity 160ms ease, transform 150ms ease;
+}
+
+.btn-timer-chime:hover {
+  background: rgba(253, 251, 244, 0.18);
+}
+
+.btn-timer-chime:active {
+  transform: scale(0.96);
+}
+
+.btn-timer-chime.is-muted {
+  opacity: 0.55;
+}
+
+.timer-ring-stage {
+  position: relative;
+  width: 210px;
+  height: 210px;
+  margin: 8px auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ondas concéntricas orgánicas (3 capas suaves sin bordes duros) */
+.timer-ripple-layer {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.timer-ripple-1 {
+  width: 174px;
+  height: 174px;
+  background: radial-gradient(circle, rgba(255, 198, 130, 0.24) 0%, rgba(255, 154, 46, 0.06) 70%, transparent 100%);
+  transform: scale(0.52);
+  opacity: 0.42;
+  transition: transform 4.8s cubic-bezier(0.37, 0, 0.63, 1), opacity 2.2s ease;
+}
+
+.timer-ripple-2 {
+  width: 144px;
+  height: 144px;
+  background: radial-gradient(circle, rgba(255, 180, 96, 0.28) 0%, rgba(255, 154, 46, 0.08) 72%, transparent 100%);
+  transform: scale(0.56);
+  opacity: 0.52;
+  transition: transform 4.8s cubic-bezier(0.37, 0, 0.63, 1) 140ms, opacity 2.2s ease 140ms;
+}
+
+.timer-ripple-3 {
+  width: 110px;
+  height: 110px;
+  background: radial-gradient(circle, rgba(253, 251, 244, 0.22) 0%, rgba(255, 154, 46, 0.14) 80%, transparent 100%);
+  transform: scale(0.62);
+  opacity: 0.66;
+  transition: transform 4.8s cubic-bezier(0.37, 0, 0.63, 1) 280ms, opacity 2.2s ease 280ms;
+}
+
+.timer-ring-stage.phase-inhale .timer-ripple-1 { transform: scale(1.1); opacity: 0.95; }
+.timer-ring-stage.phase-inhale .timer-ripple-2 { transform: scale(1.08); opacity: 0.95; }
+.timer-ring-stage.phase-inhale .timer-ripple-3 { transform: scale(1.06); opacity: 1; }
+
+.timer-ring-stage.phase-inhale-peak .timer-ripple-1 { transform: scale(1.16); opacity: 1; transition-duration: 1.8s; }
+.timer-ring-stage.phase-inhale-peak .timer-ripple-2 { transform: scale(1.14); opacity: 1; transition-duration: 1.8s; }
+.timer-ring-stage.phase-inhale-peak .timer-ripple-3 { transform: scale(1.12); opacity: 1; transition-duration: 1.8s; }
+
+.timer-ring-stage.phase-still .timer-ripple-1 { transform: scale(0.9); opacity: 0.34; transition: transform 1.2s ease, opacity 1.2s ease; }
+.timer-ring-stage.phase-still .timer-ripple-2 { transform: scale(0.84); opacity: 0.28; transition: transform 1.2s ease, opacity 1.2s ease; }
+.timer-ring-stage.phase-still .timer-ripple-3 { transform: scale(0.76); opacity: 0.22; transition: transform 1.2s ease, opacity 1.2s ease; }
+
+.timer-free-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  max-width: 158px;
+}
+
+.timer-free-text strong {
+  font-family: var(--font-lora);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--acento);
+  line-height: 1.25;
+}
+
+.timer-free-text span {
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: rgba(253, 251, 244, 0.88);
+}
+
+.timer-ring-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.timer-ring-track {
+  fill: none;
+  stroke: rgba(253, 251, 244, 0.14);
+  stroke-width: 6;
+}
+
+.timer-ring-progress {
+  fill: none;
+  stroke: var(--acento);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: 603.19;
+  stroke-dashoffset: 603.19;
+  transition: stroke-dashoffset 450ms linear;
+}
+
+.timer-ring-center {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 14px;
+}
+
+.timer-phase-cue {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--acento);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+  line-height: 1.2;
+}
+
+.timer-phase-cue.is-exhale {
+  color: var(--crema);
+}
+
+.timer-breath-count {
+  font-family: var(--font-lora);
+  font-size: 3.4rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--crema);
+  font-variant-numeric: tabular-nums;
+  margin: 2px 0 6px;
+}
+
+/* Cuando el conteo de respiración es protagonista, el reloj total se vuelve secundario y pequeño */
+.timer-ring-stage.breathing-count-focus .timer-zen-digits {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: rgba(253, 251, 244, 0.72);
+  margin-top: 2px;
+}
+
+.timer-steps-guide {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 420px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.timer-step-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 12px;
+  background: rgba(253, 251, 244, 0.08);
+  font-size: 13.5px;
+  line-height: 1.4;
+  color: rgba(253, 251, 244, 0.92);
+}
+
+.timer-step-num {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(255, 154, 46, 0.2);
+  color: var(--acento);
+  font-family: var(--font-lora);
+  font-size: 11.5px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
 }
 
 .timer-zen-tag,
@@ -1242,7 +1461,7 @@ p {
 .timer-zen-digits,
 .stretch-seconds-digits {
   font-family: var(--font-lora);
-  font-size: 3.75rem;
+  font-size: 3.1rem;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   line-height: 1;
@@ -1251,7 +1470,7 @@ p {
 
 .timer-zen-digits {
   text-align: center;
-  margin-bottom: 18px;
+  margin: 0;
 }
 
 .timer-hero-title,
@@ -1671,7 +1890,8 @@ p {
 }
 
 #settings-panel-general,
-#settings-panel-routines {
+#settings-panel-routines,
+#settings-panel-stages {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
@@ -2498,7 +2718,7 @@ p {
    ========================================================================== */
 .settings-tabs-bar {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 6px;
   padding: 10px 18px 0;
 }
@@ -2509,11 +2729,13 @@ p {
   background: var(--crema-50);
   color: var(--gris-azul-700);
   font-family: var(--font-sans);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
-  padding: 9px 10px;
+  padding: 9px 6px;
   border-radius: 12px;
   cursor: pointer;
+  line-height: 1.25;
+  text-align: center;
   transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease;
 }
 
