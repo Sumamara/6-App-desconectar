@@ -3366,7 +3366,7 @@ function handleStepEnded() {
   stopActivityTimer();
   stopStretchRoutine();
   if (ytPlayer && ytPlayer.pauseVideo) {
-    try { ytPlayer.pauseVideo(); } catch (e) { }
+    try { ytPlayer.pauseVideo(); } catch (e) {}
   }
 
   const transitionOverlay = document.getElementById('transition-overlay');
